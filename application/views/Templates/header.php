@@ -28,28 +28,29 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="<?php echo site_url('home'); ?>">
-        <img src="<?php echo base_url('images/vos99.jpg'); ?>" alt="Logo" style="height: 30px; margin-right: 10px;">
-        VOS 99
+    <a class="navbar-brand" href="<?php echo site_url('MainController'); ?>">
+        <!-- <img src="<?php echo base_url('images/vos99.jpg'); ?>" alt="Logo" style="height: 30px; margin-right: 10px;"> -->
+        Vos 99
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
-                    <a class="dropdown-item" href="<?php echo site_url('form2'); ?>">Master User</a>
+                    <a class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
+                    <a class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
                 </div>
             </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Transaksi
+                    Transaction
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?php echo site_url('form1'); ?>">Penjualan</a>
@@ -60,7 +61,7 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Laporan
+                    Report
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?php echo site_url('form1'); ?>">Laporan Penjualan</a>
@@ -73,9 +74,12 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo site_url('contact'); ?>">Contact</a>
+            </li> 
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('Logout'); ?>">Logout</a>
             </li>
-            <!-- Dropdown menu for forms -->
-            <!-- End of dropdown menu -->
         </ul>
     </div>
 </nav>

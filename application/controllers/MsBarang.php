@@ -58,7 +58,7 @@ class MsBarang extends CI_Controller	 {
 		        'Tipe' => $Tipe,
 		        'Warna' => $Warna,
 		        'CreatedBy' => $CreatedBy,
-	    		'CreateDate' => date('Y-m-d H:i:s')
+	    		'CreatedDate' => date('Y-m-d H:i:s')
 		    ); 
 		    $this->BarangModel->insert_data($data); 
 			echo "Success"; 

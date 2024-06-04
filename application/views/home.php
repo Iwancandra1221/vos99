@@ -14,11 +14,24 @@
             color: Black;
         }
     </style>
+    <style>
+        .bottom-right {
+            position: fixed;
+            bottom: 0;
+            Right: 0;
+            padding: 10px;
+            background-color: transparent;
+            color: Black;
+        }
+    </style>
 </head>
 <body>
  
 <div class="bottom-left">
     VOS 99 Entertainment
+</div>
+<div class="bottom-right">
+    Version : <?php echo $version; ?>
 </div>
 
 </body>

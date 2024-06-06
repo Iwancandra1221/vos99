@@ -5,6 +5,12 @@ class BarangModel  extends CI_Model
 	{
 		parent::__construct();
 	}
+
+    public function getListBarang()
+    {
+        return $this->db->get('Barang')->result();
+    }
+
 	public function insert_data($data) { 
 		$this->db->insert('Barang', $data);
 	}

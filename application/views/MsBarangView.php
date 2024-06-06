@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Barang</title> 
-
+    <title><?php echo $title; ?></title>  
 </head>
 <body> 
     <div class="actionButtons">
@@ -247,6 +246,7 @@ function disableButtons() {
 
         .actionButtons {
             position: absolute; 
+            top: 70px; 
             left: 20px;
             display: flex;
             gap: 10px;

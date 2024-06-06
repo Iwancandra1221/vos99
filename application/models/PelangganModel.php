@@ -5,6 +5,12 @@ class PelangganModel  extends CI_Model
 	{
 		parent::__construct();
 	}
+
+    public function getListPelanggan()
+    {
+        return $this->db->get('Pelanggan')->result();
+    }
+
 	public function insert_data($data) { 
 		$this->db->insert('Pelanggan', $data);
 	}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $title; ?> - Vos 99</title> 
+    <title><?php echo $title; ?></title> 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
@@ -22,6 +22,12 @@
         }
         .container {
             padding: 100px; /* Tambahkan padding ke dalam kontainer untuk menjaga konten agar tidak terlalu dekat dengan tepi layar */
+        }      
+        .center-title { 
+            color: Black; 
+            text-align: center;
+            font-size: 2.5em; /* Atur ukuran font sesuai kebutuhan */
+            margin-top: 20px; /* Atur margin atas sesuai kebutuhan */
         }
     </style>
 </head>
@@ -30,7 +36,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="<?php echo site_url('MainController'); ?>">
         <!-- <img src="<?php echo base_url('images/vos99.jpg'); ?>" alt="Logo" style="height: 30px; margin-right: 10px;"> -->
-        Vos 99
+       <?= GlobCompany ?>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,6 +51,7 @@
                     <a class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
+                    <a class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
                 </div>
             </li>
 
@@ -53,8 +60,8 @@
                     Transaction
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="<?php echo site_url('form1'); ?>">Penjualan</a>
-                    <a class="dropdown-item" href="<?php echo site_url('form2'); ?>">Pembelian</a>
+                    <a class="dropdown-item" href="<?php echo site_url('Penjualan'); ?>">Penjualan</a>
+                    <a class="dropdown-item" href="<?php echo site_url('Pembelian'); ?>">Pembelian</a>
                 </div>
             </li>
 
@@ -64,8 +71,8 @@
                     Report
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="<?php echo site_url('form1'); ?>">Laporan Penjualan</a>
-                    <a class="dropdown-item" href="<?php echo site_url('form2'); ?>">Laporan Pembelian</a>
+                    <a class="dropdown-item" href="<?php echo site_url('ReportPenjualan'); ?>">Laporan Penjualan</a>
+                    <a class="dropdown-item" href="<?php echo site_url('ReportPembelian'); ?>">Laporan Pembelian</a>
                 </div>
             </li>
  
@@ -83,6 +90,6 @@
         </ul>
     </div>
 </nav>
- 
+ <!-- <h1 class="center-title"><?php echo $title; ?></h1> -->
 </body>
 </html>

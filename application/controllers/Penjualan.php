@@ -14,6 +14,7 @@ class Penjualan extends CI_Controller {
         $this->load->model('PelangganModel');
         $this->load->model('TipePembayaranModel');
         $this->load->model('BarangModel');
+        $this->load->model('WarnaModel');
         $this->load->library('session'); 
     }
 
@@ -34,7 +35,7 @@ class Penjualan extends CI_Controller {
         $data['DataHD'] = $dataHD;
         $data['DataDT'] = $dataDT; 
         $data['mode'] = 'Edit';
-        $data['listBarang'] = $this->BarangModel->getListBarang(); 
+        $data['listBarang'] = $this->BarangModel->get_datas(); 
         $data['listPelanggan'] = $this->PelangganModel->getListPelanggan(); 
         $data['listTipePembayaran'] = $this->TipePembayaranModel->getListTipePembayaran(); 
         $data['title'] = ucfirst('Edit Penjualan'); 
@@ -52,7 +53,7 @@ class Penjualan extends CI_Controller {
         $data['DataHD'] = $dataHD;
         $data['DataDT'] = $dataDT;    
         $data['mode'] = 'View';
-        $data['listBarang'] = $this->BarangModel->getListBarang(); 
+        $data['listBarang'] = $this->BarangModel->get_datas(); 
         $data['listPelanggan'] = $this->PelangganModel->getListPelanggan(); 
         $data['listTipePembayaran'] = $this->TipePembayaranModel->getListTipePembayaran();  
         $data['title'] = ucfirst('View Penjualan'); 
@@ -64,8 +65,9 @@ class Penjualan extends CI_Controller {
  
     public function add()
     { 
-        $data['listBarang'] = $this->BarangModel->getListBarang(); 
+        $data['listBarang'] = $this->BarangModel->get_datas(); 
         $data['listPelanggan'] = $this->PelangganModel->getListPelanggan(); 
+        $data['listTipePembayaran'] = $this->TipePembayaranModel->getListTipePembayaran();  
         $data['title'] = ucfirst('Add Penjualan'); 
         $data['AutoNumber'] = $this->PenjualanModel->generate_next_number();
         $this->load->view('templates/header', $data);
@@ -74,70 +76,142 @@ class Penjualan extends CI_Controller {
     }
 
     public function Save()
-    { 
-        $KdPenjualan = $this->input->post('KdPenjualan');
-        $KdPelanggan = $this->input->post('KdPelanggan');
-        $KdTipePembayaran = $this->input->post('KdTipePembayaran');
-        $GrandTotal = $this->input->post('GrandTotal');
-        $CreatedBy = 'Admin'; 
+    {
+        $this->db->trans_begin(); // Memulai transaksi
 
-        $items = $this->input->post('items'); 
-        $existingData = $this->PenjualanModel->get_data_by_KdPenjualan($KdPenjualan);
-        if ($existingData) {
-            $data = array(
-                'KdPelanggan' => $KdPelanggan,
-                'KdTipePembayaran' => $KdTipePembayaran,
-                'GrandTotal' => $GrandTotal
-            );
-
-            $this->PenjualanModel->update_data($KdPenjualan, $data);
-            $this->PenjualanModel->delete_data_dt($KdPenjualan); // Delete old details
-
-            foreach ($items as $item) {
-                $itemData = array(
-                    'KdPenjualan' => $KdPenjualan,
-                    'KdBarang' => $item['KdBarang'],
-                    'Qty' => $item['Qty'],
-                    'Harga' => $item['Harga'],
-                    'Total' => $item['Total']
-                );
-                $this->PenjualanModel->insert_dt($itemData);
+        try {
+            $KdPenjualan = $this->input->post('KdPenjualan');
+            $KdPelanggan = $this->input->post('KdPelanggan');
+            $KdTipePembayaran = $this->input->post('KdTipePembayaran');
+            $GrandTotal = $this->input->post('GrandTotal');
+            $CreatedBy = 'Admin';
+            $items = $this->input->post('items');
+            $existingData = $this->PenjualanModel->get_data_by_KdPenjualan($KdPenjualan);
+            $existingDataDT = $this->PenjualanModel->get_dt_by_KdPenjualan($KdPenjualan);
+ 
+            if ($items == "")
+            {
+                $this->session->set_flashdata('success_message', 'Detail Barang Tidak Boleh Kosong'); 
+                redirect('Penjualan');
             }
-            $this->session->set_flashdata('success_message', 'Berhasil Update Transaksi');
-            redirect('Penjualan');
-        } else {
-            $data = array(
-                'KdPenjualan' => $KdPenjualan,
-                'KdPelanggan' => $KdPelanggan,
-                'KdTipePembayaran' => $KdTipePembayaran,
-                'GrandTotal' => $GrandTotal,
-                'CreatedBy' => $CreatedBy,
-                'CreatedDate' => date('Y-m-d H:i:s')
-            );
-            $this->PenjualanModel->insert_hd($data);
-
-            foreach ($items as $item) {
-                $itemData = array(
-                    'KdPenjualan' => $KdPenjualan,
-                    'KdBarang' => $item['KdBarang'],
-                    'Qty' => $item['Qty'],
-                    'Harga' => $item['Harga'],
-                    'Total' => $item['Total']
+ 
+            if ($existingData) {
+                $data = array(
+                    'KdPelanggan' => $KdPelanggan,
+                    'KdTipePembayaran' => $KdTipePembayaran,
+                    'GrandTotal' => $GrandTotal
                 );
-                $this->PenjualanModel->insert_dt($itemData);
-            }  
-            $this->session->set_flashdata('success_message', 'Berhasil Simpan Transaksi');
-            redirect('Penjualan');
+                $this->PenjualanModel->update_data($KdPenjualan, $data);
+                $this->PenjualanModel->delete_data_dt($KdPenjualan);
+
+                foreach ($existingDataDT as $item) { 
+                    $this->BarangModel->update_qty_edit($item->KdBarang, $item->Qty);
+                }
+
+                foreach ($items as $item) {
+                    $itemData = array(
+                        'KdPenjualan' => $KdPenjualan,
+                        'KdBarang' => $item['KdBarang'],
+                        'Qty' => $item['Qty'],
+                        'Harga' => $item['Harga'],
+                        'Total' => $item['Total']
+                    );
+                    $this->PenjualanModel->insert_dt($itemData);
+
+                    $QtyCurrent = $this->BarangModel->get_qty($item['KdBarang']);
+
+                    if ($item['Qty'] < 1)
+                    {
+                        $this->session->set_flashdata('success_message', 'Qty Barang Tidak Boleh Kosong / 0 '); 
+                        redirect('Penjualan');
+                    } 
+
+                    if ($item['Qty'] > $QtyCurrent)
+                    {
+                        $this->session->set_flashdata('success_message', 'Stock Barang ' .$item['KdBarang']. ' Tidak Cukup, Sisa Stock Barang adalah '.$QtyCurrent); 
+                        redirect('Penjualan');
+                    } 
+                    $this->BarangModel->update_qty_after_sale($item['KdBarang'], $item['Qty']);
+                }
+                $this->session->set_flashdata('success_message', 'Berhasil Update Transaksi');
+            } else {
+                $data = array(
+                    'KdPenjualan' => $KdPenjualan,
+                    'KdPelanggan' => $KdPelanggan,
+                    'KdTipePembayaran' => $KdTipePembayaran,
+                    'GrandTotal' => $GrandTotal,
+                    'CreatedBy' => $CreatedBy,
+                    'CreatedDate' => date('Y-m-d H:i:s')
+                );
+                $this->PenjualanModel->insert_hd($data);
+
+                foreach ($items as $item) {
+                    $itemData = array(
+                        'KdPenjualan' => $KdPenjualan,
+                        'KdBarang' => $item['KdBarang'],
+                        'Qty' => $item['Qty'],
+                        'Harga' => $item['Harga'],
+                        'Total' => $item['Total']
+                    );
+                    $this->PenjualanModel->insert_dt($itemData);
+ 
+                    $QtyCurrent = $this->BarangModel->get_qty($item['KdBarang']); 
+ 
+                    if ($item['Qty'] < 1)
+                    {
+                        $this->session->set_flashdata('success_message', 'Qty Barang Tidak Boleh Kosong / 0 '); 
+                        redirect('Penjualan');
+                    } 
+
+                    if ($item['Qty'] > $QtyCurrent)
+                    {
+                        $this->session->set_flashdata('success_message', 'Stock Barang ' .$item['KdBarang']. ' Tidak Cukup, Sisa Stock Barang adalah '.$QtyCurrent); 
+                        redirect('Penjualan');
+                    }
+
+                    $this->BarangModel->update_qty_after_sale($item['KdBarang'], $item['Qty']);
+                }
+                $this->session->set_flashdata('success_message', 'Berhasil Simpan Transaksi');
+            }
+
+            // Commit transaksi jika tidak ada kesalahan
+            $this->db->trans_commit();
+        } catch (Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('error_message', 'Gagal menyimpan transaksi: ' . $e->getMessage());
+        }
+
+        redirect('Penjualan');
+    }
+ 
+    public function Delete()
+    {
+        $this->db->trans_start(); // Mulai transaksi
+
+        try {
+            $KdPenjualan = $this->input->post('KdPenjualan');
+            $existingDataDT = $this->PenjualanModel->get_dt_by_KdPenjualan($KdPenjualan); 
+            // Mengembalikan kuantitas barang yang dijual sebelumnya
+            foreach ($existingDataDT as $item) {
+                $this->BarangModel->update_qty_edit($item->KdBarang, $item->Qty);
+            }
+            
+            // Menghapus data penjualan
+            $this->PenjualanModel->delete_data($KdPenjualan);
+
+            // Commit transaksi
+            $this->db->trans_commit();
+            
+            echo "Success";
+        } catch (Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            $this->db->trans_rollback();
+            
+            echo "Failed: " . $e->getMessage();
         }
     }
 
-    public function Delete()
-    {
-        $KdPenjualan = $this->input->post('KdPenjualan');
-        $this->PenjualanModel->delete_data($KdPenjualan);
-        $this->session->set_flashdata('success_message', 'Berhasil Hapus Transaksi');
-        redirect('Penjualan');
-    }
 
 
     public function CetakNota() {
@@ -146,7 +220,7 @@ class Penjualan extends CI_Controller {
         //$KdPenjualan = 'PNJ-000001';
         $DataHD = $this->PenjualanModel->get_hd_by_KdPenjualan($KdPenjualan);
         $DataDT = $this->PenjualanModel->get_hd_by_KdPenjualans($KdPenjualan);
-        $listPelanggan = $this->BarangModel->getListBarang(); 
+        $listPelanggan = $this->BarangModel->get_datas(); 
         $listBarang = $this->PelangganModel->getListPelanggan(); 
         $output_dir = 'C://ICAN/Testing';
         if (!is_dir($output_dir)) {
@@ -161,7 +235,7 @@ class Penjualan extends CI_Controller {
         $header = '
         <div style="text-align: center;  ">
   
-            <div style="font-size: small; text-align: center;"> 
+            <div style="font-size: 20px; text-align: center;"> 
                 <b>'.GlobCompany.'</b>
                 <br>  
                 '.GlobAlamat.' 
@@ -307,6 +381,7 @@ class Penjualan extends CI_Controller {
             
             $this->session->set_flashdata('success_message',  'Nota berhasil dibuat dan disimpan di ' . $file_path);
             redirect('Penjualan/View?KdPenjualan='.$DataHD->KdPenjualan);  
+
         }
     }
  

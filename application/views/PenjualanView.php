@@ -82,6 +82,7 @@
   $(document).ready(function() {  
     let table = new DataTable('#myTable', { 
         pageLength: 5,
+        "lengthChange": false,
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() { 
@@ -114,11 +115,14 @@
                   url: "<?php echo base_url('Penjualan/Delete'); ?>",
                   data: { KdPenjualan: id },
                   success: function(response) {
-                      alert(response);
-                      if (response == "Success") {
-                          clearData();
-                          location.reload();
-                      }
+                    if (response == "Success") { 
+                        location.reload();
+                        alert("Berhasil Hapus Transaksi");
+                    }
+                    else
+                    { 
+                        alert(response);
+                    }
                   },
                   error: function(xhr, status, error) {
                       console.log(xhr.responseText);
@@ -137,6 +141,7 @@
             border: 1px solid black;
             padding: 8px;
             text-align: left;
+            white-space: nowrap;
         }
         th {
             background-color: #f2f2f2;
@@ -204,4 +209,5 @@
             padding: 5px;
             margin-bottom: 20px;
         }
+
     </style>

@@ -9,27 +9,30 @@
 
    <div class="container">  
 
-        <form action="<?php echo base_url('Penjualan/Save'); ?>" method="post" class="defaultForm"> 
+        <form id ="myForm" action="<?php echo base_url('Penjualan/Save'); ?>" method="post" class="defaultForm"> 
             <div class="form-section">
                 <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
-                <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $AutoNumber; ?>" readonly><br>
-
-
-                <label for="KdPelanggan"><b>Tipe Pembayaran:</b> </label> 
-                <select id="TipePembayaran" name="TipePembayaran" >
-                    <option value="">Pilih Tipe Pembayaran</option> 
-                    <option value="Cash">Cash</option> 
-                    <option value="Transfer">Transfer</option> 
-                    <option value="BelumLunas">Belum Lunas</option> 
-                </select>
+                <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $AutoNumber; ?>" readonly>
+                <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label> 
+                <select id="KdTipePembayaran" name="KdTipePembayaran">
+                        <option value="">Pilih Tipe Pembayaran</option> 
+                        <?php foreach ($listTipePembayaran as $tipe) {
+                        ?> 
+                            <option value="<?php echo $tipe->KdTipePembayaran; ?>"><?php echo $tipe->NamaTipePembayaran; ?></option>
+                        <?php   
+                        } 
+                        ?>
+                </select> 
+                <span  id="KdTipePembayaranError" class="error-message" ></span><br>
 
                 <label for="KdPelanggan"><b>Kode Pelanggan:</b> </label> 
-                <select id="KdPelanggan" name="KdPelanggan" onchange="handlePelangganChange(this)">
+                <select id="KdPelanggan" name="KdPelanggan" onchange="handlePelangganChange(this)" >
                     <option value="">Pilih Pelanggan</option>
                     <?php foreach ($listPelanggan as $Pelanggan) { ?>
-                        <option value="<?php echo $Pelanggan->KdPelanggan; ?>"><?php echo $Pelanggan->KdPelanggan; ?></option>
+                        <option value="<?php echo $Pelanggan->KdPelanggan; ?>"><?php echo $Pelanggan->KdPelanggan . " - " . $Pelanggan->NamaPelanggan;?></option>
                     <?php } ?>
                 </select>
+                <span  id="KdPelangganError" class="error-message" ></span><br>
                 <label for="labelNamaPelanggan"><b>Nama Pelanggan:</b> </label> 
                 <input type="text" id="labelNamaPelanggan" name="labelNamaPelanggan" readonly><br> 
                 <label for="labelNamaPelanggan"><b>No HP:</b> </label> 
@@ -48,23 +51,26 @@
                     <tbody id="items">
                         <tr class="item">
                             <td>
-                                <select id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
+                                <select required id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
                                     <option value="">Pilih Barang</option>
                                     <?php foreach ($listBarang as $Barang) { ?>
-                                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                                     <?php } ?>
                                 </select> 
                             </td>
-                            <td><input type="number" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
-                            <td><input type="number" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
-                            <td><input type="number" id="items[0][Total]"  name="items[0][Total]" placeholder="Total" readonly></td>
+                            <td>
+                              <input required type="number" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" min="1" step="1" oninput="calculateTotal(this)">
+                            </td>
+
+                            <td><input type="number" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" min="0" step="1" readonly oninput="calculateTotal(this)"></td>
+                            <td><input type="number" id="items[0][Total]"  name="items[0][Total]" min="0" step="1"  placeholder="Total" readonly></td>
                             <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
                         </tr>
                     </tbody> 
                     <footer> 
                             <tr> 
                                 <th colspan="3" style="text-align: right;"><b>Grand Total:</b></th>
-                                <th colspan="2"><input type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
+                                <th colspan="2"><input required type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
                             </tr> 
                     </footer>
                 </table>
@@ -78,6 +84,27 @@
 </html>
 
 <script> 
+    
+    $(document).ready(function() {
+        $('#myForm').submit(function(event) {
+            if ($('#KdPelanggan').val() == '') {
+                $('#KdPelangganError').text('Kolom Pelanggan harus diisi.');
+                event.preventDefault();
+            } else {
+                $('#KdPelangganError').text('');
+            }
+
+            if ($('#KdTipePembayaran').val() == '') {
+                $('#KdTipePembayaranError').text('Kolom Tipe Pembayaran harus diisi.');
+                event.preventDefault();
+            } else {
+                $('#KdTipePembayaranError').text('');
+            }
+
+            
+        });
+    });
+
     let itemCount = 1;
     function handlePelangganChange(selectElement) {      
         const selectedKdPelanggan = selectElement.value; 
@@ -104,14 +131,14 @@
 
         newRow.innerHTML = `
             <td>
-                <select name="items[${itemCount}][KdBarang]"  onchange="handleBarangChange(this,${itemCount})">
+                <select required name="items[${itemCount}][KdBarang]"  onchange="handleBarangChange(this,${itemCount})">
                     <option value="">Pilih Barang</option>
                     <?php foreach ($listBarang as $Barang) { ?>
-                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                     <?php } ?>
                 </select>
             </td>
-            <td><input type="number" id="items[0][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+            <td><input required type="number" id="items[0][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
             <td><input type="number" id="items[0][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
             <td><input type="number" id="items[0][Total]" name="items[${itemCount}][Total]" placeholder="Total" readonly></td>
             <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
@@ -180,7 +207,12 @@
 
 </script>
 
-    <style>         
+    <style>  
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+
         .defaultForm {
             display: flex;
             position: absolute;

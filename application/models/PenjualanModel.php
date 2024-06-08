@@ -29,9 +29,10 @@ class PenjualanModel extends CI_Model
     public function get_hd_by_KdPenjualans($KdPenjualan)
     {
         $this->db->where('DT.KdPenjualan', $KdPenjualan); 
-        $this->db->select('DT.KdPenjualan, DT.Qty, DT.Harga, DT.Total, BRG.NamaBarang, BRG.Warna');
+        $this->db->select('DT.KdPenjualan, DT.Qty, DT.Harga, DT.Total, BRG.NamaBarang, WRN.NamaWarna as Warna');
         $this->db->from('PenjualanDT DT');
         $this->db->join('Barang BRG', 'DT.KdBarang = BRG.KdBarang', 'left');
+        $this->db->join('Warna WRN', 'BRG.Warna = WRN.KdWarna', 'left');
         $query = $this->db->get();
         return $query->result();
     }

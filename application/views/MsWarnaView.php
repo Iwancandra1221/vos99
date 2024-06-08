@@ -17,34 +17,34 @@
         <span  id="PesanError" class="error-message" ></span> 
     </div>
   
-    <form id="TipePembayaranForm" class="defaultForm">
+    <form id="WarnaForm" class="defaultForm">
  
-    <div class="formColumn">
-      <table  id="myTable">
-          <thead>
-              <tr>
-                  <th>Kode TipePembayaran</th>
-                  <th>Tipe Pembayaran</th>  
-              </tr>
-          </thead>
-          <tbody> 
-            <?php foreach ($TipePembayaran as $item): ?>
-                <tr>
-                    <td><?php echo $item->KdTipePembayaran; ?></td>
-                    <td><?php echo $item->NamaTipePembayaran; ?></td>  
-                </tr>
-            <?php endforeach; ?>
-          </tbody>
-      </table>
-    </div>
+        <div class="formColumn">
+          <table  id="myTable">
+              <thead>
+                  <tr>
+                    <th style="width: 30%;">Kode Warna</th>
+                    <th style="width: 60%;">Warna</th> 
+                  </tr>
+              </thead>
+              <tbody> 
+                <?php foreach ($Warna as $item): ?>
+                    <tr>
+                        <td><?php echo $item->KdWarna; ?></td>
+                        <td><?php echo $item->NamaWarna; ?></td>  
+                    </tr>
+                <?php endforeach; ?>
+              </tbody>
+          </table>
+        </div>
 
         <div class="formColumn">
-            <label for="KdTipePembayaran">Kode TipePembayaran:</label><br>
-            <label for="NamaTipePembayaran">Nama TipePembayaran:</label><br>  
+            <label for="KdWarna">Kode Warna:</label><br>
+            <label for="NamaWarna">Nama Warna:</label><br>  
         </div>
         <div class="formColumn">
-            <input disabled type="text" id="KdTipePembayaran" name="KdTipePembayaran" value="<?php echo $AutoNumber; ?>"><br>
-            <input type="text" id="NamaTipePembayaran" name="NamaTipePembayaran"><br>   
+            <input disabled type="text" id="KdWarna" name="KdWarna" value="<?php echo $AutoNumber; ?>"><br>
+            <input type="text" id="NamaWarna" name="NamaWarna"><br>   
         </div>
     </form>
 
@@ -64,8 +64,8 @@
         let rowData = table.row(this).data();
         console.log(rowData);
         // Mengisi textbox dengan data dari baris
-        document.getElementById('KdTipePembayaran').value = rowData[0];
-        document.getElementById('NamaTipePembayaran').value = rowData[1]; 
+        document.getElementById('KdWarna').value = rowData[0];
+        document.getElementById('NamaWarna').value = rowData[1]; 
         document.getElementById('NoHp').value = rowData[2]; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
@@ -99,30 +99,31 @@ function disableButtons() {
   function newData() {
     emptyData();
     enableButtons();
-    document.getElementById('KdTipePembayaran').value = '<?php echo $AutoNumber; ?>' ;
+    document.getElementById('KdWarna').value = '<?php echo $AutoNumber; ?>' ;
   }  
 
   function clearData() {  
     emptyData();
-    document.getElementById('KdTipePembayaran').value = '<?php echo $AutoNumber; ?>' ; 
+    document.getElementById('KdWarna').value = '<?php echo $AutoNumber; ?>' ; 
   }
 
   function cancelData() {
     emptyData();
     disableButtons();
-    document.getElementById('KdTipePembayaran').value = '<?php echo $AutoNumber; ?>' ;
+    document.getElementById('KdWarna').value = '<?php echo $AutoNumber; ?>' ;
   }
 
   function saveData() {
     var data = {
-      KdTipePembayaran: $('#KdTipePembayaran').val(),
-      NamaTipePembayaran: $('#NamaTipePembayaran').val(),  
+      KdWarna: $('#KdWarna').val(),
+      NamaWarna: $('#NamaWarna').val(),  
     };  
+
 
     var pesanError = "";
 
-    if ($('#NamaTipePembayaran').val() == '') {
-        pesanError = pesanError + 'Kolom Tipe Pembayaran harus diisi.'; 
+    if ($('#NamaWarna').val() == '') {
+        pesanError = pesanError + 'Kolom Nama Warna harus diisi.'; 
     }   
 
     if (pesanError != "")
@@ -130,11 +131,11 @@ function disableButtons() {
         $('#PesanError').text(pesanError);
         event.preventDefault();
     } 
-    if (  ($('#NamaTipePembayaran').val() != '')) 
-    {  
+    if (  ($('#NamaWarna').val() != '')) 
+    {   
         $.ajax({ 
           type: "POST",
-          url: "<?php echo base_url('MsTipePembayaran/Add'); ?>",
+          url: "<?php echo base_url('MsWarna/Add'); ?>",
           data: data,
           success: function(response) {
             alert(response);
@@ -152,12 +153,12 @@ function disableButtons() {
   } 
    
   function deleteData() {
-      var KdTipePembayaran = $('#KdTipePembayaran').val();
+      var KdWarna = $('#KdWarna').val();
 
       $.ajax({ 
           type: "POST",
-          url: "<?php echo base_url('MsTipePembayaran/Delete'); ?>",
-          data: { KdTipePembayaran: KdTipePembayaran },
+          url: "<?php echo base_url('MsWarna/Delete'); ?>",
+          data: { KdWarna: KdWarna },
           success: function(response) {
               alert(response);
               if (response == "Success") {
@@ -172,12 +173,12 @@ function disableButtons() {
   }
 
   function toggleFields(disable) {
-    $('#NamaTipePembayaran').prop('disabled', disable);  
+    $('#NamaWarna').prop('disabled', disable);  
   }
  
  
   function emptyData() { 
-    var inputs = document.getElementById('TipePembayaranForm').getElementsByTagName('input'); 
+    var inputs = document.getElementById('WarnaForm').getElementsByTagName('input'); 
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].value = '';
     }  
@@ -242,8 +243,8 @@ function disableButtons() {
         }
 
         .actionButtons button:disabled:hover {
-            background-color: #d3d3d3; /* Pastikan warna hover tidak berubah */
-            color: #808080; /* Pastikan warna teks hover tidak berubah */
+            background-color: #d3d3d3; /* Pastikan Warna hover tidak berubah */
+            color: #808080; /* Pastikan Warna teks hover tidak berubah */
         }
 
         .formColumn {

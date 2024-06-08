@@ -87,8 +87,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 define('Version', '1.0.0');
-define('GlobCompany', 'Berkah Berjaya');
+define('GlobCompany', 'Toko Berkah Jaya');
 define('GlobNamaBCA', 'MALVIN');
 define('GLobNoRek', '6665045106');
 define('GlobNoHP', '+6282141513939');
-define('GlobAlamat', 'Jl. Abdullah II No.14, RT.6/RW.5, Krukut, Kec. Taman Sari, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11140');
+define('GlobAlamat', 'Jl. Abdullah II No.14A, RT.6/RW.5, Kota Jakarta Barat, 11140.');

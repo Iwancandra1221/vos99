@@ -88,13 +88,13 @@
                                             <?php foreach ($listBarang as $Barang) { 
                                                 if ($value->KdBarang === $Barang->KdBarang) { 
                                                    ?> 
-                                                    <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                                                    <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                                                    <?php 
                                                 } 
                                                 else
                                                 {
                                                     ?> 
-                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                                                    <?php 
                                                 } 
                                             } ?>
@@ -188,13 +188,13 @@
                                             <?php foreach ($listBarang as $Barang) { 
                                                 if ($value->KdBarang === $Barang->KdBarang) { 
                                                    ?> 
-                                                    <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                                                    <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                                                    <?php 
                                                 } 
                                                 else
                                                 {
                                                     ?> 
-                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                                                    <?php 
                                                 } 
                                             } ?>
@@ -258,7 +258,7 @@
                 <select name="items[${itemCount}][KdBarang]"  onchange="handleBarangChange(this,${itemCount})">
                     <option value="">Pilih Barang</option>
                     <?php foreach ($listBarang as $Barang) { ?>
-                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang; ?></option>
+                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
                     <?php } ?>
                 </select>
             </td>

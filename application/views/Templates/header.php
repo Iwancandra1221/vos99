@@ -18,7 +18,7 @@
             height: 100vh; /* Set tinggi body agar sesuai dengan tinggi layar */
             margin: 0; /* Hapus margin default */
             padding: 0; /* Hapus padding default */
-            color: white; /* Set warna teks menjadi putih agar terlihat jelas di atas background gambar */
+            color: white; /* Set Warna teks menjadi putih agar terlihat jelas di atas background gambar */
         }
         .container {
             padding: 100px; /* Tambahkan padding ke dalam kontainer untuk menjaga konten agar tidak terlalu dekat dengan tepi layar */
@@ -28,6 +28,27 @@
             text-align: center;
             font-size: 2.5em; /* Atur ukuran font sesuai kebutuhan */
             margin-top: 20px; /* Atur margin atas sesuai kebutuhan */
+        }
+
+        @media only screen and (max-width: 600px) {
+            /* Aturan CSS untuk tampilan seluler */
+            body {
+                font-size: 14px;
+            }
+            .container {
+                width: 90%;
+            }
+        }
+
+        /* Untuk layar besar (misalnya, desktop) */
+        @media only screen and (min-width: 1024px) {
+            /* Aturan CSS untuk tampilan desktop */
+            body {
+                font-size: 16px;
+            }
+            .container {
+                width: 80%;
+            }
         }
     </style>
 </head>
@@ -52,6 +73,7 @@
                     <a class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
+                    <a class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
                 </div>
             </li>
 
@@ -61,26 +83,26 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?php echo site_url('Penjualan'); ?>">Penjualan</a>
-                    <a class="dropdown-item" href="<?php echo site_url('Pembelian'); ?>">Pembelian</a>
+                    <!-- <a class="dropdown-item" href="<?php echo site_url('Pembelian'); ?>">Pembelian</a> -->
                 </div>
             </li>
 
 
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Report
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?php echo site_url('ReportPenjualan'); ?>">Laporan Penjualan</a>
-                    <a class="dropdown-item" href="<?php echo site_url('ReportPembelian'); ?>">Laporan Pembelian</a>
+                    <a class="dropdown-item" href="<?php echo site_url('ReportPembelian'); ?>">Laporan Pembelian</a> 
                 </div>
-            </li>
+            </li> -->
  
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo site_url('about'); ?>">About</a>
+                <!-- <a class="nav-link" href="<?php echo site_url('about'); ?>">About</a> -->
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo site_url('contact'); ?>">Contact</a>
+                <!-- <a class="nav-link" href="<?php echo site_url('contact'); ?>">Contact</a> -->
             </li> 
         </ul>
         <ul class="navbar-nav">

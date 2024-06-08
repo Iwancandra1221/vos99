@@ -13,8 +13,7 @@
         <button disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
         <button id = "Edit" >Edit</button>
         <button id = "Delete" >Delete</button> 
-    </div>
-  
+        <span  id="PesanError" class="error-message" ></span> 
     <form id="barangForm" class="defaultForm">
  
     <div class="formColumn">
@@ -29,6 +28,7 @@
                   <th>Merk</th>
                   <th>Tipe</th>
                   <th>Warna</th> 
+                  <th hidden>KdWarna</th> 
               </tr>
           </thead>
           <tbody> 
@@ -42,6 +42,7 @@
                     <td><?php echo $item->Merk; ?></td>
                     <td><?php echo $item->Tipe; ?></td>
                     <td><?php echo $item->Warna; ?></td> 
+                    <td hidden><?php echo $item->KdWarna; ?></td> 
                 </tr>
             <?php endforeach; ?>
           </tbody>
@@ -61,22 +62,18 @@
         <div class="formColumn">
             <input disabled type="text" id="KdBarang" name="KdBarang" value="<?php echo $AutoNumber; ?>"><br>
             <input type="text" id="NamaBarang" name="NamaBarang"><br>
-            <input type="number" id="Qty" name="Qty"><br>
-            <input type="number" id="Harga" name="Harga"><br>
-            <input type="number" id="Harga_Jual" name="Harga_Jual"><br>
+            <input type="number" id="Qty" name="Qty" min="0" step="1" ><br>
+            <input type="number" id="Harga" name="Harga" min="0" step="1" ><br>
+            <input type="number" id="Harga_Jual" name="Harga_Jual" min="0" step="1" ><br>
             <input type="text" id="Merk" name="Merk"><br>
-            <input type="text" id="Tipe" name="Tipe"><br>
-             <select id="Warna" name="Warna">
-                <option value="HITAM">HITAM</option>
-                <option value="MERAH">MERAH</option>
-                <option value="BIRU">BIRU</option>
-                <option value="HIJAU">HIJAU</option>
-                <option value="KUNING">KUNING</option>
-                <option value="UNGU">UNGU</option>
-                <option value="COKLAT">COKLAT</option>
-                <option value="PINK">PINK</option>
-                <option value="RGB">Rainbow / RGB</option> 
-            </select>
+            <input type="text" id="Tipe" name="Tipe"><br> 
+            <select id="Warna" name="Warna">
+                <option value="">Pilih Warna</option>
+                <?php foreach ($listWarna as $warna) { ?>
+                    <option value="<?php echo $warna->KdWarna; ?>"><?php echo $warna->NamaWarna; ?>
+                    </option>
+                <?php } ?>
+            </select> 
         </div>
     </form>
 
@@ -88,6 +85,7 @@
     disableButtons();
     let table = new DataTable('#myTable', { 
         pageLength: 5,
+        "lengthChange": false,
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() {
@@ -102,9 +100,11 @@
         document.getElementById('Harga_Jual').value = rowData[4];
         document.getElementById('Merk').value = rowData[5];;
         document.getElementById('Tipe').value = rowData[6];
-        document.getElementById('Warna').value = rowData[7]; 
+        document.getElementById('Warna').value = rowData[8]; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
+
+        $('#PesanError').text("");
     });
 
 
@@ -160,22 +160,62 @@ function disableButtons() {
       Warna: $('#Warna').val()
     };  
 
-    $.ajax({ 
-      type: "POST",
-      url: "<?php echo base_url('MsBarang/Add'); ?>",
-      data: data,
-      success: function(response) {
-        alert(response);
-        if (response = "Success")
-        {  
-          emptyData();
-          location.reload();
-        }
-      },
-      error: function(xhr, status, error) {
-        console.log(xhr.responseText);
-      }
-    });
+    var pesanError = "";
+
+    if ($('#NamaBarang').val() == '') {
+        pesanError = pesanError + 'Kolom Nama Barang harus diisi, '; 
+    } 
+
+    if ($('#Qty').val() == '') { 
+        pesanError = pesanError + 'Kolom Qty harus diisi, '; 
+    } 
+
+    if ($('#Harga').val() == '') {
+        pesanError = pesanError + 'Kolom Harga harus diisi, ';  
+        event.preventDefault();
+    } 
+    if ($('#Harga_Jual').val() == '') { 
+        pesanError = pesanError + 'Kolom Harga Jual harus diisi, '; 
+        event.preventDefault();
+    } 
+
+    if ($('#Warna').val() == '') {
+        pesanError = pesanError + 'Kolom Warna harus diisi.'; 
+        event.preventDefault();
+    }  
+    if (pesanError != "")
+    { 
+        $('#PesanError').text(pesanError);
+        event.preventDefault();
+    }
+
+
+    if ( 
+        ($('#NamaBarang').val() != '') 
+        && ($('#Qty').val() != '') 
+        && ($('#Harga').val() != '') 
+        && ($('#Harga_Jual').val() != '') 
+        && ($('#Warna').val() != '') 
+        ) 
+    {
+        $.ajax({ 
+          type: "POST",
+          url: "<?php echo base_url('MsBarang/Add'); ?>",
+          data: data,
+          success: function(response) {
+            alert(response);
+            if (response = "Success")
+            {  
+              emptyData();
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+          }
+        }); 
+    }
+
   } 
    
   function deleteData() {
@@ -226,6 +266,7 @@ function disableButtons() {
             border: 1px solid black;
             padding: 8px;
             text-align: left;
+            white-space: nowrap; 
         }
         th {
             background-color: #f2f2f2;
@@ -234,8 +275,7 @@ function disableButtons() {
         .defaultForm {
             display: flex;
             position: absolute;
-            top: 150px; 
-            left: 20px;
+            top: 80px;  
             background-color: transparent;
             color: black;
             padding: 20px;
@@ -286,11 +326,17 @@ function disableButtons() {
         .formColumn label {
             display: block;
             margin-bottom: 10px;
+            white-space: nowrap; 
         }
 
         .formColumn input {
             width: 100%;
             padding: 5px;
             margin-bottom: 20px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
         }
     </style>

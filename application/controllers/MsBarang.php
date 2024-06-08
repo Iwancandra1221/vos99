@@ -6,22 +6,23 @@ class MsBarang extends CI_Controller	 {
 	function __construct()
 	{
 		parent::__construct();  
+        $this->load->model('WarnaModel');
+	    $this->load->model('BarangModel');
 	}
 
 	public function index()
 	{
-	    $this->load->model('BarangModel');
         $data['title'] = ucfirst('Master Barang');
-        $data['barang'] = $this->BarangModel->get_data();
+        $data['barang'] = $this->BarangModel->get_datas();
         $data['AutoNumber'] = $this->BarangModel->generate_next_number();
+        $data['listWarna'] = $this->WarnaModel->getListWarna(); 
 		$this->load->view('templates/header', $data);
         $this->load->view('MsBarangView', $data);
         $this->load->view('templates/footer', $data);
 	}
 
-	public function Add()
-	{ 
-	    $this->load->model('BarangModel'); 
+	public function Add() 
+	{
 	    $KdBarang = $this->input->post('KdBarang');
 	    $NamaBarang = $this->input->post('NamaBarang');
 	    $Qty = $this->input->post('Qty');
@@ -33,9 +34,13 @@ class MsBarang extends CI_Controller	 {
 	    $CreatedBy = 'Admin'; 
 	    $existingData = $this->BarangModel->get_data_by_KdBarang($KdBarang);
 	    if ($existingData) {
+
+	    	$QtyReal = $Qty - $existingData->Qty + $existingData->Qty_Real;
+
 	    	$data = array(
 	            'NamaBarang' => $NamaBarang,
 	            'Qty' => $Qty,
+		        'Qty_Real' => $QtyReal,
 	            'Harga' => $Harga,
 	            'Harga_Jual' => $Harga_Jual,
 	            'Merk' => $Merk,
@@ -52,6 +57,8 @@ class MsBarang extends CI_Controller	 {
 		        'KdBarang' => $KdBarang,
 		        'NamaBarang' => $NamaBarang,
 		        'Qty' => $Qty,
+		        'Qty_Real' => $Qty,
+		        'Qty_Jual' => 0,
 		        'Harga' => $Harga,
 	            'Harga_Jual' => $Harga_Jual,
 		        'Merk' => $Merk,

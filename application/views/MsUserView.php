@@ -14,6 +14,7 @@
         <button disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
         <button id = "Edit" >Edit</button>
         <button id = "Delete" >Delete</button> 
+        <span  id="PesanError" class="error-message" ></span> 
     </div>
   
     <form id="UserForm" class="defaultForm">
@@ -52,6 +53,7 @@
             <input type="text" id="NamaUser" name="NamaUser"><br> 
             <input type="password" id="Password" name="Password"><br> 
              <select id="Role" name="Role">
+                <option value="">Pilih Role</option>
                 <option value="Admin">Admin</option>
                 <option value="User">User</option> 
             </select>
@@ -66,6 +68,7 @@
     disableButtons();
     let table = new DataTable('#myTable', { 
         pageLength: 5,
+        "lengthChange": false,
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() {
@@ -79,6 +82,8 @@
         document.getElementById('Role').value = rowData[3]; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
+
+        $('#PesanError').text("");
     });
 
 
@@ -130,22 +135,45 @@ function disableButtons() {
       Role: $('#Role').val(), 
     };  
 
-    $.ajax({ 
-      type: "POST",
-      url: "<?php echo base_url('MsUser/Add'); ?>",
-      data: data,
-      success: function(response) {
-        alert(response);
-        if (response = "Success")
-        {  
-          emptyData();
-          location.reload();
-        }
-      },
-      error: function(xhr, status, error) {
-        console.log(xhr.responseText);
-      }
-    });
+
+    var pesanError = "";
+
+    if ($('#NamaUser').val() == '') {
+        pesanError = pesanError + 'Kolom Nama User harus diisi, '; 
+    }  
+    
+    if ($('#Password').val() == '') {
+        pesanError = pesanError + 'Kolom Password harus diisi, '; 
+    } 
+    
+    if ($('#Role').val() == '') {
+        pesanError = pesanError + 'Kolom Role harus diisi, '; 
+    } 
+
+    if (pesanError != "")
+    { 
+        $('#PesanError').text(pesanError);
+        event.preventDefault();
+    } 
+    if (  ($('#NamaUser').val() != '') && ($('#Password').val() != '') && ($('#Role').val() != '') ) 
+    { 
+        $.ajax({ 
+          type: "POST",
+          url: "<?php echo base_url('MsUser/Add'); ?>",
+          data: data,
+          success: function(response) {
+            alert(response);
+            if (response = "Success")
+            {  
+              emptyData();
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+          }
+        });
+    }
   } 
    
   function deleteData() {
@@ -192,6 +220,7 @@ function disableButtons() {
             border: 1px solid black;
             padding: 8px;
             text-align: left;
+            white-space: nowrap;
         }
         th {
             background-color: #f2f2f2;
@@ -258,5 +287,9 @@ function disableButtons() {
             width: 100%;
             padding: 5px;
             margin-bottom: 20px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
         }
     </style>

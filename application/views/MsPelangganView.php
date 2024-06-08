@@ -14,6 +14,7 @@
         <button disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
         <button id = "Edit" >Edit</button>
         <button id = "Delete" >Delete</button> 
+        <span  id="PesanError" class="error-message" ></span> 
     </div>
   
     <form id="PelangganForm" class="defaultForm">
@@ -24,7 +25,7 @@
               <tr>
                   <th>Kode Pelanggan</th>
                   <th>Nama Pelanggan</th> 
-                  <th>NoHp</th> 
+                  <th>No Telp / Whatsapp</th> 
               </tr>
           </thead>
           <tbody> 
@@ -42,7 +43,7 @@
         <div class="formColumn">
             <label for="KdPelanggan">Kode Pelanggan:</label><br>
             <label for="NamaPelanggan">Nama Pelanggan:</label><br> 
-            <label for="NoHp">NoHp:</label><br> 
+            <label for="NoHp">No Telp / Whatsapp:</label><br> 
         </div>
         <div class="formColumn">
             <input disabled type="text" id="KdPelanggan" name="KdPelanggan" value="<?php echo $AutoNumber; ?>"><br>
@@ -59,6 +60,7 @@
     disableButtons();
     let table = new DataTable('#myTable', { 
         pageLength: 5,
+        "lengthChange": false,
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() {
@@ -71,6 +73,8 @@
         document.getElementById('NoHp').value = rowData[2]; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
+
+        $('#PesanError').text("");
     });
 
 
@@ -121,22 +125,40 @@ function disableButtons() {
       NoHp: $('#NoHp').val(), 
     };  
 
-    $.ajax({ 
-      type: "POST",
-      url: "<?php echo base_url('MsPelanggan/Add'); ?>",
-      data: data,
-      success: function(response) {
-        alert(response);
-        if (response = "Success")
-        {  
-          emptyData();
-          location.reload();
-        }
-      },
-      error: function(xhr, status, error) {
-        console.log(xhr.responseText);
-      }
-    });
+    var pesanError = "";
+
+    if ($('#NamaPelanggan').val() == '') {
+        pesanError = pesanError + 'Kolom Nama Pelanggan harus diisi, '; 
+    }  
+    
+    if ($('#NoHp').val() == '') {
+        pesanError = pesanError + 'Kolom No Hp / Whatsapp harus diisi.'; 
+    }  
+
+    if (pesanError != "")
+    { 
+        $('#PesanError').text(pesanError);
+        event.preventDefault();
+    } 
+    if (  ($('#NamaPelanggan').val() != '') && ($('#NoHp').val() != '') ) 
+    { 
+        $.ajax({ 
+          type: "POST",
+          url: "<?php echo base_url('MsPelanggan/Add'); ?>",
+          data: data,
+          success: function(response) {
+            alert(response);
+            if (response = "Success")
+            {  
+              emptyData();
+              location.reload();
+            }
+          },
+          error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+          }
+        });
+    }
   } 
    
   function deleteData() {
@@ -182,6 +204,7 @@ function disableButtons() {
             border: 1px solid black;
             padding: 8px;
             text-align: left;
+            white-space: nowrap;
         }
         th {
             background-color: #f2f2f2;
@@ -248,5 +271,9 @@ function disableButtons() {
             width: 100%;
             padding: 5px;
             margin-bottom: 20px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
         }
     </style>

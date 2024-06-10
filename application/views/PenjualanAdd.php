@@ -39,7 +39,14 @@
                 <input type="text" id="labelNoHP" name="labelNoHP" readonly><br>  
                 <h3>Items</h3>
                 <table id="itemsTable">
-                    <thead>
+                    <thead> 
+                        <tr>
+                            <th colspan="5"> 
+                                <label for="InputKdBarang"><b>Cari Kode Barang / Nama Barang:</b> </label> 
+                                <input type="text" id="InputKdBarang" name="InputKdBarang"> 
+                                <button type="button" class="add-item-btn" onclick="addItem()">Tambah</button>  
+                            </th>
+                        </tr>
                         <tr>
                             <th>Kode Barang</th>
                             <th>Qty</th>
@@ -69,7 +76,7 @@
                     </tbody> 
                     <footer> 
                             <tr> 
-                                <th colspan="3" style="text-align: right;"><b>Grand Total:</b></th>
+                                <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
                                 <th colspan="2"><input required type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
                             </tr> 
                     </footer>

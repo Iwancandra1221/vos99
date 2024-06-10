@@ -91,15 +91,27 @@ class PenjualanModel extends CI_Model
         $this->db->limit(1);
         $query = $this->db->get('PenjualanHD');
         $last_number = $query->row();
+        
+        $current_year = date('Y');
+        $prefix = 'PNJ/TKJ/' . $current_year . '/';
+        
         if (!$last_number) {
-            return 'PNJ-000001';
+            return $prefix . '00001';
         }
+        
         $last_number = $last_number->KdPenjualan;
-        $last_number = explode('-', $last_number)[1];
-        $last_number = (int)$last_number;
+        $parts = explode('/', $last_number);
+        
+        if (count($parts) < 4 || $parts[2] != $current_year) {
+            return $prefix . '00001';
+        }
+        
+        $last_number = (int)$parts[3];
         $next_number = $last_number + 1;
-        $next_number = sprintf('%06d', $next_number);
-        return 'PNJ-' . $next_number;
+        $next_number = sprintf('%05d', $next_number);
+        
+        return $prefix . $next_number;
     }
+
 }
 ?>

@@ -74,6 +74,8 @@
                     <a class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
+                    <a class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a>
+
                 </div>
             </li>
 

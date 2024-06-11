@@ -60,37 +60,51 @@
                                         display: none;
                                     }
                                 </style>
-<script>
-        async function searchItems() {
-            // const input = document.getElementById('InputKdBarang').value;
-            // if (input == "")
-            // {
-                
-            // }
-            // else
-            // { 
-            //     const response = await fetch(`/Vos99/index.php/search?q=${input}`);
-            //     const results = await response.json();
-            //     displayResults(results);
-            // }
-        }
+                                <script>
+                                    async function searchItems() {
+                                        const input = document.getElementById('InputKdBarang').value;
+                                        if (input == "")
+                                        {
+                                            emptyResults();
+                                        }
+                                        else
+                                        { 
+                                            const response = await fetch(`/Vos99/index.php/search?q=${input}`);
+                                            const results = await response.json();
+                                            displayResults(results);
+                                        }
+                                    }
 
-        function displayResults(results) {
-            const resultsDiv = document.getElementById('searchResults');
-            resultsDiv.innerHTML = '';
 
-            if (results.length > 0) {
-                results.forEach(item => {
-                    const div = document.createElement('div');
-                    div.textContent = `${item.code} - ${item.name}`;
-                    resultsDiv.appendChild(div);
-                });
-                resultsDiv.style.display = 'block';
-            } else {
-                resultsDiv.style.display = 'none';
-            }
-        }
-    </script> 
+                                    function emptyResults() {
+                                        const resultsDiv = document.getElementById('searchResults');
+                                        resultsDiv.innerHTML = ''; 
+                                        resultsDiv.style.display = 'none'; 
+                                    }
+
+                                    function displayResults(results) {
+                                        const resultsDiv = document.getElementById('searchResults');
+                                        resultsDiv.innerHTML = '';
+
+                                        if (results.length > 0) {
+                                            results.forEach(item => {
+                                                const div = document.createElement('div');
+                                                div.textContent = `${item.code} - ${item.name} - ${item.warna}`;
+                                                div.addEventListener('click', () => {
+                                                    //alert(`Code: ${item.code}\nName: ${item.name}`);
+                                                    addCariItem(item.code);
+                                                    resultsDiv.style.display = 'none'; 
+                                                    document.getElementById('InputKdBarang').value = '';
+                                                });
+                                                resultsDiv.appendChild(div);
+                                            });
+                                            resultsDiv.style.display = 'block';
+                                        } else {
+                                            resultsDiv.style.display = 'none';
+                                        }
+                                    }
+
+                                </script> 
                             </th>
                         </tr>
                         <tr>
@@ -177,6 +191,33 @@
             document.getElementById('labelNoHP').value = '';
         }
     }
+    function addCariItem(itemCari) {
+        const table = document.getElementById('items');
+        const newRow = document.createElement('tr');
+        newRow.classList.add('item');
+ 
+        let options = '<option value="">Pilih Barang</option>';
+        <?php foreach ($listBarang as $Barang) { ?>
+            options += `<option value="<?php echo $Barang->KdBarang; ?>" ${itemCari == '<?php echo $Barang->KdBarang; ?>' ? 'selected' : ''}>
+                        <?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>`;
+        <?php } ?>
+
+        newRow.innerHTML = `
+            <td>
+                <select required name="items[${itemCount}][KdBarang]" onchange="handleBarangChange(this, ${itemCount})">
+                    ${options}
+                </select>
+            </td>
+            <td><input required type="number" id="items[${itemCount}][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+            <td><input value="<?php echo $Barang->Harga; ?>" type="number" id="items[${itemCount}][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
+            <td><input type="number" id="items[${itemCount}][Total]" name="items[${itemCount}][Total]" placeholder="Total" readonly></td>
+            <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
+        `;
+
+        table.appendChild(newRow);
+        itemCount++;
+    }
+
     function addItem() {
         const table = document.getElementById('items');
         const newRow = document.createElement('tr');

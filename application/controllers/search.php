@@ -3,17 +3,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Search extends CI_Controller {
 
+    function __construct()
+    {
+        parent::__construct();   
+        $this->load->model('BarangModel');
+    }
+
     public function index() {
         header('Content-Type: application/json');
-
-        // Dummy data for items
-        $items = [
-            ["code" => "BRG001", "name" => "Barang Satu"],
-            ["code" => "BRG002", "name" => "Barang Dua"],
-            ["code" => "BRG003", "name" => "Barang Tiga"],
-            ["code" => "BRG004", "name" => "Barang Empat"],
-            // Add more items as needed
-        ];
+ 
+        $data = $this->BarangModel->get_datas();
+        $items = [];  
+        foreach ($data as $key => $value) {
+            $items[] = ["code" => $value->KdBarang, "name" => $value->NamaBarang, "warna" => $value->Warna]; 
+        } 
         if ($this->input->get('q') != "")
         {
             $query = strtolower($this->input->get('q'));

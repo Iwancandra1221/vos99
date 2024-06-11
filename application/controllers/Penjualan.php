@@ -222,7 +222,7 @@ class Penjualan extends CI_Controller {
         $DataDT = $this->PenjualanModel->get_hd_by_KdPenjualans($KdPenjualan);
         $listPelanggan = $this->BarangModel->get_datas(); 
         $listBarang = $this->PelangganModel->getListPelanggan(); 
-        $output_dir = 'C://ICAN/Testing';
+        $output_dir = 'D:\Nota Berkah Jaya';
         if (!is_dir($output_dir)) {
             mkdir($output_dir, 0777, true);
         }
@@ -242,7 +242,7 @@ class Penjualan extends CI_Controller {
                 '.GlobAlamat.' 
                 <br>  
                 No HP : '.GlobNoHP.', No BCA : '.GLobNoRek.' ('.GlobNamaBCA.')
-            </div>
+            </div><br> 
         </div>';
 
         // Footer HTML
@@ -381,8 +381,13 @@ class Penjualan extends CI_Controller {
             // Tentukan path file output
 
             $namaFile = str_replace('/', '-', $DataHD->KdPenjualan);
+            $folder_path = $output_dir . '/' . $DataHD->NamaPelanggan;
+            $file_path = $folder_path . '/' . $namaFile . '.pdf';
 
-            $file_path = $output_dir . '/'.$namaFile.'.pdf';
+            // Periksa apakah folder pelanggan sudah ada, jika tidak, buat folder baru
+            if (!file_exists($folder_path)) {
+                mkdir($folder_path, 0777, true); // Membuat folder baru dengan izin 0777
+            }
 
             // Simpan file PDF ke path yang ditentukan
             $mpdf->Output($file_path, \Mpdf\Output\Destination::FILE); 

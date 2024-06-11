@@ -93,7 +93,7 @@ class PenjualanModel extends CI_Model
         $last_number = $query->row();
         
         $current_year = date('Y');
-        $prefix = 'PNJ/TKJ/' . $current_year . '/';
+        $prefix = 'PNJ/TBJ/' . $current_year . '/';
         
         if (!$last_number) {
             return $prefix . '00001';

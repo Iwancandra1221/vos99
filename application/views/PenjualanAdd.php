@@ -39,7 +39,74 @@
                 <input type="text" id="labelNoHP" name="labelNoHP" readonly><br>  
                 <h3>Items</h3>
                 <table id="itemsTable">
-                    <thead>
+                    <thead> 
+                        <tr>
+                            <th colspan="5"> 
+                                <div class="form-inline">
+                                    <label for="InputKdBarang"><b>Cari Kode Barang / Nama Barang:</b> </label>
+                                    <input type="text" id="InputKdBarang" name="InputKdBarang" onkeyup="searchItems()">
+                                </div>
+                                <div id="searchResults"></div>
+                                <style>
+                                    .form-inline {
+                                        display: flex;
+                                        align-items: center;
+                                    }
+
+                                    #searchResults {
+                                        margin-top: 10px;
+                                        border: 1px solid #ccc;
+                                        padding: 10px;
+                                        display: none;
+                                    }
+                                </style>
+                                <script>
+                                    async function searchItems() {
+                                        const input = document.getElementById('InputKdBarang').value;
+                                        if (input == "")
+                                        {
+                                            emptyResults();
+                                        }
+                                        else
+                                        { 
+                                            const response = await fetch(`/Vos99/index.php/search?q=${input}`);
+                                            const results = await response.json();
+                                            displayResults(results);
+                                        }
+                                    }
+
+
+                                    function emptyResults() {
+                                        const resultsDiv = document.getElementById('searchResults');
+                                        resultsDiv.innerHTML = ''; 
+                                        resultsDiv.style.display = 'none'; 
+                                    }
+
+                                    function displayResults(results) {
+                                        const resultsDiv = document.getElementById('searchResults');
+                                        resultsDiv.innerHTML = '';
+
+                                        if (results.length > 0) {
+                                            results.forEach(item => {
+                                                const div = document.createElement('div');
+                                                div.textContent = `${item.code} - ${item.name} - ${item.warna}`;
+                                                div.addEventListener('click', () => {
+                                                    //alert(`Code: ${item.code}\nName: ${item.name}`);
+                                                    addCariItem(item.code);
+                                                    resultsDiv.style.display = 'none'; 
+                                                    document.getElementById('InputKdBarang').value = '';
+                                                });
+                                                resultsDiv.appendChild(div);
+                                            });
+                                            resultsDiv.style.display = 'block';
+                                        } else {
+                                            resultsDiv.style.display = 'none';
+                                        }
+                                    }
+
+                                </script> 
+                            </th>
+                        </tr>
                         <tr>
                             <th>Kode Barang</th>
                             <th>Qty</th>
@@ -69,7 +136,7 @@
                     </tbody> 
                     <footer> 
                             <tr> 
-                                <th colspan="3" style="text-align: right;"><b>Grand Total:</b></th>
+                                <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
                                 <th colspan="2"><input required type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
                             </tr> 
                     </footer>
@@ -124,6 +191,33 @@
             document.getElementById('labelNoHP').value = '';
         }
     }
+    function addCariItem(itemCari) {
+        const table = document.getElementById('items');
+        const newRow = document.createElement('tr');
+        newRow.classList.add('item');
+ 
+        let options = '<option value="">Pilih Barang</option>';
+        <?php foreach ($listBarang as $Barang) { ?>
+            options += `<option value="<?php echo $Barang->KdBarang; ?>" ${itemCari == '<?php echo $Barang->KdBarang; ?>' ? 'selected' : ''}>
+                        <?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>`;
+        <?php } ?>
+
+        newRow.innerHTML = `
+            <td>
+                <select required name="items[${itemCount}][KdBarang]" onchange="handleBarangChange(this, ${itemCount})">
+                    ${options}
+                </select>
+            </td>
+            <td><input required type="number" id="items[${itemCount}][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+            <td><input value="<?php echo $Barang->Harga; ?>" type="number" id="items[${itemCount}][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
+            <td><input type="number" id="items[${itemCount}][Total]" name="items[${itemCount}][Total]" placeholder="Total" readonly></td>
+            <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
+        `;
+
+        table.appendChild(newRow);
+        itemCount++;
+    }
+
     function addItem() {
         const table = document.getElementById('items');
         const newRow = document.createElement('tr');

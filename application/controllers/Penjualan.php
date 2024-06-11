@@ -15,6 +15,7 @@ class Penjualan extends CI_Controller {
         $this->load->model('TipePembayaranModel');
         $this->load->model('BarangModel');
         $this->load->model('WarnaModel');
+        $this->load->model('Signature_model');
         $this->load->library('session'); 
     }
 
@@ -106,8 +107,7 @@ class Penjualan extends CI_Controller {
 
                 foreach ($existingDataDT as $item) { 
                     $this->BarangModel->update_qty_edit($item->KdBarang, $item->Qty);
-                }
-
+                } 
                 foreach ($items as $item) {
                     $itemData = array(
                         'KdPenjualan' => $KdPenjualan,
@@ -228,29 +228,25 @@ class Penjualan extends CI_Controller {
         }
  
 
+        $TandaTangan = $this->Signature_model->get_data();
         // Tanggal print
         $tanggal_print = date('d-m-Y H:i:s');
 
         // Header HTML
         $header = '
-        <div style="text-align: center;  ">
-  
-            <div style="font-size: 20px; text-align: center;"> 
+        <div style="text-align: center;  "> 
+            <div style="font-size: 24px; text-align: center;"> 
                 <b>'.GlobCompany.'</b>
-                <br>  
+            </div> 
+            <div style="font-size: 14px; text-align: center;">  
                 '.GlobAlamat.' 
                 <br>  
-                No HP : '.GlobNoHP.'
-                <br>  
-                No BCA : '.GLobNoRek.' ('.GlobNamaBCA.')
-            </div>
-            <div style="font-size: small; text-align: right;">
-                Dicetak pada: '.$tanggal_print.'
+                No HP : '.GlobNoHP.', No BCA : '.GLobNoRek.' ('.GlobNamaBCA.')
             </div>
         </div>';
 
         // Footer HTML
-        $footer = '
+        $footer = '<br> 
         <div style="text-align: right; font-size: small;">
             <table style="width: 100%;">
                 <tr>
@@ -259,7 +255,10 @@ class Penjualan extends CI_Controller {
                         ____________________<br> 
                     </td>
                     <td style="text-align: right; width: 50%;">
-                        <b>Hormat Kami,</b><br><br><br><br><br>
+                        <b>Hormat Kami,</b>
+                        <br> 
+                        <img src="'.$TandaTangan.'" style="max-width: 10%; height: auto;">
+                        <br>
                         '.GlobCompany.'<br> 
                     </td>
                 </tr>
@@ -271,9 +270,22 @@ class Penjualan extends CI_Controller {
             <i>Barang yang sudah dibeli tidak dapat ditukar kembali.</i>
         </div>
 
-        <div style="text-align: center; font-size: small;">
-            &copy; ' . date('Y') .' '. GlobCompany.'. All Rights Reserved.
-        </div>'; 
+
+
+        <table style="width: 100%;">
+            <tr>
+                <td style="text-align: left; width: 50%;">
+                    <div style="text-align: center; font-size: small;">
+                        &copy; ' . date('Y') .' '. GlobCompany.'. All Rights Reserved.
+                    </div>
+                </td>
+                <td style="text-align: right; width: 50%;"> 
+                    <div style="font-size: small; text-align: right;">
+                        Dicetak pada: '.$tanggal_print.'
+                    </div>
+                </td>
+            </tr>
+        </table> '; 
         // Konten HTML
         $html = '
         <div class="defaultForm"> 
@@ -282,16 +294,12 @@ class Penjualan extends CI_Controller {
                     <tr>
                         <td style="width: 30%;">Tipe Pembayaran:</td>
                         <td><b>'.$DataHD->NamaTipePembayaran.'</b></td>
-                    </tr>
-                    <tr>
-                        <td>No Transaksi:</td>
-                        <td><b>'.$DataHD->KdPenjualan.'</b></td>
-                    </tr>
-                    <tr>
                         <td>Nama:</td>
                         <td><b>'.$DataHD->NamaPelanggan.'</b></td>
                     </tr>
                     <tr>
+                        <td>No Transaksi:</td>
+                        <td><b>'.$DataHD->KdPenjualan.'</b></td> 
                         <td>No HP:</td>
                         <td><b>'.$DataHD->NoHp.'</b></td>
                     </tr>
@@ -300,9 +308,8 @@ class Penjualan extends CI_Controller {
                 <table id="itemsTable" style="width: 100%; border-collapse: collapse;" border="1">
                     <thead>
                         <tr>
-                            <th style="padding: 5px; width: 40%;  text-align: center;">Nama Barang</th>
-                            <th style="padding: 5px; width: 15%;  text-align: center;">Warna</th>
-                            <th style="padding: 5px; width: 15%;  text-align: center;">Qty</th>
+                            <th style="padding: 5px; width: 45%;  text-align: center;">Nama Barang</th> 
+                            <th style="padding: 5px; width: 10%;  text-align: center;">Qty</th>
                             <th style="padding: 5px; width: 15%;  text-align: center;">Harga</th>
                             <th style="padding: 5px; width: 15%;  text-align: center;">Total</th> 
                         </tr>
@@ -313,10 +320,7 @@ class Penjualan extends CI_Controller {
             $html .= '
                         <tr class="item"> 
                         <td style="padding: 5px; text-align: left;">
-                            '.$value->NamaBarang.'
-                        </td>
-                        <td style="padding: 5px; text-align: center;">
-                            '.$value->Warna.'
+                            '.$value->NamaBarang.' - '.$value->Warna.'
                         </td>
                         <td style="padding: 5px; text-align: center;">
                             '.$value->Qty.'
@@ -334,10 +338,10 @@ class Penjualan extends CI_Controller {
                     </tbody> 
                     <tfoot> 
                         <tr> 
-                            <th colspan="3" style="padding: 5px; text-align: right;">
+                            <th colspan="1" style="padding: 5px; text-align: right;">
                                 <b>Grand Total</b>
                             </th>
-                            <th colspan="2" style="padding: 5px; text-align: right;"> 
+                            <th colspan="3" style="padding: 5px; text-align: right;"> 
                                 <b>'.number_format($DataHD->GrandTotal, 2, ',', '.').'</b> 
                             </th> 
                         </tr> 
@@ -352,39 +356,45 @@ class Penjualan extends CI_Controller {
         }
         else
         { 
-            $mpdf = new \Mpdf\Mpdf(array(
+             $mpdf = new \Mpdf\Mpdf(array(
                 'mode' => '', 
-                'format' => 'A4',
-                /*'default_font_size' => 8,*/
+                'format' => 'A4', // Format default tidak berpengaruh karena kita akan menentukan ukuran kertas kustom
                 'default_font' => 'tahoma',
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_top' => 40,
-                'margin_bottom' => 10,
-                'margin_header' => 10,
-                'margin_footer' => 10,
-                'orientation' => 'L'
-                ));
+                'margin_left' => 5,
+                'margin_right' => 5,
+                // 'margin_top' => 25,
+                // 'margin_bottom' => 45,
+                // 'margin_header' => 3,
+                // 'margin_footer' => 3,
+                'orientation' => 'L',
+                'format_custom' => [100, 150] // Ukuran kertas kustom dalam milimeter
+            ));
+
 
             // Set header dan footer
-            $mpdf->SetHTMLHeader($header);
-            $mpdf->SetHTMLFooter($footer);
+            //$mpdf->SetHTMLHeader($header);
+            //$mpdf->SetHTMLFooter($footer);
 
             // Tulis konten ke dalam file PDF
-            $mpdf->WriteHTML($html);
+            $mpdf->WriteHTML($header.$html.$footer);
 
             // Tentukan path file output
-            $file_path = $output_dir . '/'.$DataHD->KdPenjualan.'.pdf';
+
+            $namaFile = str_replace('/', '-', $DataHD->KdPenjualan);
+
+            $file_path = $output_dir . '/'.$namaFile.'.pdf';
 
             // Simpan file PDF ke path yang ditentukan
             $mpdf->Output($file_path, \Mpdf\Output\Destination::FILE); 
+
             
-            $this->session->set_flashdata('success_message',  'Nota berhasil dibuat dan disimpan di ' . $file_path);
-            redirect('Penjualan/View?KdPenjualan='.$DataHD->KdPenjualan);  
+            $mpdf->Output($DataHD->KdPenjualan.'.pdf', \Mpdf\Output\Destination::INLINE);
+
+            //$this->session->set_flashdata('success_message',  'Nota berhasil dibuat dan disimpan di ' . $file_path);
+            //redirect('Penjualan/View?KdPenjualan='.$DataHD->KdPenjualan);   
 
         }
     }
- 
  
 }
 ?>

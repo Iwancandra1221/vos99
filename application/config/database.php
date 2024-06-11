@@ -72,39 +72,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-
-// $db['default'] = array(
-// 	'dsn'	=> '',
-// 	'hostname' => '10.1.0.92',
-// 	'username' => 'sa',
-// 	'password' => 'Sprite12345',
-// 	'database' => 'BHAKTI',
-
-// 	// 'hostname' => '10.1.48.200',
-// 	// 'username' => 'mishirin',
-// 	// 'password' => 'br4v01nd14T4n990',
-// 	// 'database' => 'BHAKTI', 
-
-// 	'dbdriver' => 'sqlsrv',
-// 	'dbprefix' => '',
-// 	'pconnect' => FALSE,
-// 	'db_debug' => (ENVIRONMENT !== 'production'),
-// 	'cache_on' => FALSE,
-// 	'cachedir' => '',
-// 	'char_set' => 'utf8',
-// 	'dbcollat' => 'utf8_general_ci',
-// 	'swap_pre' => '',
-// 	'encrypt' => FALSE,
-// 	'compress' => FALSE,
-// 	'stricton' => FALSE,
-// 	'failover' => array(),
-// 	'save_queries' => TRUE
-// );
+ 
 $db['default'] = array(
 	'dsn'	=> '', 
 
-	'hostname' => '192.168.1.23',
-	// 'hostname' => '10.1.0.27',
+	'hostname' => '10.1.0.27',
+	//'hostname' => '192.168.1.23',
 	'username' => 'sa',
 	'password' => 'Ican123',
 	'database' => 'Vos99', 

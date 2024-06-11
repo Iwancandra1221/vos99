@@ -26,7 +26,7 @@ ini_set('pdo_sqlsrv.client_buffer_max_kb_size','524288');//524288
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.1.23:90/Vos99/';
+$config['base_url'] = 'http://localhost:90/Vos99/';
 // $config['base_url'] = 'http://172.20.10.7:90/Vos99/';
 
 

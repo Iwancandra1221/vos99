@@ -22,7 +22,7 @@
     <?php endif; ?>
 
     <div class="actionButtons">
-        <button id = "New"  class="btn btn-primary " onclick="newData()">Tambah</button>  
+        <button id = "New"  class="btn btn-primary" onclick="newData()">Tambah</button>  
     </div> 
   
     <form id="PenjualanForm" class="defaultForm">

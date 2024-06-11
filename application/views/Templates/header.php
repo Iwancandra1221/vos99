@@ -10,8 +10,7 @@
 
     <style>
         /* CSS untuk menambahkan background gambar full layar */
-        body {
-            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); 
+        body {  
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -50,11 +49,39 @@
                 width: 80%;
             }
         }
+        .dropdown-submenu {
+              position: relative;
+          }
+
+          .dropdown-submenu .dropdown-menu {
+              top: 0;
+              left: 100%;
+              margin-top: -1px;
+          }
+
+          nav, ul, li {
+            background-color: #303331!important;
+            color: #ffffff!important;
+          }
+          nav a {
+            color: white!important;
+          }
+          nav a:hover {
+            color: #8cc8de!important;
+          }
+          .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+              background-color: #02124f!important;
+          }
+          .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+            /*color: #262626;*/
+            /*text-decoration: none;*/
+            background-color:  #02124f!important;
+          }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-default ">
     <a class="navbar-brand" href="<?php echo site_url('MainController'); ?>">
         <!-- <img src="<?php echo base_url('images/vos99.jpg'); ?>" alt="Logo" style="height: 30px; margin-right: 10px;"> -->
        <?= GlobCompany ?>
@@ -68,13 +95,13 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
-                    <a class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
-                    <a class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
-                    <a class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
-                    <a class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
-                    <a class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color: black;">
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a>
 
                 </div>
             </li>
@@ -83,8 +110,8 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Transaction
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="<?php echo site_url('Penjualan'); ?>">Penjualan</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color: black;">
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('Penjualan'); ?>">Penjualan</a>
                     <!-- <a class="dropdown-item" href="<?php echo site_url('Pembelian'); ?>">Pembelian</a> -->
                 </div>
             </li>
@@ -101,7 +128,7 @@
             </li> -->
  
             <li class="nav-item">
-                <!-- <a class="nav-link" href="<?php echo site_url('about'); ?>">About</a> -->
+                <a class="nav-link" href="<?php echo site_url('about'); ?>">About</a>
             </li>
             <li class="nav-item">
                 <!-- <a class="nav-link" href="<?php echo site_url('contact'); ?>">Contact</a> -->

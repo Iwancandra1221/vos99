@@ -11,6 +11,7 @@
         <button disabled id = "Save" onclick="saveData()">Save</button> 
         <button disabled  id = "Clear" onclick="clearData()">Clear</button> 
         <button disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
+        <button id = "Duplicate" >Duplicate</button>
         <button id = "Edit" >Edit</button>
         <button id = "Delete" >Delete</button> 
         <span  id="PesanError" class="error-message" ></span> 
@@ -101,10 +102,16 @@
         document.getElementById('Merk').value = rowData[5];;
         document.getElementById('Tipe').value = rowData[6];
         document.getElementById('Warna').value = rowData[8]; 
+        document.getElementById('Duplicate').disabled = false; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
 
         $('#PesanError').text("");
+    });
+
+    $('#Duplicate').on('click', function() { 
+      enableButtons();
+      duplicate();
     });
 
 
@@ -119,16 +126,20 @@
   }); 
   
 function enableButtons() {
-    $('#New, #Edit, #Delete').prop('disabled', true);
+    $('#New, #Edit, #Duplicate, #Delete').prop('disabled', true);
     $('#Save, #Clear, #Cancel').prop('disabled', false);
     toggleFields(false);
 }
 
 function disableButtons() {
-    $('#New, #Edit, #Delete').prop('disabled', false);
+    $('#New, #Edit, #Duplicate, #Delete').prop('disabled', false);
     $('#Save, #Clear, #Cancel').prop('disabled', true);
     toggleFields(true);
-}
+}  
+
+function duplicate() { 
+    document.getElementById('KdBarang').value = '<?php echo $AutoNumber; ?>' ;
+  } 
 
 
   function newData() {

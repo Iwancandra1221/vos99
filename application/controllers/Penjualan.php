@@ -107,8 +107,7 @@ class Penjualan extends CI_Controller {
 
                 foreach ($existingDataDT as $item) { 
                     $this->BarangModel->update_qty_edit($item->KdBarang, $item->Qty);
-                }
-
+                } 
                 foreach ($items as $item) {
                     $itemData = array(
                         'KdPenjualan' => $KdPenjualan,
@@ -247,7 +246,7 @@ class Penjualan extends CI_Controller {
         </div>';
 
         // Footer HTML
-        $footer = '
+        $footer = '<br> 
         <div style="text-align: right; font-size: small;">
             <table style="width: 100%;">
                 <tr>
@@ -258,7 +257,7 @@ class Penjualan extends CI_Controller {
                     <td style="text-align: right; width: 50%;">
                         <b>Hormat Kami,</b>
                         <br> 
-                        <img src="'.$TandaTangan.'" style="max-width: 12%; height: auto;">
+                        <img src="'.$TandaTangan.'" style="max-width: 10%; height: auto;">
                         <br>
                         '.GlobCompany.'<br> 
                     </td>
@@ -309,8 +308,8 @@ class Penjualan extends CI_Controller {
                 <table id="itemsTable" style="width: 100%; border-collapse: collapse;" border="1">
                     <thead>
                         <tr>
-                            <th style="padding: 5px; width: 40%;  text-align: center;">Nama Barang</th> 
-                            <th style="padding: 5px; width: 15%;  text-align: center;">Qty</th>
+                            <th style="padding: 5px; width: 45%;  text-align: center;">Nama Barang</th> 
+                            <th style="padding: 5px; width: 10%;  text-align: center;">Qty</th>
                             <th style="padding: 5px; width: 15%;  text-align: center;">Harga</th>
                             <th style="padding: 5px; width: 15%;  text-align: center;">Total</th> 
                         </tr>
@@ -363,21 +362,21 @@ class Penjualan extends CI_Controller {
                 'default_font' => 'tahoma',
                 'margin_left' => 5,
                 'margin_right' => 5,
-                'margin_top' => 25,
-                'margin_bottom' => 45,
-                'margin_header' => 3,
-                'margin_footer' => 3,
+                // 'margin_top' => 25,
+                // 'margin_bottom' => 45,
+                // 'margin_header' => 3,
+                // 'margin_footer' => 3,
                 'orientation' => 'L',
                 'format_custom' => [100, 150] // Ukuran kertas kustom dalam milimeter
             ));
 
 
             // Set header dan footer
-            $mpdf->SetHTMLHeader($header);
-            $mpdf->SetHTMLFooter($footer);
+            //$mpdf->SetHTMLHeader($header);
+            //$mpdf->SetHTMLFooter($footer);
 
             // Tulis konten ke dalam file PDF
-            $mpdf->WriteHTML($html);
+            $mpdf->WriteHTML($header.$html.$footer);
 
             // Tentukan path file output
 

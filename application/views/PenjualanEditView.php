@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<script > 
+    let itemCount = 0;
+</script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -181,6 +184,9 @@
                                 <?php 
                                 foreach ($DataDT as $key => $value) {
                                     ?>
+                                    <script >
+                                        itemCount++;
+                                    </script>
                                     <tr class="item"> 
                                     <td>
                                         <select id="items[<?php echo $key; ?>][KdBarang]" name="items[<?php echo $key; ?>][KdBarang]" onchange="handleBarangChange(this,0)">
@@ -229,7 +235,6 @@
 </html>
 
 <script> 
-    let itemCount = 1;
     function handlePelangganChange(selectElement) {      
         const selectedKdPelanggan = selectElement.value; 
         const selectedPelanggan = <?php echo json_encode($listPelanggan); ?>;

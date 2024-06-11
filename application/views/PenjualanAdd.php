@@ -42,9 +42,55 @@
                     <thead> 
                         <tr>
                             <th colspan="5"> 
-                                <label for="InputKdBarang"><b>Cari Kode Barang / Nama Barang:</b> </label> 
-                                <input type="text" id="InputKdBarang" name="InputKdBarang"> 
-                                <button type="button" class="add-item-btn" onclick="addItem()">Tambah</button>  
+                                <div class="form-inline">
+                                    <label for="InputKdBarang"><b>Cari Kode Barang / Nama Barang:</b> </label>
+                                    <input type="text" id="InputKdBarang" name="InputKdBarang" onkeyup="searchItems()">
+                                </div>
+                                <div id="searchResults"></div>
+                                <style>
+                                    .form-inline {
+                                        display: flex;
+                                        align-items: center;
+                                    }
+
+                                    #searchResults {
+                                        margin-top: 10px;
+                                        border: 1px solid #ccc;
+                                        padding: 10px;
+                                        display: none;
+                                    }
+                                </style>
+<script>
+        async function searchItems() {
+            // const input = document.getElementById('InputKdBarang').value;
+            // if (input == "")
+            // {
+                
+            // }
+            // else
+            // { 
+            //     const response = await fetch(`/Vos99/index.php/search?q=${input}`);
+            //     const results = await response.json();
+            //     displayResults(results);
+            // }
+        }
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+
+            if (results.length > 0) {
+                results.forEach(item => {
+                    const div = document.createElement('div');
+                    div.textContent = `${item.code} - ${item.name}`;
+                    resultsDiv.appendChild(div);
+                });
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsDiv.style.display = 'none';
+            }
+        }
+    </script> 
                             </th>
                         </tr>
                         <tr>

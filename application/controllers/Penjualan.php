@@ -222,16 +222,17 @@ class Penjualan extends CI_Controller {
         $DataDT = $this->PenjualanModel->get_hd_by_KdPenjualans($KdPenjualan);
         $listPelanggan = $this->BarangModel->get_datas(); 
         $listBarang = $this->PelangganModel->getListPelanggan(); 
-        $output_dir = 'D:\Nota Berkah Jaya';
-        if (!is_dir($output_dir)) {
-            mkdir($output_dir, 0777, true);
-        }
+        $output_dir = FolderPrint;
+        // if (!is_dir($output_dir)) {
+        //     mkdir($output_dir, 0777, true);
+        // }
  
 
         $TandaTangan = $this->Signature_model->get_data();
         // Tanggal print
+        date_default_timezone_set('Asia/Jakarta'); 
         $tanggal_print = date('d-m-Y H:i:s');
-
+        //echo $tanggal_print;die;
         // Header HTML
         $header = '
         <div style="text-align: center;  "> 

@@ -92,3 +92,5 @@ define('GlobNamaBCA', 'MALVIN');
 define('GLobNoRek', '6665045106');
 define('GlobNoHP', '+6282141513939');
 define('GlobAlamat', 'Jl. Abdullah II No.14A, RT.6/RW.5, Kota Jakarta Barat, 11140.');
+define('FolderPrint', 'C:\ICAN\Testing');
+//define('FolderPrint', 'D:\Nota Berkah Jaya');

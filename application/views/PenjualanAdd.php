@@ -69,7 +69,7 @@
                                         }
                                         else
                                         { 
-                                            const response = await fetch(`/BerkahJaya/index.php/search?q=${input}`);
+                                            const response = await fetch(`/Vos99/index.php/search?q=${input}`);
                                             const results = await response.json();
                                             displayResults(results);
                                         }
@@ -196,10 +196,16 @@
         const newRow = document.createElement('tr');
         newRow.classList.add('item');
  
-        let options = '<option value="">Pilih Barang</option>';
+        let options = '<option value="">Pilih Barang</option>'; 
+        let harga = '';
+
         <?php foreach ($listBarang as $Barang) { ?>
-            options += `<option value="<?php echo $Barang->KdBarang; ?>" ${itemCari == '<?php echo $Barang->KdBarang; ?>' ? 'selected' : ''}>
+            options += `<option value="<?php echo $Barang->KdBarang; ?>" ${itemCari === '<?php echo $Barang->KdBarang; ?>' ? 'selected' : ''}>
                         <?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>`;
+
+            if (itemCari === '<?php echo $Barang->KdBarang; ?>') {
+                harga = '<?php echo $Barang->Harga; ?>';
+            }
         <?php } ?>
 
         newRow.innerHTML = `
@@ -209,7 +215,7 @@
                 </select>
             </td>
             <td><input required type="number" id="items[${itemCount}][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
-            <td><input value="<?php echo $Barang->Harga; ?>" type="number" id="items[${itemCount}][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
+            <td><input value="${harga}" type="number" id="items[${itemCount}][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
             <td><input type="number" id="items[${itemCount}][Total]" name="items[${itemCount}][Total]" placeholder="Total" readonly></td>
             <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
         `;

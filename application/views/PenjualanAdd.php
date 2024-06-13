@@ -69,7 +69,7 @@
                                         }
                                         else
                                         { 
-                                            const response = await fetch(`/Vos99/index.php/search?q=${input}`);
+                                            const response = await fetch(`/BerkahJaya/index.php/search?q=${input}`);
                                             const results = await response.json();
                                             displayResults(results);
                                         }

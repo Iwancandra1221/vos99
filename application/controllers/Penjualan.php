@@ -385,12 +385,12 @@ class Penjualan extends CI_Controller {
             }
             else
             {  
-                $relativePath = 'images/lunas2.png'; 
+                $relativePath = 'images/lunas.png'; 
                 $Stamp = base_url() . $relativePath; 
-                $x = 50; // Koordinat X (dalam mm) di halaman PDF
-                $y = 50; // Koordinat Y (dalam mm) di halaman PDF
-                $w = 80; // Lebar gambar latar belakang (dalam mm)
-                $h = 80; // Tinggi gambar latar belakang (dalam mm)
+                $x = 30; // Koordinat X (dalam mm) di halaman PDF
+                $y = 30; // Koordinat Y (dalam mm) di halaman PDF
+                $w = 100; // Lebar gambar latar belakang (dalam mm)
+                $h = 100; // Tinggi gambar latar belakang (dalam mm)
 
                 // Tambahkan gambar latar belakang ke MPDF dengan ukuran dan posisi yang ditentukan
                 $mpdf->SetWatermarkImage($Stamp, $x, $y, $w, $h);
@@ -457,8 +457,10 @@ class Penjualan extends CI_Controller {
                     $this->PenjualanModel->update_data($KdPenjualan, $data);
                 }
 
-                $this->session->set_flashdata('success_message',  'Nota berhasil di Lunasin');
-                redirect('Penjualan');  
+                $mpdf->Output($DataHD->KdPenjualan.'.pdf', \Mpdf\Output\Destination::INLINE);
+
+                //$this->session->set_flashdata('success_message',  'Nota berhasil di Lunasin');
+                //redirect('Penjualan');  
             }
  
 

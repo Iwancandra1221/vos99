@@ -8,6 +8,7 @@ class MsBarang extends CI_Controller	 {
 		parent::__construct();  
         $this->load->model('WarnaModel');
 	    $this->load->model('BarangModel');
+	    $this->load->model('TipeModel');
 	}
 
 	public function index()
@@ -16,6 +17,7 @@ class MsBarang extends CI_Controller	 {
         $data['barang'] = $this->BarangModel->get_datas();
         $data['AutoNumber'] = $this->BarangModel->generate_next_number();
         $data['listWarna'] = $this->WarnaModel->getListWarna(); 
+        $data['listTipe'] = $this->TipeModel->getListTipe(); 
 		$this->load->view('templates/header', $data);
         $this->load->view('MsBarangView', $data);
         $this->load->view('templates/footer', $data);

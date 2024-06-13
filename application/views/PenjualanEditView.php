@@ -119,6 +119,7 @@
                     </table> 
                     <button type="button" class="add-item-btn" onclick="Print('<?php echo $DataHD->KdPenjualan; ?>')">Print Nota</button> 
                     <button type="button" class="view-item-btn" onclick="View('<?php echo $DataHD->KdPenjualan; ?>')">View Nota</button> 
+                    <button type="button" class="lunas-item-btn" onclick="Lunas('<?php echo $DataHD->KdPenjualan; ?>')">Lunas</button> 
                     <button type="button" class="exit-item-btn" onclick="Exit()">Exit</button> 
                 </div>
             </form>
@@ -338,6 +339,11 @@
         var encodedKdPenjualan = encodeURIComponent($KdPenjualan); 
         window.location.href = "../Penjualan/CetakNota?Tipe=View&KdPenjualan=" + encodedKdPenjualan;
     }
+
+    function Lunas($KdPenjualan) {
+        var encodedKdPenjualan = encodeURIComponent($KdPenjualan); 
+        window.location.href = "../Penjualan/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+    }
     function Exit() {
         window.location.href = "../Penjualan";
     }
@@ -395,8 +401,21 @@
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
+        .lunas-item-btn {
+            background-color: gray;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .lunas-item-btn:hover {
+            background-color: orange;
+        }
+
         .view-item-btn {
-            background-color: skyblue;
+            background-color: gray;
             color: #fff;
             border: none;
             padding: 10px;
@@ -405,11 +424,11 @@
             margin-bottom: 20px;
         }
         .view-item-btn:hover {
-            background-color: skyblue;
+            background-color: blue;
         }
 
         .add-item-btn {
-            background-color: #28a745;
+            background-color: gray;
             color: #fff;
             border: none;
             padding: 10px;
@@ -418,12 +437,12 @@
             margin-bottom: 20px;
         }
         .add-item-btn:hover {
-            background-color: #218838;
+            background-color: green;
         }
 
         .exit-item-btn {
             width: 100%;
-            background-color: indianred;
+            background-color: grey;
             color: #fff;
             border: none;
             padding: 10px;
@@ -432,7 +451,7 @@
             margin-bottom: 20px;
         }
         .exit-item-btn:hover {
-            background-color: darkred;
+            background-color: red;
         }
  
         table {

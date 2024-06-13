@@ -27,7 +27,19 @@
   
     <form id="PenjualanForm" class="defaultForm">
  
-    <div class="formColumn">
+    <div class="formColumn"> 
+    <table border="0" style="border-collapse: collapse; width: 50%;">
+        <tr > 
+            <td style="border: none; padding: 0px;">
+                <select id="filter">
+                    <option value="all">All</option>
+                    <option value="lunas">Lunas</option>
+                    <option value="belum-lunas">Belum Lunas</option>
+                </select>
+            </td>
+        </tr> 
+    </table>
+
       <table  id="myTable">
           <thead>
               <tr>
@@ -41,32 +53,20 @@
           </thead>
           <tbody> 
             <?php foreach ($Penjualan as $item): ?>
-                <tr>
-                    <td><?php echo $item->KdPenjualan; ?></td> 
-                    <td><?php echo $item->NamaTipePembayaran; ?></td> 
-                    <td><?php echo $item->NamaPelanggan ; ?></td>
+                <tr data-lunas="<?php echo $item->Lunas; ?>">
+                    <td><?php echo $item->KdPenjualan; ?></td>
+                    <td><?php echo $item->NamaTipePembayaran; ?></td>
+                    <td><?php echo $item->NamaPelanggan; ?></td>
                     <td><?php echo $item->NoHp; ?></td>
-                    <td><?php echo $item->GrandTotal; ?></td>     
+                    <td><?php echo $item->GrandTotal; ?></td>
                     <td>
-                         <table border="0" style="border-collapse: collapse; width: 100%;">
-                            <Tr>
-                                <td style="border: none;">
-                                    <button  type="button" class="btn btn-primary btn-view" data-id="<?php echo $item->KdPenjualan; ?>">
-                                        View
-                                    </button>
-                                </td>
-                                <td style="border: none;">
-                                    <button  type="button" class="btn btn-warning btn-edit" data-id="<?php echo $item->KdPenjualan; ?>">
-                                        Edit
-                                    </button> 
-                                </td>
-                                <td style="border: none;">
-                                    <button  type="button" class="btn btn-danger btn-delete" data-id="<?php echo $item->KdPenjualan; ?>">
-                                        Delete
-                                    </button>
-                                </td>
-                            </Tr>
-                        </table>
+                        
+                        <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
+                            <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button>
+                            <button type="button" class="btn view-item-btn btn-view" data-id="<?php echo $item->KdPenjualan; ?>">View</button>
+                            <button type="button" class="btn edit-item-btn btn-edit" data-id="<?php echo $item->KdPenjualan; ?>">Edit</button>
+                            <button type="button" class="btn delete-item-btn btn-delete" data-id="<?php echo $item->KdPenjualan; ?>">Delete</button>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -79,6 +79,27 @@
 </body>
 </html>  
 <script> 
+    document.addEventListener('DOMContentLoaded', function() {
+            const filterDropdown = document.getElementById('filter');
+            const rows = document.querySelectorAll('#myTable tbody tr'); 
+            filterDropdown.addEventListener('change', function() {
+                const filterValue = this.value; 
+                rows.forEach(row => {
+                    const isLunas = row.getAttribute('data-lunas');
+                    if (filterValue === 'all') {
+                        row.classList.remove('hidden');
+                    } else if (filterValue === 'lunas' && isLunas === '1') {
+                        row.classList.remove('hidden');
+                    } else if (filterValue === 'belum-lunas' && isLunas === '0') {
+                        row.classList.remove('hidden');
+                    } else {
+                        row.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+
   $(document).ready(function() {  
     let table = new DataTable('#myTable', { 
         pageLength: 5,
@@ -98,6 +119,14 @@
     $('.btn-view').on('click', function() {
         var id = $(this).data('id');
         window.location.href = "Penjualan/View?KdPenjualan=" + id;
+    });
+
+
+    $('.btn-lunas').on('click', function() {
+        var id = $(this).data('id');
+        var encodedKdPenjualan = encodeURIComponent(id); 
+        window.location.href = "Penjualan/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+    
     });
 
     // Event listener for the Edit button
@@ -132,7 +161,9 @@
     }); 
 
 </script> 
-    <style>        
+    <style>       
+        .hidden { display: none; } 
+
         table {
             border-collapse: collapse;
             width: 100%;
@@ -146,7 +177,52 @@
         th {
             background-color: #f2f2f2;
         }
-          
+
+
+        .lunas-item-btn {
+            background-color: gray;
+            color: #fff;
+            border: none; 
+            cursor: pointer;
+            border-radius: 4px; 
+        }
+        .lunas-item-btn:hover {
+            background-color: orange;
+        }
+        .view-item-btn {
+            background-color: gray;
+            color: #fff;
+            border: none; 
+            cursor: pointer;
+            border-radius: 4px; 
+        }
+
+        .view-item-btn:hover {
+            background-color: green;
+        }
+        .edit-item-btn {
+            background-color: gray;
+            color: #fff;
+            border: none; 
+            cursor: pointer;
+            border-radius: 4px; 
+        }
+
+        .edit-item-btn:hover {
+            background-color: blue;
+        }
+
+        .delete-item-btn {
+            background-color: gray;
+            color: #fff;
+            border: none; 
+            cursor: pointer;
+            border-radius: 4px; 
+        }
+        .delete-item-btn:hover {
+            background-color: red;
+        }
+  
         .defaultForm {
             display: flex;
             position: absolute;

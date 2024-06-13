@@ -48,8 +48,7 @@
             <?php endforeach; ?>
           </tbody>
       </table>
-    </div>
-
+    </div> 
         <div class="formColumn">
             <label for="KdBarang">Kode Barang:</label><br>
             <label for="NamaBarang">Nama Barang:</label><br>
@@ -58,7 +57,7 @@
             <label for="Harga_Jual">Harga Jual:</label><br>
             <label for="Merk">Merk:</label><br>
             <label for="Tipe">Tipe:</label><br>
-            <label for="Warna">Warna:</label><br> 
+            <label for="Warna">Warna:</label> 
         </div>
         <div class="formColumn">
             <input disabled type="text" id="KdBarang" name="KdBarang" value="<?php echo $AutoNumber; ?>"><br>
@@ -66,8 +65,14 @@
             <input type="number" id="Qty" name="Qty" min="0" step="1" ><br>
             <input type="number" id="Harga" name="Harga" min="0" step="1" ><br>
             <input type="number" id="Harga_Jual" name="Harga_Jual" min="0" step="1" ><br>
-            <input type="text" id="Merk" name="Merk"><br>
-            <input type="text" id="Tipe" name="Tipe"><br> 
+            <input type="text" id="Merk" name="Merk"><br> 
+            <select id="Tipe" name="Tipe">
+                <option value="">Pilih Tipe</option>
+                <?php foreach ($listTipe as $Tipe) { ?>
+                    <option value="<?php echo $Tipe->KdTipe; ?>"><?php echo $Tipe->NamaTipe; ?>
+                    </option>
+                <?php } ?>
+            </select><br><br>  
             <select id="Warna" name="Warna">
                 <option value="">Pilih Warna</option>
                 <?php foreach ($listWarna as $warna) { ?>

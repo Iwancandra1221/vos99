@@ -141,6 +141,7 @@ class Penjualan extends CI_Controller {
                     'KdTipePembayaran' => $KdTipePembayaran,
                     'GrandTotal' => $GrandTotal,
                     'CreatedBy' => $CreatedBy,
+                    'Lunas' => 0,
                     'CreatedDate' => date('Y-m-d H:i:s')
                 );
                 $this->PenjualanModel->insert_hd($data);
@@ -222,7 +223,8 @@ class Penjualan extends CI_Controller {
         $DataDT = $this->PenjualanModel->get_hd_by_KdPenjualans($KdPenjualan);
         $listPelanggan = $this->BarangModel->get_datas(); 
         $listBarang = $this->PelangganModel->getListPelanggan(); 
-        $output_dir = FolderPrint;
+        $output_dir = FolderBelumLunas;
+        $output_lunas_dir = FolderLunas;
         // if (!is_dir($output_dir)) {
         //     mkdir($output_dir, 0777, true);
         // }
@@ -245,7 +247,6 @@ class Penjualan extends CI_Controller {
                 No HP : '.GlobNoHP.', No BCA : '.GLobNoRek.' ('.GlobNamaBCA.')
             </div><br> 
         </div>';
-
         // Footer HTML
         $footer = '<br> 
         <div style="text-align: right; font-size: small;">
@@ -254,7 +255,7 @@ class Penjualan extends CI_Controller {
                     <td style="text-align: left; width: 50%;">
                         <b>Penerima</b><br><br><br><br><br> 
                         ____________________<br> 
-                    </td>
+                    </td> 
                     <td style="text-align: right; width: 50%;">
                         <b>Hormat Kami,</b>
                         <br> 
@@ -288,8 +289,9 @@ class Penjualan extends CI_Controller {
             </tr>
         </table> '; 
         // Konten HTML
-        $html = '
-        <div class="defaultForm"> 
+
+        $html = ' 
+        <div > 
             <div class="form-section">
                 <table style="width: 100%;">
                     <tr>
@@ -377,27 +379,88 @@ class Penjualan extends CI_Controller {
             //$mpdf->SetHTMLFooter($footer);
 
             // Tulis konten ke dalam file PDF
-            $mpdf->WriteHTML($header.$html.$footer);
+            if ($Tipe === "Print")
+            { 
+                $mpdf->WriteHTML($header.$html.$footer);
+            }
+            else
+            {  
+                $relativePath = 'images/lunas2.png'; 
+                $Stamp = base_url() . $relativePath; 
+                $x = 50; // Koordinat X (dalam mm) di halaman PDF
+                $y = 50; // Koordinat Y (dalam mm) di halaman PDF
+                $w = 80; // Lebar gambar latar belakang (dalam mm)
+                $h = 80; // Tinggi gambar latar belakang (dalam mm)
+
+                // Tambahkan gambar latar belakang ke MPDF dengan ukuran dan posisi yang ditentukan
+                $mpdf->SetWatermarkImage($Stamp, $x, $y, $w, $h);
+                $mpdf->showWatermarkImage = true; 
+                $mpdf->watermarkImageAlpha = 0.1; 
+                // $htmlfinal = ''; 
+                // $htmlfinal .= "<style>
+                //        .defaultForms {
+                //         position: relative;  
+                //     }
+
+                //     .defaultForms::after {
+                //         content: '';
+                //         background-image: url(".$Stamp.");
+                //         background-size: 100% 100%;
+                //         background-position: center;
+                //         background-repeat: no-repeat;
+                //         opacity: 0.1; 
+                //         position: absolute;  
+                //         top: 0;
+                //         left: 0;
+                //         right: 0;
+                //         bottom: 0;
+                //         z-index: -1; 
+                //     }
+                // </style>"; 
+                //$htmlfinal .= '<div class="defaultForms">'; 
+                $htmlfinal = $header.$html.$footer;
+                //$htmlfinal .= '</div>';
+                $mpdf->WriteHTML($htmlfinal);
+            }
 
             // Tentukan path file output
 
             $namaFile = str_replace('/', '-', $DataHD->KdPenjualan);
-            $folder_path = $output_dir . '/' . $DataHD->NamaPelanggan;
-            $file_path = $folder_path . '/' . $namaFile . '.pdf';
-
-            // Periksa apakah folder pelanggan sudah ada, jika tidak, buat folder baru
+            if ($Tipe === "Print")
+            { 
+                $folder_path = $output_dir . '/' . $DataHD->NamaPelanggan;
+            }
+            else
+            { 
+                $folder_path = $output_lunas_dir . '/' . $DataHD->NamaPelanggan;
+            }
+            $file_path = $folder_path . '/' . $namaFile . '.pdf'; 
             if (!file_exists($folder_path)) {
                 mkdir($folder_path, 0777, true); // Membuat folder baru dengan izin 0777
             }
 
             // Simpan file PDF ke path yang ditentukan
-            $mpdf->Output($file_path, \Mpdf\Output\Destination::FILE); 
+            $mpdf->Output($file_path, \Mpdf\Output\Destination::FILE);  
 
-            
-            $mpdf->Output($DataHD->KdPenjualan.'.pdf', \Mpdf\Output\Destination::INLINE);
+            if ($Tipe === "Print")
+            { 
+                $mpdf->Output($DataHD->KdPenjualan.'.pdf', \Mpdf\Output\Destination::INLINE);
+            }
+            else
+            {  
+                $existingData = $this->PenjualanModel->get_data_by_KdPenjualan($KdPenjualan);
+                 if ($existingData) {
+                    $data = array(
+                        'Lunas' => 1,
+                        'LunasDate' => date('Y-m-d H:i:s')
+                    );
+                    $this->PenjualanModel->update_data($KdPenjualan, $data);
+                }
 
-            //$this->session->set_flashdata('success_message',  'Nota berhasil dibuat dan disimpan di ' . $file_path);
-            //redirect('Penjualan/View?KdPenjualan='.$DataHD->KdPenjualan);   
+                $this->session->set_flashdata('success_message',  'Nota berhasil di Lunasin');
+                redirect('Penjualan');  
+            }
+ 
 
         }
     }

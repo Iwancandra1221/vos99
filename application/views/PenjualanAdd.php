@@ -204,7 +204,7 @@
                         <?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>`;
 
             if (itemCari === '<?php echo $Barang->KdBarang; ?>') {
-                harga = '<?php echo $Barang->Harga; ?>';
+                harga = '<?php echo $Barang->Harga_Jual; ?>';
             }
         <?php } ?>
 
@@ -214,7 +214,7 @@
                     ${options}
                 </select>
             </td>
-            <td><input required type="number" id="items[${itemCount}][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+            <td><input required type="number" id="items[${itemCount}][Qty]"  min="1" step="1" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
             <td><input value="${harga}" type="number" id="items[${itemCount}][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
             <td><input type="number" id="items[${itemCount}][Total]" name="items[${itemCount}][Total]" placeholder="Total" readonly></td>
             <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
@@ -238,7 +238,7 @@
                     <?php } ?>
                 </select>
             </td>
-            <td><input required type="number" id="items[0][Qty]" name="items[${itemCount}][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+            <td><input required type="number" id="items[0][Qty]" name="items[${itemCount}][Qty]"  min="1" step="1" placeholder="Qty" oninput="calculateTotal(this)"></td>
             <td><input type="number" id="items[0][Harga]" name="items[${itemCount}][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
             <td><input type="number" id="items[0][Total]" name="items[${itemCount}][Total]" placeholder="Total" readonly></td>
             <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>

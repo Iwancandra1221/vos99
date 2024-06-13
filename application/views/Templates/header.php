@@ -11,6 +11,7 @@
     <style>
         /* CSS untuk menambahkan background gambar full layar */
         body {  
+            background-image: url('<?php echo base_url('images/home2.jpg'); ?>'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -95,12 +96,13 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Master
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color: black;">
-                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color: black;"> 
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsTipe'); ?>">Master Tipe</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a>
 
                 </div>

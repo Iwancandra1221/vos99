@@ -97,7 +97,7 @@
             position: absolute;
             top: 80px;  
             left: 20px;  
-            background-color: transparent;
+            background-color: white;
             color: black;
             padding: 20px;
             border: 1px solid #ccc;

@@ -102,6 +102,7 @@
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsTipe'); ?>">Master Tipe</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsMerk'); ?>">Master Merk</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a>
 

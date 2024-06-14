@@ -204,7 +204,7 @@ function disableButtons() {
             position: absolute;
             top: 150px; 
             left: 20px;
-            background-color: transparent;
+            background-color: white;
             color: black;
             padding: 20px;
             border: 1px solid #ccc;

@@ -11,13 +11,13 @@
             left: 0;
             padding: 10px;
             background-color: transparent;
-            color: black;
+            color: white;
             overflow: hidden; /* Menghindari teks yang terlalu panjang keluar dari kotak */
             white-space: nowrap; /* Mencegah teks berjatuhan ke bawah */
             width: 100%; /* Mengisi lebar layar */
         }
 
-        .bottom-left h1 {
+        .bottom-left h2 {
             animation: moveLeftToRight 10s linear infinite; /* Animasi bergerak dari kiri ke kanan selama 10 detik */
         }
 
@@ -33,22 +33,22 @@
     <style>
         .bottom-right {
             position: fixed;
-            bottom: 0;
+            top: 100;
             right: 0;
             padding: 10px;
             background-color: transparent;
-            color: black;
+            color: white;
         }
     </style>
 </head>
 <body>
  
 <div class="bottom-left">
-    <h1><?= GlobCompany ?> - Version : <?php echo $version; ?></h1>
+    <h2><?= GlobCompany . " - " .GlobAlamat . " (".GlobNoHP.") - " .GlobNamaBCA. " (".GLobNoRek.") " ?> </h2>
 </div>
-<!-- <div class="bottom-right">
-    Version : <?php echo $version; ?>
-</div> -->
+<div class="bottom-right">
+    <h2>Version : <?php echo Version; ?></h2>
+</div> 
 
 </body>
 </html>

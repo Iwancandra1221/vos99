@@ -9,6 +9,7 @@ class MsBarang extends CI_Controller	 {
         $this->load->model('WarnaModel');
 	    $this->load->model('BarangModel');
 	    $this->load->model('TipeModel');
+	    $this->load->model('MerkModel');
 	}
 
 	public function index()
@@ -18,6 +19,7 @@ class MsBarang extends CI_Controller	 {
         $data['AutoNumber'] = $this->BarangModel->generate_next_number();
         $data['listWarna'] = $this->WarnaModel->getListWarna(); 
         $data['listTipe'] = $this->TipeModel->getListTipe(); 
+        $data['listMerk'] = $this->MerkModel->getListMerk(); 
 		$this->load->view('templates/header', $data);
         $this->load->view('MsBarangView', $data);
         $this->load->view('templates/footer', $data);

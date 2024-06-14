@@ -69,7 +69,7 @@
                                         }
                                         else
                                         { 
-                                            const response = await fetch(`/BerkahJaya/index.php/search?q=${input}`);
+                                            const response = await fetch('<?php echo base_url(); ?>/index.php/search?q=' + input); 
                                             const results = await response.json();
                                             displayResults(results);
                                         }
@@ -89,7 +89,7 @@
                                         if (results.length > 0) {
                                             results.forEach(item => {
                                                 const div = document.createElement('div');
-                                                div.textContent = `${item.code} - ${item.name} - ${item.warna}`;
+                                                div.textContent = `${item.code} - ${item.name} ${item.warna}`;
                                                 div.addEventListener('click', () => {
                                                     //alert(`Code: ${item.code}\nName: ${item.name}`);
                                                     addCariItem(item.code);
@@ -121,7 +121,7 @@
                                 <select required id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
                                     <option value="">Pilih Barang</option>
                                     <?php foreach ($listBarang as $Barang) { ?>
-                                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
+                                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " " . $Barang->Warna; ?></option>
                                     <?php } ?>
                                 </select> 
                             </td>
@@ -201,7 +201,7 @@
 
         <?php foreach ($listBarang as $Barang) { ?>
             options += `<option value="<?php echo $Barang->KdBarang; ?>" ${itemCari === '<?php echo $Barang->KdBarang; ?>' ? 'selected' : ''}>
-                        <?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>`;
+                        <?php echo $Barang->NamaBarang . " " . $Barang->Warna; ?></option>`;
 
             if (itemCari === '<?php echo $Barang->KdBarang; ?>') {
                 harga = '<?php echo $Barang->Harga_Jual; ?>';
@@ -234,7 +234,7 @@
                 <select required name="items[${itemCount}][KdBarang]"  onchange="handleBarangChange(this,${itemCount})">
                     <option value="">Pilih Barang</option>
                     <?php foreach ($listBarang as $Barang) { ?>
-                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
+                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " " . $Barang->Warna; ?></option>
                     <?php } ?>
                 </select>
             </td>
@@ -318,7 +318,7 @@
             position: absolute;
             top: 80px; 
             left: 20px;
-            background-color: transparent;
+            background-color: white;
             color: black;
             padding: 10px;
             border: 1px solid #ccc;

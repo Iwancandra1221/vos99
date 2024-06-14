@@ -17,21 +17,21 @@
         <span  id="PesanError" class="error-message" ></span> 
     </div>
   
-    <form id="TipeForm" class="defaultForm">
+    <form id="MerkForm" class="defaultForm">
  
         <div class="formColumn">
           <table  id="myTable">
               <thead>
                   <tr>
-                    <th style="width: 30%;">Kode Tipe</th>
-                    <th style="width: 60%;">Tipe</th> 
+                    <th style="width: 30%;">Kode Merk</th>
+                    <th style="width: 60%;">Merk</th> 
                   </tr>
               </thead>
               <tbody> 
-                <?php foreach ($Tipe as $item): ?>
+                <?php foreach ($Merk as $item): ?>
                     <tr>
-                        <td><?php echo $item->KdTipe; ?></td>
-                        <td><?php echo $item->NamaTipe; ?></td>  
+                        <td><?php echo $item->KdMerk; ?></td>
+                        <td><?php echo $item->NamaMerk; ?></td>  
                     </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -39,12 +39,12 @@
         </div>
 
         <div class="formColumn">
-            <label for="KdTipe">Kode Tipe:</label><br>
-            <label for="NamaTipe">Nama Tipe:</label><br>  
+            <label for="KdMerk">Kode Merk:</label><br>
+            <label for="NamaMerk">Nama Merk:</label><br>  
         </div>
         <div class="formColumn">
-            <input disabled type="text" id="KdTipe" name="KdTipe" value="<?php echo $AutoNumber; ?>"><br>
-            <input type="text" id="NamaTipe" name="NamaTipe"><br>   
+            <input disabled type="text" id="KdMerk" name="KdMerk" value="<?php echo $AutoNumber; ?>"><br>
+            <input type="text" id="NamaMerk" name="NamaMerk"><br>   
         </div>
     </form>
 
@@ -64,8 +64,8 @@
         let rowData = table.row(this).data();
         console.log(rowData);
         // Mengisi textbox dengan data dari baris
-        document.getElementById('KdTipe').value = rowData[0];
-        document.getElementById('NamaTipe').value = rowData[1]; 
+        document.getElementById('KdMerk').value = rowData[0];
+        document.getElementById('NamaMerk').value = rowData[1]; 
         document.getElementById('NoHp').value = rowData[2]; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
@@ -99,31 +99,31 @@ function disableButtons() {
   function newData() {
     emptyData();
     enableButtons();
-    document.getElementById('KdTipe').value = '<?php echo $AutoNumber; ?>' ;
+    document.getElementById('KdMerk').value = '<?php echo $AutoNumber; ?>' ;
   }  
 
   function clearData() {  
     emptyData();
-    document.getElementById('KdTipe').value = '<?php echo $AutoNumber; ?>' ; 
+    document.getElementById('KdMerk').value = '<?php echo $AutoNumber; ?>' ; 
   }
 
   function cancelData() {
     emptyData();
     disableButtons();
-    document.getElementById('KdTipe').value = '<?php echo $AutoNumber; ?>' ;
+    document.getElementById('KdMerk').value = '<?php echo $AutoNumber; ?>' ;
   }
 
   function saveData() {
     var data = {
-      KdTipe: $('#KdTipe').val(),
-      NamaTipe: $('#NamaTipe').val(),  
+      KdMerk: $('#KdMerk').val(),
+      NamaMerk: $('#NamaMerk').val(),  
     };  
 
 
     var pesanError = "";
 
-    if ($('#NamaTipe').val() == '') {
-        pesanError = pesanError + 'Kolom Nama Tipe harus diisi.'; 
+    if ($('#NamaMerk').val() == '') {
+        pesanError = pesanError + 'Kolom Nama Merk harus diisi.'; 
     }   
 
     if (pesanError != "")
@@ -131,11 +131,11 @@ function disableButtons() {
         $('#PesanError').text(pesanError);
         event.preventDefault();
     } 
-    if (  ($('#NamaTipe').val() != '')) 
+    if (  ($('#NamaMerk').val() != '')) 
     {   
         $.ajax({ 
           type: "POST",
-          url: "<?php echo base_url('MsTipe/Add'); ?>",
+          url: "<?php echo base_url('MsMerk/Add'); ?>",
           data: data,
           success: function(response) {
             alert(response);
@@ -153,12 +153,12 @@ function disableButtons() {
   } 
    
   function deleteData() {
-      var KdTipe = $('#KdTipe').val();
+      var KdMerk = $('#KdMerk').val();
 
       $.ajax({ 
           type: "POST",
-          url: "<?php echo base_url('MsTipe/Delete'); ?>",
-          data: { KdTipe: KdTipe },
+          url: "<?php echo base_url('MsMerk/Delete'); ?>",
+          data: { KdMerk: KdMerk },
           success: function(response) {
               alert(response);
               if (response == "Success") {
@@ -173,12 +173,12 @@ function disableButtons() {
   }
 
   function toggleFields(disable) {
-    $('#NamaTipe').prop('disabled', disable);  
+    $('#NamaMerk').prop('disabled', disable);  
   }
  
  
   function emptyData() { 
-    var inputs = document.getElementById('TipeForm').getElementsByTagName('input'); 
+    var inputs = document.getElementById('MerkForm').getElementsByTagName('input'); 
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].value = '';
     }  
@@ -237,14 +237,14 @@ function disableButtons() {
         } 
 
         .actionButtons button:disabled {
-            background-color: #d3d3d3; /* Tipe tombol yang dinonaktifkan */
-            color: #808080; /* Tipe teks tombol yang dinonaktifkan */
+            background-color: #d3d3d3; /* Merk tombol yang dinonaktifkan */
+            color: #808080; /* Merk teks tombol yang dinonaktifkan */
             cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
         }
 
         .actionButtons button:disabled:hover {
-            background-color: #d3d3d3; /* Pastikan Tipe hover tidak berubah */
-            color: #808080; /* Pastikan Tipe teks hover tidak berubah */
+            background-color: #d3d3d3; /* Pastikan Merk hover tidak berubah */
+            color: #808080; /* Pastikan Merk teks hover tidak berubah */
         }
 
         .formColumn {

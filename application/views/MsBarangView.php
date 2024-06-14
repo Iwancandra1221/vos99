@@ -64,8 +64,14 @@
             <input type="text" id="NamaBarang" name="NamaBarang"><br>
             <input type="number" id="Qty" name="Qty" min="0" step="1" ><br>
             <input type="number" id="Harga" name="Harga" min="0" step="1" ><br>
-            <input type="number" id="Harga_Jual" name="Harga_Jual" min="0" step="1" ><br>
-            <input type="text" id="Merk" name="Merk"><br> 
+            <input type="number" id="Harga_Jual" name="Harga_Jual" min="0" step="1" ><br> 
+            <select id="Merk" name="Merk">
+                <option value="">Pilih Merk</option>
+                <?php foreach ($listMerk as $Merk) { ?>
+                    <option value="<?php echo $Merk->KdMerk; ?>"><?php echo $Merk->NamaMerk; ?>
+                    </option>
+                <?php } ?>
+            </select><br><br>  
             <select id="Tipe" name="Tipe">
                 <option value="">Pilih Tipe</option>
                 <?php foreach ($listTipe as $Tipe) { ?>
@@ -292,7 +298,7 @@ function duplicate() {
             display: flex;
             position: absolute;
             top: 80px;  
-            background-color: transparent;
+            background-color: white;
             color: black;
             padding: 20px;
             border: 1px solid #ccc;

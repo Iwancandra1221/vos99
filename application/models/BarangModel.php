@@ -22,10 +22,14 @@ class BarangModel  extends CI_Model
 
     public function get_datas()
     {   
-        $this->db->select('BRG.*, WRN.NamaWarna as Warna, BRG.Warna as KdWarna, TPE.NamaTipe as Tipe, BRG.Tipe as KdTipe');
+        $this->db->select('BRG.*, 
+            WRN.NamaWarna as Warna, BRG.Warna as KdWarna,
+            TPE.NamaTipe as Tipe, BRG.Tipe as KdTipe, 
+            MRK.NamaMerk as Merk, BRG.Merk as KdMerk');
         $this->db->from('Barang BRG');
         $this->db->join('Warna WRN', 'BRG.Warna = WRN.KdWarna', 'left');
         $this->db->join('Tipe TPE', 'BRG.Tipe = TPE.KdTipe', 'left');
+        $this->db->join('Merk MRK', 'BRG.Merk = MRK.KdMerk', 'left');
         $query = $this->db->get();
         return $query->result();
     }

@@ -11,13 +11,14 @@
 
     <form id="WarnaForm" class="defaultForm"> 
         <div class="formColumn"> 
-            <h2>Electronic Signature Popup</h2>
-            </br></br>
-            <div style="background-color: skyblue; padding: 50px;">
+            <h2>Tanda Tangan Digital</h2> 
+            <div style="background-color: lightblue; padding: 50px;">
                 <img src="<?php echo $listTandaTangan; ?>" style="max-width: 100%; height: auto;">
             </div> 
-            </br></br>
+            </br>  
+            <div class="actionButtons">
             <button  type="button" onclick="openSignaturePopup()"><b>Tulis Tandan Tangan</b></button> 
+            </div> 
             <div id="signaturePopup">
                 <h3>Sign Below:</h3>
                 <canvas id="signatureCanvas" width="400" height="200"></canvas>
@@ -105,18 +106,10 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         } 
 
-        .actionButtons {
-            position: absolute; 
-            top: 70px; 
-            left: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .actionButtons button {
-            padding: 15px;
+  
+        .actionButtons button { 
             border: none;
-            background-color: silver;
+            background-color: lightgreen;
             color: black; 
             cursor: pointer;
             border-radius: 5px;
@@ -124,12 +117,12 @@
         }
 
         .actionButtons button:hover {
-            background-color: #0056b3;
+            background-color: seagreen;
             color: white; 
         } 
 
         .actionButtons button:disabled {
-            background-color: #d3d3d3; /* Warna tombol yang dinonaktifkan */
+            background-color: skyblue; /* Warna tombol yang dinonaktifkan */
             color: #808080; /* Warna teks tombol yang dinonaktifkan */
             cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
         }

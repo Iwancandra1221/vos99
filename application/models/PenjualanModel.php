@@ -11,6 +11,17 @@ class PenjualanModel extends CI_Model
         $this->db->insert('PenjualanHD', $data);
     }
 
+    public function get_overdue_penjualan()
+    {
+        $this->db->select('HD.*, PLG.NamaPelanggan');
+        $this->db->from('PenjualanHD HD');
+        $this->db->join('Pelanggan PLG', 'HD.KdPelanggan = PLG.KdPelanggan', 'left');
+        $this->db->where('HD.Lunas', 0);
+        $this->db->where('HD.Tanggal_Tempo <', date('Y-m-d'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function insert_dt($data)
     {
         $this->db->insert('PenjualanDT', $data);
@@ -19,7 +30,7 @@ class PenjualanModel extends CI_Model
     public function get_hd_by_KdPenjualan($KdPenjualan)
     {
         $this->db->where('HD.KdPenjualan', $KdPenjualan); 
-        $this->db->select('HD.KdPenjualan, HD.KdPelanggan, HD.KdTipePembayaran, TYP.NamaTipePembayaran, PLG.NamaPelanggan, PLG.NoHp, HD.GrandTotal');
+        $this->db->select('HD.*, TYP.NamaTipePembayaran, PLG.NamaPelanggan, PLG.NoHp, HD.GrandTotal');
         $this->db->from('PenjualanHD HD');
         $this->db->join('Pelanggan PLG', 'HD.KdPelanggan = PLG.KdPelanggan', 'left');
         $this->db->join('TipePembayaran TYP', 'HD.KdTipePembayaran = TYP.KdTipePembayaran', 'left');

@@ -85,6 +85,7 @@ class Penjualan extends CI_Controller {
             $KdPelanggan = $this->input->post('KdPelanggan');
             $KdTipePembayaran = $this->input->post('KdTipePembayaran');
             $GrandTotal = $this->input->post('GrandTotal');
+            $TglJT = $this->input->post('tgljt');
             $CreatedBy = 'Admin';
             $items = $this->input->post('items');
             $existingData = $this->PenjualanModel->get_data_by_KdPenjualan($KdPenjualan);
@@ -139,6 +140,7 @@ class Penjualan extends CI_Controller {
                     'KdPenjualan' => $KdPenjualan,
                     'KdPelanggan' => $KdPelanggan,
                     'KdTipePembayaran' => $KdTipePembayaran,
+                    'Tanggal_Tempo' => $TglJT,
                     'GrandTotal' => $GrandTotal,
                     'CreatedBy' => $CreatedBy,
                     'Lunas' => 0,

@@ -10,6 +10,7 @@ class ReportPenjualan extends CI_Controller	 {
 
 	public function index()
 	{ 
+		$data['formDest'] = "ReportBRPNRP/ProsesNRP";
         $data['title'] = ucfirst('Laporan Penjualan');  
 		$this->load->view('templates/header', $data);
         $this->load->view('LaporanPenjualanView', $data);

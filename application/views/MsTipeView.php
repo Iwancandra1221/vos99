@@ -65,8 +65,7 @@
         console.log(rowData);
         // Mengisi textbox dengan data dari baris
         document.getElementById('KdTipe').value = rowData[0];
-        document.getElementById('NamaTipe').value = rowData[1]; 
-        document.getElementById('NoHp').value = rowData[2]; 
+        document.getElementById('NamaTipe').value = rowData[1];  
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
         $('#PesanError').text("");
@@ -198,6 +197,17 @@ function disableButtons() {
         }
         th {
             background-color: #f2f2f2;
+        }
+        #myTable th {
+            background-color: skyblue;
+        }
+
+        #myTable tr:nth-child(even) {
+            background-color: lightyellow;
+        }
+
+        #myTable tr:hover {
+            background-color: #f1f1f1;
         }
           
         .defaultForm {

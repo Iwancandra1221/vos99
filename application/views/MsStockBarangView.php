@@ -6,32 +6,38 @@
     <title><?php echo $title; ?></title> 
 
 </head>
-<body> 
+<body>  
     <div class="actionButtons">
-        <button id = "New" onclick="newData()">New</button>
-        <button disabled id = "Save" onclick="saveData()">Save</button> 
-        <button disabled  id = "Clear" onclick="clearData()">Clear</button> 
-        <button disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
-        <button id = "Edit" >Edit</button>
-        <button id = "Delete" >Delete</button> 
+        <button type="button" id = "New" onclick="newData()">New</button>
+        <button type="button" disabled id = "Save" onclick="saveData()">Save</button> 
+        <button type="button" disabled  id = "Clear" onclick="clearData()">Clear</button> 
+        <button type="button" disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
+        <button type="button" id = "Edit" >Edit</button>
+        <button type="button" id = "Delete" >Delete</button>   
         <span  id="PesanError" class="error-message" ></span> 
     </div>
   
-    <form id="MerkForm" class="defaultForm">
+    <form id="StockBarangForm" class="defaultForm">
  
         <div class="formColumn">
           <table  id="myTable">
               <thead>
                   <tr>
-                    <th style="width: 30%;">Kode Merk</th>
-                    <th style="width: 60%;">Merk</th> 
+                    <th style="width: 20%;">Kode Stock Barang</th>
+                    <th style="width: 35%;">Stock Barang</th> 
+                    <th style="width: 15%;">Qty</th> 
+                    <th style="width: 15%;">Qty Masuk</th> 
+                    <th style="width: 15%;">Qty Keluar</th> 
                   </tr>
               </thead>
               <tbody> 
-                <?php foreach ($Merk as $item): ?>
+                <?php foreach ($StockBarang as $item): ?>
                     <tr>
-                        <td><?php echo $item->KdMerk; ?></td>
-                        <td><?php echo $item->NamaMerk; ?></td>  
+                        <td><?php echo $item->KdStockBarang; ?></td>
+                        <td><?php echo $item->NamaStockBarang; ?></td>  
+                        <td><?php echo $item->Qty_Real; ?></td> 
+                        <td><?php echo $item->Qty_In; ?></td> 
+                        <td><?php echo $item->Qty_Out; ?></td>  
                     </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -39,14 +45,17 @@
         </div>
 
         <div class="formColumn">
-            <label for="KdMerk">Kode Merk:</label><br>
-            <label for="NamaMerk">Nama Merk:</label><br>  
+            <label for="KdStockBarang">Kode Stock Barang:</label><br>
+            <label for="NamaStockBarang">Nama Stock Barang:</label><br> 
+            <!-- <label for="Qty">Qty:</label><br>   -->
         </div>
         <div class="formColumn">
-            <input disabled type="text" id="KdMerk" name="KdMerk" value="<?php echo $AutoNumber; ?>"><br>
-            <input type="text" id="NamaMerk" name="NamaMerk"><br>   
+            <input disabled type="text" id="KdStockBarang" name="KdStockBarang" value="<?php echo $AutoNumber; ?>"><br>
+            <input type="text" id="NamaStockBarang" name="NamaStockBarang"><br>  
+            <!-- <input type="number" id="Qty" name="Qty" min="0" step="1" ><br>  -->
         </div>
     </form>
+ 
 
     
 </body>
@@ -64,8 +73,9 @@
         let rowData = table.row(this).data();
         console.log(rowData);
         // Mengisi textbox dengan data dari baris
-        document.getElementById('KdMerk').value = rowData[0];
-        document.getElementById('NamaMerk').value = rowData[1];  
+        document.getElementById('KdStockBarang').value = rowData[0];
+        document.getElementById('NamaStockBarang').value = rowData[1];  
+        // document.getElementById('Qty').value = rowData[2]; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
         $('#PesanError').text("");
@@ -98,31 +108,32 @@ function disableButtons() {
   function newData() {
     emptyData();
     enableButtons();
-    document.getElementById('KdMerk').value = '<?php echo $AutoNumber; ?>' ;
+    document.getElementById('KdStockBarang').value = '<?php echo $AutoNumber; ?>' ;
   }  
 
   function clearData() {  
     emptyData();
-    document.getElementById('KdMerk').value = '<?php echo $AutoNumber; ?>' ; 
+    document.getElementById('KdStockBarang').value = '<?php echo $AutoNumber; ?>' ; 
   }
 
   function cancelData() {
     emptyData();
     disableButtons();
-    document.getElementById('KdMerk').value = '<?php echo $AutoNumber; ?>' ;
+    document.getElementById('KdStockBarang').value = '<?php echo $AutoNumber; ?>' ;
   }
 
   function saveData() {
     var data = {
-      KdMerk: $('#KdMerk').val(),
-      NamaMerk: $('#NamaMerk').val(),  
+      KdStockBarang: $('#KdStockBarang').val(),
+      NamaStockBarang: $('#NamaStockBarang').val(),  
+      // Qty: $('#Qty').val(),  
     };  
 
 
     var pesanError = "";
 
-    if ($('#NamaMerk').val() == '') {
-        pesanError = pesanError + 'Kolom Nama Merk harus diisi.'; 
+    if ($('#NamaStockBarang').val() == '') {
+        pesanError = pesanError + 'Kolom Nama StockBarang harus diisi.'; 
     }   
 
     if (pesanError != "")
@@ -130,11 +141,11 @@ function disableButtons() {
         $('#PesanError').text(pesanError);
         event.preventDefault();
     } 
-    if (  ($('#NamaMerk').val() != '')) 
+    if (  ($('#NamaStockBarang').val() != '')) 
     {   
         $.ajax({ 
           type: "POST",
-          url: "<?php echo base_url('MsMerk/Add'); ?>",
+          url: "<?php echo base_url('MsStockBarang/Add'); ?>",
           data: data,
           success: function(response) {
             alert(response);
@@ -152,12 +163,12 @@ function disableButtons() {
   } 
    
   function deleteData() {
-      var KdMerk = $('#KdMerk').val();
+      var KdStockBarang = $('#KdStockBarang').val();
 
       $.ajax({ 
           type: "POST",
-          url: "<?php echo base_url('MsMerk/Delete'); ?>",
-          data: { KdMerk: KdMerk },
+          url: "<?php echo base_url('MsStockBarang/Delete'); ?>",
+          data: { KdStockBarang: KdStockBarang },
           success: function(response) {
               alert(response);
               if (response == "Success") {
@@ -172,19 +183,22 @@ function disableButtons() {
   }
 
   function toggleFields(disable) {
-    $('#NamaMerk').prop('disabled', disable);  
+    $('#NamaStockBarang').prop('disabled', disable);  
+    // $('#Qty').prop('disabled', disable);  
   }
  
  
   function emptyData() { 
-    var inputs = document.getElementById('MerkForm').getElementsByTagName('input'); 
+    var inputs = document.getElementById('StockBarangForm').getElementsByTagName('input'); 
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].value = '';
     }  
   }
+ 
 
 </script> 
-    <style>        
+    <style>   
+
         table {
             border-collapse: collapse;
             width: 100%;
@@ -247,14 +261,14 @@ function disableButtons() {
         } 
 
         .actionButtons button:disabled {
-            background-color: #d3d3d3; /* Merk tombol yang dinonaktifkan */
-            color: #808080; /* Merk teks tombol yang dinonaktifkan */
+            background-color: #d3d3d3; /* StockBarang tombol yang dinonaktifkan */
+            color: #808080; /* StockBarang teks tombol yang dinonaktifkan */
             cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
         }
 
         .actionButtons button:disabled:hover {
-            background-color: #d3d3d3; /* Pastikan Merk hover tidak berubah */
-            color: #808080; /* Pastikan Merk teks hover tidak berubah */
+            background-color: #d3d3d3; /* Pastikan StockBarang hover tidak berubah */
+            color: #808080; /* Pastikan StockBarang teks hover tidak berubah */
         }
 
         .formColumn {

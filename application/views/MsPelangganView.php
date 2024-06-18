@@ -251,6 +251,17 @@ function disableButtons() {
             color: #808080; /* Warna teks tombol yang dinonaktifkan */
             cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
         }
+        #myTable th {
+            background-color: skyblue;
+        }
+
+        #myTable tr:nth-child(even) {
+            background-color: lightyellow;
+        }
+
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
 
         .actionButtons button:disabled:hover {
             background-color: #d3d3d3; /* Pastikan warna hover tidak berubah */

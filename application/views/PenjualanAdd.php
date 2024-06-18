@@ -12,7 +12,9 @@
         <form id ="myForm" action="<?php echo base_url('Penjualan/Save'); ?>" method="post" class="defaultForm"> 
             <div class="form-section">
                 <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
-                <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $AutoNumber; ?>" readonly>
+                <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $AutoNumber; ?>" readonly> 
+                <label for="tgljt"><b>Tanggal Jatuh Tempo:</b> </label>
+                <input type="date" id="tgljt" name="tgljt" required>
                 <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label> 
                 <select id="KdTipePembayaran" name="KdTipePembayaran">
                         <option value="">Pilih Tipe Pembayaran</option> 
@@ -153,6 +155,14 @@
 <script> 
     
     $(document).ready(function() {
+        
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let dd = String(today.getDate()).padStart(2, '0'); 
+        let todayFormatted = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('tgljt').value = todayFormatted;
+
         $('#myForm').submit(function(event) {
             if ($('#KdPelanggan').val() == '') {
                 $('#KdPelangganError').text('Kolom Pelanggan harus diisi.');

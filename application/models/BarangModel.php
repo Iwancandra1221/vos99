@@ -1,5 +1,5 @@
 <?php
-class BarangModel  extends CI_Model
+class BarangModel extends CI_Model
 {
 	public function __construct()
 	{
@@ -19,6 +19,14 @@ class BarangModel  extends CI_Model
         return $this->db->get('Barang')->result();
     }
 
+    public function get_overdue_barang()
+    { 
+        $this->db->select('*');
+        $this->db->from('Barang');
+        $this->db->where('Qty <=', 10); 
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function get_datas()
     {   

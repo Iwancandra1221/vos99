@@ -28,8 +28,7 @@
                   <th>Harga Jual</th>
                   <th>Merk</th>
                   <th>Tipe</th>
-                  <th>Warna</th> 
-                  <th hidden>KdWarna</th> 
+                  <th>Warna</th>  
               </tr>
           </thead>
           <tbody> 
@@ -42,8 +41,7 @@
                     <td><?php echo $item->Harga_Jual; ?></td>
                     <td><?php echo $item->Merk; ?></td>
                     <td><?php echo $item->Tipe; ?></td>
-                    <td><?php echo $item->Warna; ?></td> 
-                    <td hidden><?php echo $item->KdWarna; ?></td> 
+                    <td><?php echo $item->Warna; ?></td>  
                 </tr>
             <?php endforeach; ?>
           </tbody>
@@ -109,13 +107,59 @@
         document.getElementById('NamaBarang').value = rowData[1];
         document.getElementById('Qty').value = rowData[2];
         document.getElementById('Harga').value = rowData[3];
-        document.getElementById('Harga_Jual').value = rowData[4];
-        document.getElementById('Merk').value = rowData[5];;
-        document.getElementById('Tipe').value = rowData[6];
-        document.getElementById('Warna').value = rowData[8]; 
+        document.getElementById('Harga_Jual').value = rowData[4];  
         document.getElementById('Duplicate').disabled = false; 
         document.getElementById('Edit').disabled = false; 
         document.getElementById('Delete').disabled = false;
+  
+        var bool = false;
+        var MerkSelect = document.getElementById('Merk');
+        var newTextMerk = rowData[5];
+        for (var i = 0; i < MerkSelect.options.length; i++) {
+            console.log(MerkSelect.options[i].text,newTextMerk);
+            if (MerkSelect.options[i].text === newTextMerk) { 
+                MerkSelect.selectedIndex = i;
+                bool = true;
+                break; 
+            }
+        }   
+
+        if (!bool)
+        {
+            MerkSelect.selectedIndex = 0;
+        }
+
+        var TipeSelect = document.getElementById('Tipe');
+        var newTextTipe = rowData[6];
+        for (var i = 0; i < TipeSelect.options.length; i++) {
+            console.log(TipeSelect.options[i].text,newTextTipe);
+            if (TipeSelect.options[i].text === newTextTipe) { 
+                TipeSelect.selectedIndex = i;
+                bool = true;
+                break; 
+            }
+        }  
+
+        if (!bool)
+        {
+            TipeSelect.selectedIndex = 0;
+        }
+
+        var WarnaSelect = document.getElementById('Warna');
+        var newTextWarna = rowData[7];
+        for (var i = 0; i < WarnaSelect.options.length; i++) {
+            console.log(WarnaSelect.options[i].text,newTextWarna);
+            if (WarnaSelect.options[i].text === newTextWarna) { 
+                WarnaSelect.selectedIndex = i;
+                bool = true;
+                break; 
+            }
+        }  
+
+        if (!bool)
+        {
+            WarnaSelect.selectedIndex = 0;
+        }
 
         $('#PesanError').text("");
     });
@@ -292,6 +336,18 @@ function duplicate() {
         }
         th {
             background-color: #f2f2f2;
+        }
+
+        #myTable th {
+            background-color: skyblue;
+        }
+
+        #myTable tr:nth-child(even) {
+            background-color: lightyellow;
+        }
+
+        #myTable tr:hover {
+            background-color: #f1f1f1;
         }
           
         .defaultForm {

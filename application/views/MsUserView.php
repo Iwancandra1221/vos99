@@ -225,6 +225,17 @@ function disableButtons() {
         th {
             background-color: #f2f2f2;
         }
+        #myTable th {
+            background-color: skyblue;
+        }
+
+        #myTable tr:nth-child(even) {
+            background-color: lightyellow;
+        }
+
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
           
         .defaultForm {
             display: flex;

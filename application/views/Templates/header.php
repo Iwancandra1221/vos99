@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
+
     <meta charset="UTF-8">
-    <title><?php echo $title; ?></title> 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+    <title><?php echo $title; ?></title>   
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jQuery UI JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
 
     <style>
@@ -104,8 +114,8 @@
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsTipe'); ?>">Master Tipe</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsMerk'); ?>">Master Merk</a>
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
-                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a>
-
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MsStockBarang'); ?>">Master Stock Barang</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a> 
                 </div>
             </li>
 
@@ -115,6 +125,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color: black;">
                     <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('Penjualan'); ?>">Penjualan</a>
+                    <a  style="background-color: black;" class="dropdown-item" href="<?php echo site_url('MasukKeluarBarang'); ?>">Masuk Keluar Barang</a>
                     <!-- <a class="dropdown-item" href="<?php echo site_url('Pembelian'); ?>">Pembelian</a> -->
                 </div>
             </li>

@@ -245,6 +245,17 @@ function disableButtons() {
             background-color: #d3d3d3; /* Pastikan warna hover tidak berubah */
             color: #808080; /* Pastikan warna teks hover tidak berubah */
         }
+        #myTable th {
+            background-color: skyblue;
+        }
+
+        #myTable tr:nth-child(even) {
+            background-color: lightyellow;
+        }
+
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
 
         .formColumn {
             flex: 1;

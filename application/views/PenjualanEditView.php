@@ -23,6 +23,10 @@
     <?php endif; ?>
 
    <div class="container">  
+        <?php  
+        $date = new DateTime($DataHD->Tanggal_Tempo); 
+        $formattedDate = $date->format('Y-m-d');
+        ?>
 
         <?php 
             if ($mode === "View")  
@@ -32,6 +36,8 @@
                 <div class="form-section">
                     <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
                     <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $DataHD->KdPenjualan; ?>" readonly><br> 
+                    <label for="tgljt"><b>Tanggal Jatuh Tempo:</b> </label>
+                    <input type="date" id="tgljt" name="tgljt" value="<?php echo $formattedDate; ?>"readonly>
                     <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label>  
                     <select disabled id="KdTipePembayaran" name="KdTipePembayaran" >
                         <option value="">Pilih Tipe Pembayaran</option> 
@@ -132,6 +138,8 @@
                 <div class="form-section">
                     <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
                     <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $DataHD->KdPenjualan; ?>" readonly><br> 
+                    <label for="tgljt"><b>Tanggal Jatuh Tempo:</b> </label>
+                    <input type="date" id="tgljt" name="tgljt" value="<?php echo $formattedDate; ?>"readonly>
                     <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label>  
                     <select  id="KdTipePembayaran" name="KdTipePembayaran" >
                         <option value="">Pilih Tipe Pembayaran</option> 

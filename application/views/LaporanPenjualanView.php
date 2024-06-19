@@ -57,15 +57,16 @@
 	}  
 </style>
 <script>
-    $(document).ready(function() {   
-    	$('#dp1').datepicker({
-            format: 'mm/dd/yyyy',
-            autoclose: true
-        });
-        $('#dp2').datepicker({
-            format: 'mm/dd/yyyy',
-            autoclose: true
-        });
+    $(document).ready(function() {    
+
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let dd = String(today.getDate()).padStart(2, '0'); 
+        let todayFormatted = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('dp1').value = todayFormatted;
+        document.getElementById('dp2').value = todayFormatted;
+
 	} );
 </script>
 	  

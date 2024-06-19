@@ -94,4 +94,5 @@ define('GlobNoHP', '+6282141513939');
 define('GlobAlamat', 'Jl. Abdullah II No.14A, RT.6/RW.5, Kota Jakarta Barat, 11140.');
 define('FolderBelumLunas', 'C:\ICAN\BerkahJaya\BelumLunas');
 define('FolderLunas', 'C:\ICAN\BerkahJaya\Lunas');
+define('FolderReport', 'C:\ICAN\BerkahJaya\Report');
 //define('FolderPrint', 'D:\Nota Berkah Jaya');

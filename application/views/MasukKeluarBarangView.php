@@ -24,7 +24,7 @@
         <div class="formColumn">
             <h2 style="text-align: center;color:black;">Input Masuk / Keluar Barang</h2>
 
-            <label style="color:black;" for="KdStockBarang">Kode Stock Barang:</label>
+            <label style="color:black;" for="KdStockBarang">Nama Barang:</label>
             <select required id="KdStockBarangTrans" name="KdStockBarangTrans">
                 <option value="">Pilih Barang</option>
                 <?php foreach ($StockBarang as $Barang) { ?>

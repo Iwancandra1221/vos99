@@ -25,7 +25,7 @@
                   <tr>
                     <th style="width: 20%;">Kode Barang</th>
                     <th style="width: 35%;">Nama Barang</th> 
-                    <th style="width: 15%;">Qty</th> 
+                    <th style="width: 15%;">Qty Sisa</th> 
                     <th style="width: 15%;">Qty Masuk</th> 
                     <th style="width: 15%;">Qty Keluar</th> 
                   </tr>

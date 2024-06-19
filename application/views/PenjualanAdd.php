@@ -131,7 +131,7 @@
                               <input required type="number" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" min="1" step="1" oninput="calculateTotal(this)">
                             </td>
 
-                            <td><input type="number" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" min="0" step="1" readonly oninput="calculateTotal(this)"></td>
+                            <td><input type="number" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" min="0" step="1"  oninput="calculateTotal(this)"></td>
                             <td><input type="number" id="items[0][Total]"  name="items[0][Total]" min="0" step="1"  placeholder="Total" readonly></td>
                             <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
                         </tr>

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-default ">
+<nav class="navbar navbar-expand-lg navbar-default fixed-top">
     <a class="navbar-brand" href="<?php echo site_url('MainController'); ?>">
         <!-- <img src="<?php echo base_url('images/vos99.jpg'); ?>" alt="Logo" style="height: 30px; margin-right: 10px;"> -->
        <?= GlobCompany ?>
@@ -27,14 +27,14 @@
                     Master
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+                    <a class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
+                    <a class="dropdown-item" href="<?php echo site_url('MsStockBarang'); ?>">Master Stock Gudang</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsUser'); ?>">Master User</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsPelanggan'); ?>">Master Pelanggan</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsTipePembayaran'); ?>">Master Tipe Pembayaran</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsWarna'); ?>">Master Warna</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsTipe'); ?>">Master Tipe</a>
                     <a class="dropdown-item" href="<?php echo site_url('MsMerk'); ?>">Master Merk</a>
-                    <a class="dropdown-item" href="<?php echo site_url('MsBarang'); ?>">Master Barang</a>
-                    <a class="dropdown-item" href="<?php echo site_url('MsStockBarang'); ?>">Master Stock Barang</a>
                     <a class="dropdown-item" href="<?php echo site_url('SignatureController'); ?>">Tanda Tangan Electronic</a> 
                 </div>
             </li>
@@ -74,7 +74,7 @@
     <style>  
 
         body {  
-            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); 
+/*            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -94,28 +94,36 @@
             margin-top: 20px; 
         }
 
+        .formjudul {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            background-color: var(--judul-color);
+            color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .formisi {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        } 
         .container {
+            margin-top: 70px; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 95vh;
-        }
-        @media only screen and (max-width: 600px) { 
-            body {
-                font-size: 12px;
-            }
-            .container {
-                width: 90%;
-            }
-        } 
-        @media only screen and (min-width: 1024px) { 
-            body {
-                font-size: 12px;
-            }
-            .container {
-                width: 80%;
-            }
+            justify-content: flex-start; 
         }
         .dropdown-submenu {
               position: relative;
@@ -160,36 +168,22 @@
         }
 
 
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .navbar-toggler-icon:after {
+            content: "\2630"; /* Unicode for hamburger icon */
+            color: white;
+            font-size: 1.25rem;
+        }
+
         .title {
             text-align: center;
             font-size: 24px;
             margin-bottom: 20px;
         }
 
-        .formjudul {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-            background-color: var(--judul-color);
-            color: white;
-            border: 1px solid #ccc; 
-            padding: 5px;
-            border-top-left-radius: 20px; /* lengkungan bawah kiri */
-            border-top-right-radius: 20px; /* lengkungan bawah kanan */
-        }
 
-        .formisi {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-            background-color: #fff;
-            border: 1px solid #ccc; 
-            padding: 10px;
-            border-bottom-left-radius: 20px; /* lengkungan bawah kiri */
-            border-bottom-right-radius: 20px; /* lengkungan bawah kanan */
-        }
 
         .left {
             flex: 1;

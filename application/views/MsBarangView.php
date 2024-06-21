@@ -344,23 +344,4 @@
 
 </script>  
 
-
-<style>
-     
-        @media only screen and (max-width: 600px) { 
-            body {
-                font-size: 12px;
-            }
-            .container {
-                width: 90%;
-            }
-        } 
-        @media only screen and (min-width: 1024px) { 
-            body {
-                font-size: 12px;
-            }
-            .container {
-                width: 80%;
-            }
-        }
-</style>
+ 

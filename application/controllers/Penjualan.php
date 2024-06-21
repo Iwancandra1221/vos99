@@ -322,10 +322,21 @@ class Penjualan extends CI_Controller {
                     <tbody id="Detail Barang">';
 
         foreach ($DataDT as $key => $value) {
+
+            $nmBarang = "";
+            if (trim($value->Warna) === "")
+            {
+                $nmBarang = $value->NamaBarang;
+            }
+            else
+            {
+                $nmBarang = $value->NamaBarang.' '.$value->Warna;
+            }
+
             $html .= '
                         <tr class="item"> 
                         <td style="padding: 5px; text-align: left;">
-                            '.$value->NamaBarang.' - '.$value->Warna.'
+                            '.$nmBarang.'
                         </td>
                         <td style="padding: 5px; text-align: center;">
                             '.$value->Qty.'

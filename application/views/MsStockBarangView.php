@@ -19,8 +19,17 @@
         </script>
     <?php endif; ?>
 
+<style> 
+        .container2 { 
+            padding: 70px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+        }
+</style>
 
-<div class="container">
+<div class="container2">
     <div class="formjudul"><h3><?php echo $title; ?></h3></div>
     <div class="formisi">
         <div class="left"> 

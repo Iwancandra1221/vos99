@@ -74,7 +74,7 @@
     <style>  
 
         body {  
-/*            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); */
+            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -124,6 +124,13 @@
             padding: 10px;
             max-width: 100%;
         }  
+
+
+ 
+        .left2 {
+            flex: 1;
+            padding: 10px; 
+        } 
 
         .container {
             margin-top: 70px; 
@@ -244,18 +251,7 @@
             background-color:  var(--tr-hover-backgroundcolor);
             color: var(--tr-hover-color);
         }
-
-       /*  @media (max-width: 767px) {
-            #myTable th, #myTable td {
-                display: block; /* Tampilkan setiap sel dalam baris terpisah */
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-            #myTable th {
-                background-color: #f2f2f2; /* Warna latar belakang untuk header */
-            }
-        }*/
-
+ 
         .form-group {
             margin-bottom: 15px;
         }

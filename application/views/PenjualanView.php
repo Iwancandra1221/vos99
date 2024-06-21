@@ -21,15 +21,24 @@
         </script>
     <?php endif; ?> 
 
-    <div class="container">
+<style> 
+        .container2 { 
+            padding: 70px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+        }
+</style>
+    <div class="container2">
     <div class="formjudul"><h3><?php echo $title; ?></h3></div>
     <div class="formisi">
-        <div class="left">     
-                <select id="filter">
+        <div class="left2">     
+            <select id="filter">
                     <option value="all">All</option>
                     <option value="lunas">Lunas</option>
-                    <option value="belum-lunas">Belum Lunas</option>
-                </select>  
+                    <option selected value="belum-lunas">Belum Lunas</option>
+            </select>  
             <table  id="myTable">
                 <thead>
                     <tr>
@@ -42,27 +51,27 @@
                     </tr>
                 </thead>
                 <tbody> 
-                <?php foreach ($Penjualan as $item): ?>
-                    <tr data-lunas="<?php echo $item->Lunas; ?>">
-                        <td><?php echo $item->KdPenjualan; ?></td>
-                        <td><?php echo $item->NamaTipePembayaran; ?></td>
-                        <td><?php echo $item->NamaPelanggan; ?></td>
-                        <td><?php echo $item->NoHp; ?></td>
-                        <td><?php echo $item->GrandTotal; ?></td>
-                        <td>
-                            
-                            <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
-                                <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button>
-                                <button type="button" class="btn view-item-btn btn-view" data-id="<?php echo $item->KdPenjualan; ?>">View</button>
-                                <button type="button" class="btn edit-item-btn btn-edit" data-id="<?php echo $item->KdPenjualan; ?>">Edit</button>
-                                <button type="button" class="btn delete-item-btn btn-delete" data-id="<?php echo $item->KdPenjualan; ?>">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
+                <?php foreach ($Penjualan as $item): ?> 
+                    <?php if ($item->Lunas == 0) { ?>
+                        <tr data-lunas="<?php echo $item->Lunas; ?>">
+                            <td><?php echo $item->KdPenjualan; ?></td>
+                            <td><?php echo $item->NamaTipePembayaran; ?></td>
+                            <td><?php echo $item->NamaPelanggan; ?></td>
+                            <td><?php echo $item->NoHp; ?></td>
+                            <td><?php echo $item->GrandTotal; ?></td>
+                            <td> 
+                                <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
+                                    <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button>
+                                    <button type="button" class="btn view-item-btn btn-view" data-id="<?php echo $item->KdPenjualan; ?>">View</button>
+                                    <button type="button" class="btn edit-item-btn btn-edit" data-id="<?php echo $item->KdPenjualan; ?>">Edit</button>
+                                    <button type="button" class="btn delete-item-btn btn-delete" data-id="<?php echo $item->KdPenjualan; ?>">Delete</button>
+                                </div>
+                            </td>
+                        </tr> 
+                    <?php } ?> 
                 <?php endforeach; ?>
                 </tbody>
-            </table> 
-
+            </table>  
             <div class="buttons" >  
                 <button id = "New"  class="btn btn-primary" onclick="newData()">Tambah</button>   
             </div>  
@@ -138,8 +147,7 @@
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() { 
-        let rowData = table.row(this).data();
-        console.log(rowData); 
+        let rowData = table.row(this).data(); 
     }); 
   }); 
    

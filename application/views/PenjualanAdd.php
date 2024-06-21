@@ -53,59 +53,60 @@
                 </div>
                 <div class="right"> 
                     <div class="form-group"> 
-                        <label> <h3>Items</h3> </label> 
-                        <table id="itemsTable"  style="color:black;">
-                            <thead> 
-                                <tr>
-                                    <th colspan="5"> 
-                                        <div class="form-inline">
-                                            <label for="InputKdBarang"><b>Cari Kode Barang / Nama Barang:</b> </label>
-                                            <input type="text" id="InputKdBarang" name="InputKdBarang" onkeyup="searchItems()">
-                                        </div>
-                                        <div id="searchResults" ></div> 
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>Kode Barang</th>
-                                    <th>Qty</th>
-                                    <th>Harga</th>
-                                    <th>Total</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="items">
-                                <!-- <tr class="item">
-                                    <td>
-                                        <select required id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
-                                            <option value="">Pilih Barang</option>
-                                            <?php foreach ($listBarang as $Barang) { ?>
-                                                <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " " . $Barang->Warna; ?></option>
-                                            <?php } ?>
-                                        </select> 
-                                    </td>
-                                    <td>
-                                      <input required type="number" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" min="1" step="1" oninput="calculateTotal(this)">
-                                    </td>
+                        <label> <h3>Items</h3> </label>  
+                        <div class="table-wrapper">
+                            <table id="itemsTable"  style="color:black;"  class="table">
+                                <thead> 
+                                    <tr>
+                                        <th colspan="5"> 
+                                            <div class="form-inline">
+                                                <label for="InputKdBarang"><b>Cari Kode Barang / Nama Barang:</b> </label>
+                                                <input type="text" id="InputKdBarang" name="InputKdBarang" onkeyup="searchItems()">
+                                            </div>
+                                            <div id="searchResults" ></div> 
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 20%;">Kode Barang</th>
+                                        <th style="width: 20%;">Qty</th>
+                                        <th style="width: 20%;">Harga</th>
+                                        <th style="width: 30%;">Total</th>
+                                        <th style="width: 10%;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="items">
+                                    <!-- <tr class="item">
+                                        <td>
+                                            <select required id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
+                                                <option value="">Pilih Barang</option>
+                                                <?php foreach ($listBarang as $Barang) { ?>
+                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " " . $Barang->Warna; ?></option>
+                                                <?php } ?>
+                                            </select> 
+                                        </td>
+                                        <td>
+                                          <input required type="number" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" min="1" step="1" oninput="calculateTotal(this)">
+                                        </td>
 
-                                    <td><input type="number" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" min="0" step="1"  oninput="calculateTotal(this)"></td>
-                                    <td><input type="number" id="items[0][Total]"  name="items[0][Total]" min="0" step="1"  placeholder="Total" readonly></td>
-                                    <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
-                                </tr> -->
-                            </tbody> 
-                            <footer> 
-                                    <tr> 
-                                        <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
-                                        <th colspan="2"><input required type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
-                                    </tr> 
-                            </footer>
-                        </table>
-                        </div> 
-                        <div class="buttons"> 
+                                        <td><input type="number" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" min="0" step="1"  oninput="calculateTotal(this)"></td>
+                                        <td><input type="number" id="items[0][Total]"  name="items[0][Total]" min="0" step="1"  placeholder="Total" readonly></td>
+                                        <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
+                                    </tr> -->
+                                </tbody> 
+                                <footer> 
+                                        <tr> 
+                                            <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
+                                            <th colspan="2"><input required type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
+                                        </tr> 
+                                </footer>
+                            </table>
+                        </div>
+                    </div> 
+                    <div class="buttons"> 
                             <button type="button" onclick="addItem()">Tambah Item</button>  
                             <button type="submit" >Simpan</button>  
                             <button type="button" onclick="Exit()">Exit</button> 
-                        </div>  
-                    </div>
+                    </div>   
                 </div> 
             </div> 
         </form> 
@@ -310,6 +311,35 @@
 
 <style>  
 
+
+    .table-wrapper {
+            max-height: 400px; /* Set the height you want */
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            table-layout: fixed; /* Ensure columns are fixed width */
+        }
+        thead, tbody {
+            display: block; /* Make header and body separate blocks */
+        }
+        thead {
+            width: 100%;
+        }
+        tbody {
+            width: 100%;
+        }
+        tbody tr {
+            display: table; /* Ensure rows behave like table rows */
+            width: 100%;
+            table-layout: fixed;
+        }
+        thead tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
     label {
         color: black;
     }
@@ -318,13 +348,17 @@
         display: flex;
         align-items: center;
     }
+ 
 
     #searchResults {
         margin-top: 10px;
-        border: 1px solid #ccc;
-        padding: 10px;
-        display: none;
-    } 
+        display: none; /* Default disembunyikan */
+        max-height: 200px; /* Tinggi maksimum sebelum scroll */
+        overflow-y: auto; /* Mengaktifkan vertical scroll */
+        border: 1px solid #ccc; /* Opsional: Tambahkan border untuk visualisasi */
+        padding: 10px; /* Opsional: Tambahkan padding */
+        background-color: #f9f9f9; /* Opsional: Tambahkan background color */
+    }
 
     .error-message {
             color: red;

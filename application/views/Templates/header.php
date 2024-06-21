@@ -45,6 +45,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?php echo site_url('Penjualan'); ?>">Penjualan</a> 
+                    <a class="dropdown-item" href="<?php echo site_url('PenjualanMobile'); ?>">Penjualan Mobile</a> 
                 </div>
             </li>
 

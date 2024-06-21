@@ -118,6 +118,13 @@
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
         } 
+ 
+        .left, .right {
+            flex: 1;
+            padding: 10px;
+            max-width: 100%;
+        }  
+
         .container {
             margin-top: 70px; 
             display: flex;
@@ -182,17 +189,30 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
+        .colMobile { display:none; }
 
+        @media only screen and (max-width: 460px) {  
+            .colMobile { display:block; padding: 1px 10px 2px 10px !important; }
+            .hideOnMobile { display: none; }
 
+            .formisi {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start; 
+                background-color: #fff;
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+                overflow-x: auto; /* atau overflow-x: scroll; */
+            }
 
-        .left {
-            flex: 1;
-            padding-right: 20px;
-        }
-
-        .right {
-            flex: 1;
-            padding-left: 20px;
+            /* Jika diperlukan, tambahkan properti ini untuk mencegah lipatan baris */
+            .formisi > * {
+                flex-shrink: 0; /* Mencegah elemen dari melipat saat lebar terlalu kecil */
+                flex-wrap: nowrap; /* Mencegah lipatan baris */
+            }
         }
 
         table {
@@ -224,6 +244,17 @@
             background-color:  var(--tr-hover-backgroundcolor);
             color: var(--tr-hover-color);
         }
+
+       /*  @media (max-width: 767px) {
+            #myTable th, #myTable td {
+                display: block; /* Tampilkan setiap sel dalam baris terpisah */
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            #myTable th {
+                background-color: #f2f2f2; /* Warna latar belakang untuk header */
+            }
+        }*/
 
         .form-group {
             margin-bottom: 15px;

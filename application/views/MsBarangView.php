@@ -11,7 +11,7 @@
 <div class="container">
     <div class="formjudul"><h3><?php echo $title; ?></h3></div>
     <div class="formisi">
-        <div class="left"> 
+        <div class="left hideOnMobile"> 
           <table id="myTable">
               <thead>
                   <tr>
@@ -34,8 +34,8 @@
                         <td><?php echo $item->Harga; ?></td>
                         <td><?php echo $item->Harga_Jual; ?></td>
                         <td><?php echo $item->Merk; ?></td>
-                        <td><?php echo $item->Tipe; ?></td>
-                        <td><?php echo $item->Warna; ?></td>  
+                        <td><?php echo $item->Tipe; ?></td> 
+                        <td><?php echo $item->Warna; ?></td> 
                     </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -52,7 +52,46 @@
                 </div>
                 <span id="PesanError" class="error-message"></span>
         </div>
-        <div class="right">
+
+        <div class="left colMobile"> 
+          <table id="myTable">
+              <thead>
+                  <tr>
+                      <th>Barang</th>
+                      <th>Qty</th>
+                  </tr>
+              </thead>
+              <tbody> 
+                <?php foreach ($barang as $item): ?>
+                    <tr>
+                        <td>
+                            <?php 
+                                echo $item->NamaBarang.'<br>'.$item->Merk.'<br>'.$item->Tipe.'<br>'.$item->Warna; 
+                            ?> 
+                        </td> 
+                        <td>
+                            <?php 
+                                echo $item->Qty.'<br>'.$item->Harga.'<br>'.$item->Harga_Jual; 
+                            ?> 
+                        </td> 
+                    </tr>
+                <?php endforeach; ?>
+              </tbody>
+          </table>
+          
+                <div class="buttons">
+                    <button id="New" onclick="newData()">New</button>
+                    <button id="Edit">Edit</button>
+                    <button disabled id="Save" onclick="saveData()">Save</button>
+                    <button disabled id="Clear" onclick="clearData()">Clear</button>
+                    <button disabled id="Cancel" onclick="cancelData()">Cancel</button>
+                    <button id = "Duplicate" >Duplicate</button>
+                    <button id="Delete">Delete</button>
+                </div>
+                <span id="PesanError" class="error-message"></span>
+        </div>
+
+        <div class="right hideOnMobile">
             <form id="BarangForm">
                 <div class="form-group "> 
                     <label for="KdBarang">Kode Barang:</label> 

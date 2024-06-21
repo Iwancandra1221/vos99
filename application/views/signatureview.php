@@ -6,29 +6,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
 </head>
 <body> 
 
-    <form id="WarnaForm" class="defaultForm"> 
-        <div class="formColumn"> 
-            <h2>Tanda Tangan Digital</h2> 
-            <div style="background-color: lightblue; padding: 50px;">
-                <img src="<?php echo $listTandaTangan; ?>" style="max-width: 100%; height: auto;">
-            </div> 
-            </br>  
-            <div class="actionButtons">
-            <button  type="button" onclick="openSignaturePopup()"><b>Tulis Tandan Tangan</b></button> 
-            </div> 
-            <div id="signaturePopup">
-                <h3>Sign Below:</h3>
-                <canvas id="signatureCanvas" width="400" height="200"></canvas>
-                <br>
-                <button  type="button" onclick="clearCanvas()">Clear</button>
-                <button  type="button" onclick="saveSignature()">Save Signature</button>
-                <button  type="button" onclick="closeSignaturePopup()">Close</button>
-            </div> 
+    <div class="container">
+    <div class="formjudul2"><h3><?php echo $title; ?></h3></div>
+    <div class="formisi2"> 
+        <div >
+            <form id="SingnatureForm">
+                <div class="form-group"> 
+                    <div class="center-image-container">
+                        <img src="<?php echo $listTandaTangan; ?>" alt="Tanda Tangan">
+                    </div>
+                    </br>  
+                </div> 
+                <div class="buttons"  style="margin-bottom: 20px;" > 
+                    <button type="button" onclick="openSignaturePopup()"><b>Tulis Tandan Tangan</b></button> 
+                </div>
+                <span id="PesanError" class="error-message"></span>
+            </form>
         </div>
-    </form>
+    </div>
+</div> 
+
+<div id="signaturePopup">
+    <div class="formjudul3" ><h3>Tulis Tanda Tangan Di Sini </h3></div> 
+    <div class="formisi3">  
+            <form id="SingnatureForm">
+                <div class="form-group"> 
+                    <div class="center-image-container"> 
+                        <canvas id="signatureCanvas" width="400" height="200"></canvas>
+                    </div>
+                    </br>  
+                </div> 
+                <div class="buttons" style=" padding:20px;" > 
+                    <button type="button" onclick="saveSignature()">Simpan</button>
+                    <button type="button" onclick="clearCanvas()">Clear</button>
+                    <button type="button" onclick="closeSignaturePopup()">Keluar</button>
+                </div> 
+            </form> 
+    </div> 
+</div> 
+ 
 </body>
 </html>  
 <script>  
@@ -60,7 +80,7 @@
                 processData: false,
                 success: function(response) {
                     if (response == "Success") {
-                        alert('Signature saved!');
+                        alert('Tanda Tangan Berhasil di Update!');
                         location.reload();
                     } else {
                         alert(response);
@@ -76,6 +96,62 @@
 </script> 
 
     <style>
+
+        .formjudul3 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            background-color: #2b2d42;
+            color: white; 
+        }
+        .formisi3 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            border: 1px solid #ccc;  
+            background-color: #fff;  
+        }
+
+        .formjudul2 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 70%;
+            background-color: #2b2d42;
+            color: white; 
+            border-top-left-radius: 20px; /* lengkungan bawah kiri */
+            border-top-right-radius: 20px; /* lengkungan bawah kanan */
+        }
+
+        .formisi2 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 70%;
+            background-color: #fff;
+            border: 1px solid #ccc;  
+            border-bottom-left-radius: 20px; /* lengkungan bawah kiri */
+            border-bottom-right-radius: 20px; /* lengkungan bawah kanan */
+        }
+
+        .center-title-container { 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center-image-container {
+            background-color: transparent; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center-image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
         #signaturePopup {
             display: none;
             position: fixed;
@@ -83,69 +159,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
+            border: 1px solid #ccc; 
             z-index: 9999;
         }
-
-        #signatureCanvas {
-            border: 1px solid #000;
-        }        
-         
-          
-        .defaultForm {
-            display: flex;
-            position: absolute;
-            top: 80px;  
-            left: 20px;  
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        } 
-
-  
-        .actionButtons button { 
-            border: none;
-            background-color: lightgreen;
-            color: black; 
-            cursor: pointer;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .actionButtons button:hover {
-            background-color: seagreen;
-            color: white; 
-        } 
-
-        .actionButtons button:disabled {
-            background-color: skyblue; /* Warna tombol yang dinonaktifkan */
-            color: #808080; /* Warna teks tombol yang dinonaktifkan */
-            cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
-        }
-
-        .actionButtons button:disabled:hover {
-            background-color: #d3d3d3; /* Pastikan warna hover tidak berubah */
-            color: #808080; /* Pastikan warna teks hover tidak berubah */
-        }
-
-        .formColumn {
-            flex: 1;
-            padding-right: 20px; /* Jarak antara kolom */
-        }
-
-        .formColumn label {
-            display: block;
-            margin-bottom: 10px;
-            white-space: nowrap; 
-        }
-
-        .formColumn input {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 20px;
-        } 
+        
     </style>

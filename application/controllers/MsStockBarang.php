@@ -7,6 +7,7 @@ class MsStockBarang extends CI_Controller	 {
 	{
 		parent::__construct();  
 	    $this->load->model('StockBarangModel');
+        $this->load->library('session'); 
 	}
 
 	public function index()
@@ -18,6 +19,33 @@ class MsStockBarang extends CI_Controller	 {
         $this->load->view('MsStockBarangView', $data);
         $this->load->view('templates/footer', $data);
 	}
+
+	public function tambah_transaksi()
+    { 
+	    $CreatedBy = 'Admin'; 
+        $data = array(
+            'IdTransaksi' => $this->StockBarangModel->generate_next_number_trans(),
+            'KdStockBarang' => $this->input->post('KdStockBarangTrans'),
+            'transaksi_type' => $this->input->post('transaksi_type'),  
+            'jumlah' => $this->input->post('jumlah'),
+            'keterangan' => $this->input->post('keterangan'),
+            'created_by' => $CreatedBy, 
+            'created_date' => date('Y-m-d H:i:s')
+        ); 
+        $this->StockBarangModel->recordTransaction($data);  
+        $type = "";
+        if ($this->input->post('transaksi_type') === "out")
+        {
+        	$type = "Keluar";
+        }
+        else
+        {
+        	$type = "Masuk";
+        }
+
+   		$this->session->set_flashdata('success_message', $type. ' Barang Berhasil'); 
+		redirect('MsStockBarang');
+    }
   
 
 	public function Add()

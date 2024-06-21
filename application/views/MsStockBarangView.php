@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title> 
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
 </head>
-<body>  
-    <div class="actionButtons">
-        <button type="button" id = "New" onclick="newData()">New</button>
-        <button type="button" disabled id = "Save" onclick="saveData()">Save</button> 
-        <button type="button" disabled  id = "Clear" onclick="clearData()">Clear</button> 
-        <button type="button" disabled  id = "Cancel" onclick="cancelData()">Cancel</button>
-        <button type="button" id = "Edit" >Edit</button>
-        <button type="button" id = "Delete" >Delete</button>   
-        <span  id="PesanError" class="error-message" ></span> 
-    </div>
-  
-    <form id="StockBarangForm" class="defaultForm">
- 
-        <div class="formColumn">
+<body>   
+    <?php if ($this->session->flashdata('success_message')): ?>
+        <div id="success-message" class="success-message" style="color: green; text-align: center;"><b><?php echo $this->session->flashdata('success_message'); ?></b></div>
+        <script> 
+            setTimeout(function() {
+                var messageElement = document.getElementById('success-message');
+                if (messageElement) {
+                    messageElement.style.display = 'none';
+                }
+            }, 5000); 
+        </script>
+    <?php endif; ?>
+
+
+<div class="container">
+    <div class="formjudul"><h3><?php echo $title; ?></h3></div>
+    <div class="formisi">
+        <div class="left"> 
           <table  id="myTable">
               <thead>
                   <tr>
@@ -43,41 +47,181 @@
               </tbody>
           </table>
         </div>
-
-        <div class="formColumn">
-            <label for="KdStockBarang">Kode Barang:</label><br>
-            <label for="NamaStockBarang">Nama Barang:</label><br> 
-            <!-- <label for="Qty">Qty:</label><br>   -->
+        <div class="right">
+            <form id="StockBarangForm">
+                <div class="form-group">
+            <label for="KdStockBarang">Kode Barang:</label> 
+            <input disabled type="text" id="KdStockBarang" name="KdStockBarang" value="<?php echo $AutoNumber; ?>">
+                </div>
+                <div class="form-group">
+            <label for="NamaStockBarang">Nama Barang:</label> 
+            <input type="text" id="NamaStockBarang" name="NamaStockBarang">
+                </div> 
+                <div class="buttons">
+                    <button id="New" onclick="newData()">New</button>
+                    <button id="Edit">Edit</button>
+                    <button disabled id="Save" onclick="saveData()">Save</button>
+                    <button disabled id="Clear" onclick="clearData()">Clear</button>
+                    <button disabled id="Cancel" onclick="cancelData()">Cancel</button>
+                    <button id="Delete">Delete</button>
+                    <button type="button" id="openPopup">Masuk Keluar Barang</button>
+                </div>
+                <span id="PesanError" class="error-message"></span>
+            </form>
         </div>
-        <div class="formColumn">
-            <input disabled type="text" id="KdStockBarang" name="KdStockBarang" value="<?php echo $AutoNumber; ?>"><br>
-            <input type="text" id="NamaStockBarang" name="NamaStockBarang"><br>  
-            <!-- <input type="number" id="Qty" name="Qty" min="0" step="1" ><br>  -->
-        </div>
-    </form>
- 
-
-    
+    </div>
+</div>   
 </body>
 </html>  
-<script> 
-  $(document).ready(function() { 
+
+<div id="popupForm" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <div class="formjudul3" ><h2>Input Masuk / Keluar Barang</h2></div> 
+            <div class="formisi3">   
+                <form id="transaksiForm" style="width:100%;" action="<?php echo base_url('MsStockBarang/tambah_transaksi'); ?>" method="post">
+                    <div class="form-group">
+                        <label for="KdStockBarangTrans" style="color: black;">Nama Barang:</label>
+                        <select id="KdStockBarangTrans" name="KdStockBarangTrans" required>
+                            <option value="">Pilih Barang</option>
+                            <?php foreach ($StockBarang as $Barang) { ?>
+                                <option value="<?php echo $Barang->KdStockBarang; ?>" data-qty="<?php echo $Barang->Qty_Real; ?>">
+                                    <?php echo $Barang->NamaStockBarang; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Qty Sisa:</label>
+                        <label id="qtyLabel" style="color: green;"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaksi_type" style="color: black;">Jenis Transaksi:</label>
+                        <select id="transaksi_type" name="transaksi_type" required>
+                            <option value="in">Barang Masuk</option>
+                            <option value="out">Barang Keluar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah" style="color: black;">Jumlah:</label>
+                        <input type="number" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan" style="color: black;">Keterangan:</label>
+                        <input type="text" id="keterangan" name="keterangan" placeholder="Masukkan Keterangan" required>
+                    </div>
+                    <div class="buttons">
+                        <button type="submit" class="btn btn-primary">SAVE</button>
+                    </div>
+                </form>
+            </div> 
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('openPopup').addEventListener('click', function() {
+                document.getElementById('popupForm').style.display = 'block';
+            });
+
+            document.querySelector('.close').addEventListener('click', function() {
+                document.getElementById('popupForm').style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                var popup = document.getElementById('popupForm');
+                if (event.target === popup) {
+                    popup.style.display = 'none';
+                }
+            });
+
+            document.getElementById('KdStockBarangTrans').addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var qty = selectedOption.getAttribute('data-qty');
+                document.getElementById('qtyLabel').textContent = qty;
+            });
+        });
+    </script>
+   
+    <style>
+
+        .form-group {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-group label { 
+            flex: 2; 
+            text-align: left;
+        }
+        .form-group select,
+        .form-group input {
+            flex: 2;
+        } 
+        .formjudul3 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            background-color: #fff; 
+        }
+        .formisi3 {
+            display: flex; 
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            border: 1px solid #ccc;  
+            background-color: #fff;  
+        } 
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .popup-content {
+            position: relative;
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        } 
+    </style> 
+<script>  
+
+  $(document).ready(function() {   
     disableButtons();
     let table = new DataTable('#myTable', { 
-        pageLength: 5,
+        pageLength: 10,
         "lengthChange": false,
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() {
-        // Mendapatkan data dari baris yang diklik
+        cancelData() 
         let rowData = table.row(this).data();
-        console.log(rowData);
-        // Mengisi textbox dengan data dari baris
+        console.log(rowData);  
         document.getElementById('KdStockBarang').value = rowData[0];
-        document.getElementById('NamaStockBarang').value = rowData[1];  
-        // document.getElementById('Qty').value = rowData[2]; 
-        document.getElementById('Edit').disabled = false; 
-        document.getElementById('Delete').disabled = false;
+        document.getElementById('NamaStockBarang').value = rowData[1];   
         $('#PesanError').text("");
     });
 
@@ -92,17 +236,17 @@
     });
   }); 
   
-function enableButtons() {
-    $('#New, #Edit, #Delete').prop('disabled', true);
-    $('#Save, #Clear, #Cancel').prop('disabled', false);
-    toggleFields(false);
-}
+    function enableButtons() {
+        $('#New, #Edit, #Delete').prop('disabled', true);
+        $('#Save, #Clear, #Cancel').prop('disabled', false);
+        toggleFields(false);
+    }
 
-function disableButtons() {
-    $('#New, #Edit, #Delete').prop('disabled', false);
-    $('#Save, #Clear, #Cancel').prop('disabled', true);
-    toggleFields(true);
-}
+    function disableButtons() {
+        $('#New, #Edit, #Delete').prop('disabled', false);
+        $('#Save, #Clear, #Cancel').prop('disabled', true);
+        toggleFields(true);
+    }
 
 
   function newData() {
@@ -112,8 +256,8 @@ function disableButtons() {
   }  
 
   function clearData() {  
-    emptyData();
-    document.getElementById('KdStockBarang').value = '<?php echo $AutoNumber; ?>' ; 
+    emptyData(); 
+    enableButtons();
   }
 
   function cancelData() {
@@ -191,103 +335,12 @@ function disableButtons() {
   function emptyData() { 
     var inputs = document.getElementById('StockBarangForm').getElementsByTagName('input'); 
     for (var i = 0; i < inputs.length; i++) {
-      inputs[i].value = '';
+        if (i>0)
+        {
+            inputs[i].value = '';
+        }
     }  
   }
  
 
-</script> 
-    <style>   
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-            white-space: nowrap;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        #myTable th {
-            background-color: skyblue;
-        }
-
-        #myTable tr:nth-child(even) {
-            background-color: lightyellow;
-        }
-
-        #myTable tr:hover {
-            background-color: #f1f1f1;
-        }
-          
-        .defaultForm {
-            display: flex;
-            position: absolute;
-            top: 150px; 
-            left: 20px;
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        } 
-
-        .actionButtons {
-            position: absolute; 
-            top: 70px; 
-            left: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .actionButtons button {
-            padding: 15px;
-            border: none;
-            background-color: silver;
-            color: black; 
-            cursor: pointer;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .actionButtons button:hover {
-            background-color: #0056b3;
-            color: white; 
-        } 
-
-        .actionButtons button:disabled {
-            background-color: #d3d3d3; /* StockBarang tombol yang dinonaktifkan */
-            color: #808080; /* StockBarang teks tombol yang dinonaktifkan */
-            cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
-        }
-
-        .actionButtons button:disabled:hover {
-            background-color: #d3d3d3; /* Pastikan StockBarang hover tidak berubah */
-            color: #808080; /* Pastikan StockBarang teks hover tidak berubah */
-        }
-
-        .formColumn {
-            flex: 1;
-            padding-right: 20px; /* Jarak antara kolom */
-        }
-
-        .formColumn label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .formColumn input {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 20px;
-        }
-        .error-message {
-            color: red;
-            font-size: 12px;
-        }
-    </style>
+</script>  

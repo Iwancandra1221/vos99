@@ -12,25 +12,24 @@
             padding: 10px;
             background-color: transparent;
             color: white;
-            overflow: hidden; /* Menghindari teks yang terlalu panjang keluar dari kotak */
-            white-space: nowrap; /* Mencegah teks berjatuhan ke bawah */
-            width: 100%; /* Mengisi lebar layar */
+            overflow: hidden; 
+            white-space: nowrap; 
+            width: 100%; 
         }
 
         .bottom-left h2 {
-            animation: moveLeftToRight 10s linear infinite; /* Animasi bergerak dari kiri ke kanan selama 10 detik */
+            animation: moveLeftToRight 10s linear infinite; 
         }
 
         @keyframes moveLeftToRight {
             0% {
-                transform: translateX(-100%); /* Memulai dari luar kotak sebelah kiri */
+                transform: translateX(-100%);  
             }
             100% {
-                transform: translateX(100%); /* Bergerak hingga keluar kotak sebelah kanan */
+                transform: translateX(100%); 
             }
-        }
-    </style>
-    <style>
+        } 
+        
         .top-right {
             position: fixed;
             top: 100;
@@ -42,45 +41,50 @@
 
         .top-left {
             position: fixed;
-            top: 60px; /* tambahkan satuan 'px' untuk top */
+            top: 60px; 
             left: 0;
             padding: 20px;
             background-color: white;
-            color: red;
-            margin: 10px; /* tambahkan margin 10px di semua sisi */
+            color: black;
+            margin: 10px; 
         }
 
         .top-left ul {
-            max-height: 200px; /* atur tinggi maksimum */
-            overflow-y: auto; /* tambahkan scroll vertikal jika diperlukan */
-            padding-left: 20px; /* tambahkan padding untuk list */
+            max-height: 200px; 
+            overflow-y: auto; 
+            padding-left: 20px; 
         }
 
 
         .top-left2 {
             position: fixed;
-            top: 380px; /* tambahkan satuan 'px' untuk top */
+            top: 380px; 
             left: 0;
             padding: 20px;
             background-color: white;
-            color: red;
-            margin: 10px; /* tambahkan margin 10px di semua sisi */
+            color: black;
+            margin: 10px; 
         }
 
         .top-left2 ul {
-            max-height: 200px; /* atur tinggi maksimum */
-            overflow-y: auto; /* tambahkan scroll vertikal jika diperlukan */
-            padding-left: 20px; /* tambahkan padding untuk list */
+            max-height: 200px; 
+            overflow-y: auto; 
+            padding-left: 20px; 
         }
 
         .overdue-link {
-            color: white; /* warna teks default */
-            text-decoration: none; /* hapus garis bawah */
+            color: white; 
+            text-decoration: none;  
         }
 
         .overdue-link:hover {
-            color: greenyellow; /* warna teks saat di-hover */
+            color: #ffba08; 
         }
+         h3 { 
+            padding-left: 20px;  
+            padding-right: 20px; 
+        }
+ 
     </style>
 </head>
 <body>

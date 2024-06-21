@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title> 
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">  
 </head>
 <body> 
 
@@ -19,63 +19,56 @@
                 }
             }, 5000); // Menghilangkan pesan setelah 5 detik (5000 milidetik)
         </script>
-    <?php endif; ?>
+    <?php endif; ?> 
 
-    <div class="actionButtons">
-        <button id = "New"  class="btn btn-primary" onclick="newData()">Tambah</button>  
-    </div> 
-  
-    <form id="PenjualanForm" class="defaultForm">
- 
-    <div class="formColumn"> 
-    <table border="0" style="border-collapse: collapse; width: 50%;">
-        <tr > 
-            <td style="border: none; padding: 0px;">
+    <div class="container">
+    <div class="formjudul"><h3><?php echo $title; ?></h3></div>
+    <div class="formisi">
+        <div class="left">     
                 <select id="filter">
                     <option value="all">All</option>
                     <option value="lunas">Lunas</option>
                     <option value="belum-lunas">Belum Lunas</option>
-                </select>
-            </td>
-        </tr> 
-    </table>
+                </select>  
+            <table  id="myTable">
+                <thead>
+                    <tr>
+                        <th>Kode Penjualan</th> 
+                        <th>Tipe Pembayaran</th>
+                        <th>Nama Pelanggan</th>
+                        <th>No HP</th>
+                        <th>Grand Total</th> 
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                <?php foreach ($Penjualan as $item): ?>
+                    <tr data-lunas="<?php echo $item->Lunas; ?>">
+                        <td><?php echo $item->KdPenjualan; ?></td>
+                        <td><?php echo $item->NamaTipePembayaran; ?></td>
+                        <td><?php echo $item->NamaPelanggan; ?></td>
+                        <td><?php echo $item->NoHp; ?></td>
+                        <td><?php echo $item->GrandTotal; ?></td>
+                        <td>
+                            
+                            <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
+                                <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button>
+                                <button type="button" class="btn view-item-btn btn-view" data-id="<?php echo $item->KdPenjualan; ?>">View</button>
+                                <button type="button" class="btn edit-item-btn btn-edit" data-id="<?php echo $item->KdPenjualan; ?>">Edit</button>
+                                <button type="button" class="btn delete-item-btn btn-delete" data-id="<?php echo $item->KdPenjualan; ?>">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table> 
 
-      <table  id="myTable">
-          <thead>
-              <tr>
-                  <th>Kode Penjualan</th> 
-                  <th>Tipe Pembayaran</th>
-                  <th>Nama Pelanggan</th>
-                  <th>No HP</th>
-                  <th>Grand Total</th> 
-                  <th>Actions</th>
-              </tr>
-          </thead>
-          <tbody> 
-            <?php foreach ($Penjualan as $item): ?>
-                <tr data-lunas="<?php echo $item->Lunas; ?>">
-                    <td><?php echo $item->KdPenjualan; ?></td>
-                    <td><?php echo $item->NamaTipePembayaran; ?></td>
-                    <td><?php echo $item->NamaPelanggan; ?></td>
-                    <td><?php echo $item->NoHp; ?></td>
-                    <td><?php echo $item->GrandTotal; ?></td>
-                    <td>
-                        
-                        <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
-                            <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button>
-                            <button type="button" class="btn view-item-btn btn-view" data-id="<?php echo $item->KdPenjualan; ?>">View</button>
-                            <button type="button" class="btn edit-item-btn btn-edit" data-id="<?php echo $item->KdPenjualan; ?>">Edit</button>
-                            <button type="button" class="btn delete-item-btn btn-delete" data-id="<?php echo $item->KdPenjualan; ?>">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-          </tbody>
-      </table>
-    </div> 
-    </form>
-
-    
+            <div class="buttons" >  
+                <button id = "New"  class="btn btn-primary" onclick="newData()">Tambah</button>   
+            </div>  
+        </div>
+    </div>
+</div>   
 </body>
 </html>  
 <script> 
@@ -162,34 +155,7 @@
 
 </script> 
     <style>       
-        .hidden { display: none; } 
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-            white-space: nowrap;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        #myTable th {
-            background-color: skyblue;
-        }
-
-        #myTable tr:nth-child(even) {
-            background-color: lightyellow;
-        }
-
-        #myTable tr:hover {
-            background-color: #f1f1f1;
-        }
-
-
+        .hidden { display: none; }  
         .lunas-item-btn {
             background-color: gray;
             color: #fff;
@@ -232,69 +198,5 @@
         }
         .delete-item-btn:hover {
             background-color: red;
-        }
-  
-        .defaultForm {
-            display: flex;
-            position: absolute;
-            top: 150px; 
-            left: 20px;
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         } 
-
-        .actionButtons {
-            position: absolute; 
-            top: 70px; 
-            left: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .actionButtons button {
-            padding: 15px;
-            border: none;
-            background-color: silver;
-            color: black; 
-            cursor: pointer;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .actionButtons button:hover {
-            background-color: #0056b3;
-            color: white; 
-        } 
-
-        .actionButtons button:disabled {
-            background-color: #d3d3d3; /* Warna tombol yang dinonaktifkan */
-            color: #808080; /* Warna teks tombol yang dinonaktifkan */
-            cursor: not-allowed; /* Ubah kursor menjadi tanda tidak diperbolehkan */
-        }
-
-        .actionButtons button:disabled:hover {
-            background-color: #d3d3d3; /* Pastikan warna hover tidak berubah */
-            color: #808080; /* Pastikan warna teks hover tidak berubah */
-        }
-
-        .formColumn {
-            flex: 1;
-            padding-right: 20px; /* Jarak antara kolom */
-        }
-
-        .formColumn label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .formColumn input {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 20px;
-        }
-
     </style>

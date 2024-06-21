@@ -3,133 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title; ?></title>
-    <!-- Bootstrap CSS -->
+    <title><?php echo $title; ?></title> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .title {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .content2 {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 80%;
-            background-color: #303331;
-            color: white;
-            border: 1px solid #ccc; 
-            padding: 10px;
-        }
-
-        .content {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 80%;
-            background-color: #fff;
-            border: 1px solid #ccc; 
-            padding: 20px;
-        }
-
-        .left {
-            flex: 1;
-            padding-right: 20px;
-        }
-
-        .right {
-            flex: 1;
-            padding-left: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            white-space: nowrap;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: calc(100% - 12px);
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-            margin-button: 10px;
-        }
-
-        .buttons button {
-            padding: 8px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            flex: 1 1 calc(33.33% - 10px);
-            text-align: center;
-        }
-
-        .buttons button:hover {
-            background-color: #0056b3;
-        }
-
-        .buttons button:disabled {
-            background-color: #d3d3d3; /* Disabled button color */
-            color: #808080; /* Disabled button text color */
-            cursor: not-allowed;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 12px;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
-    <div class="content2"><h3><?php echo $title; ?></h3></div>
-    <div class="content">
+    <div class="formjudul"><h3><?php echo $title; ?></h3></div>
+    <div class="formisi">
         <div class="left">
             <table id="myTable">
                 <thead>
@@ -189,11 +69,12 @@
 </div>
 </body>
 </html>  
+
 <script> 
   $(document).ready(function() { 
     disableButtons();
     let table = new DataTable('#myTable', { 
-        pageLength: 5,
+        pageLength: 10,
         "lengthChange": false,
     }); 
 
@@ -207,8 +88,7 @@
         document.getElementById('Password').value = rowData[2];
         document.getElementById('Role').value = rowData[3]; 
         document.getElementById('Edit').disabled = false; 
-        document.getElementById('Delete').disabled = false;
-
+        document.getElementById('Delete').disabled = false; 
         $('#PesanError').text("");
     });
 
@@ -216,8 +96,7 @@
     $('#Edit').on('click', function() { 
       enableButtons();
     });
-
-    // Menambahkan event listener untuk tombol hapus
+ 
     $('#Delete').on('click', function() {
         deleteData();
     });
@@ -335,5 +214,4 @@
       inputs[i].value = '';
     }  
   }
-
 </script>  

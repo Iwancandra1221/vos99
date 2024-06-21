@@ -20,15 +20,60 @@
 				</div>
 			</div>   
 	      	<div class="row" align="center" style="padding-top:50px;" id="div_pdf"> 
-	         	<input type = "submit" name="btnPreview" value="PREVIEW"/>
-	         	<input type = "submit" name="btnExcel" value="EXPORT EXCEL"/>
-	         	<input type = "submit" name="btnPdf" value="EXPORT PDF"/>
+	         	<input type = "submit" class="btn-Preview" name="btnPreview" value="PREVIEW"/>
+	         	<input type = "submit" class="btn-Excel" name="btnExcel" value="EXPORT EXCEL"/>
+	         	<input type = "submit" class="btn-Pdf" name="btnPdf" value="EXPORT PDF"/>
 	      	</div>
 	    </form>
 	</div>  
 </body>
 </html>
 <style type="text/css">
+
+	 .btn-Preview {
+            background-color: silver;
+            color: black;
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+ 	.btn-Preview:hover {
+    	background-color: royalblue;
+    	color: white;
+  	}
+ 	
+ 	.btn-Excel {
+            background-color: silver;
+            color: black;
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+ 	.btn-Excel:hover {
+    	background-color: seagreen;
+    	color: white;
+  	}
+ 	
+ 	.btn-Pdf {
+            background-color: silver;
+            color: black;
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+ 	.btn-Pdf:hover {
+    	background-color: palevioletred;
+    	color: white;
+  	}
 
 	.row {
 		padding: 20px;

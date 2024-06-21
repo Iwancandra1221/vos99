@@ -28,7 +28,7 @@
                 <select id="filter">
                     <option value="all">All</option>
                     <option value="lunas">Lunas</option>
-                    <option value="belum-lunas">Belum Lunas</option>
+                    <option selected value="belum-lunas">Belum Lunas</option>
                 </select>  
             <table  id="myTable">
                 <thead>
@@ -72,6 +72,7 @@
 </body>
 </html>  
 <script> 
+
     document.addEventListener('DOMContentLoaded', function() {
             const filterDropdown = document.getElementById('filter');
             const rows = document.querySelectorAll('#myTable tbody tr'); 
@@ -92,8 +93,24 @@
             });
         });
 
-
+   function defaultload() { 
+    const filterValue = 'belum-lunas'; 
+    const rows = document.querySelectorAll('#myTable tbody tr'); 
+    rows.forEach(row => {
+        const isLunas = row.getAttribute('data-lunas');
+        if (filterValue === 'all') {
+            row.classList.remove('hidden');
+        } else if (filterValue === 'lunas' && isLunas === '1') {
+            row.classList.remove('hidden');
+        } else if (filterValue === 'belum-lunas' && isLunas === '0') {
+            row.classList.remove('hidden');
+        } else {
+            row.classList.add('hidden');
+        }
+    });
+ }
   $(document).ready(function() {  
+    defaultload();
     let table = new DataTable('#myTable', { 
         pageLength: 5,
         "lengthChange": false,

@@ -94,6 +94,13 @@
             margin-top: 20px; 
         }
 
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 95vh;
+        }
         @media only screen and (max-width: 600px) { 
             body {
                 font-size: 12px;
@@ -152,13 +159,6 @@
             background-color:  var(--main-color)!important;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 95vh;
-        }
 
         .title {
             text-align: center;

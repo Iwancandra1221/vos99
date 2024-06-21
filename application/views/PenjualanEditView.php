@@ -22,124 +22,153 @@
         </script>
     <?php endif; ?>
 
-   <div class="container">  
+    <div class="container">
         <?php  
         $date = new DateTime($DataHD->Tanggal_Tempo); 
         $formattedDate = $date->format('Y-m-d');
-        ?>
-
+        ?> 
         <?php 
             if ($mode === "View")  
             {
         ?> 
-            <form class="defaultForm"> 
-                <div class="form-section">
-                    <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
-                    <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $DataHD->KdPenjualan; ?>" readonly><br> 
-                    <label for="tgljt"><b>Tanggal Jatuh Tempo:</b> </label>
-                    <input type="date" id="tgljt" name="tgljt" value="<?php echo $formattedDate; ?>"readonly>
-                    <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label>  
-                    <select disabled id="KdTipePembayaran" name="KdTipePembayaran" >
-                        <option value="">Pilih Tipe Pembayaran</option> 
-                        <?php foreach ($listTipePembayaran as $tipe) {
-                            if ($DataHD->KdTipePembayaran === $tipe->KdTipePembayaran) { 
-                               ?> 
-                               <option selected value="<?php echo $tipe->KdTipePembayaran; ?>"><?php echo $tipe->NamaTipePembayaran; ?></option>
-                               <?php 
-                            } 
-                            else
-                            {
-                                ?> 
-                               <option value="<?php echo $tipe->KdTipePembayaran; ?>"><?php echo $tipe->NamaTipePembayaran; ?></option>
-                               <?php 
-                            } 
-                        } ?>
-                    </select> 
-                    <label for="KdPelanggan"><b>Kode Pelanggan:</b> </label>  
-                    <select disabled id="KdPelanggan" name="KdPelanggan" onchange="handlePelangganChange(this)">
-                        <option value="">Pilih Pelanggan</option>
-                        <?php foreach ($listPelanggan as $Pelanggan) {
-                            if ($DataHD->KdPelanggan === $Pelanggan->KdPelanggan) { 
-                               ?> 
-                               <option selected value="<?php echo $Pelanggan->KdPelanggan; ?>"><?php echo $Pelanggan->KdPelanggan; ?></option>
-                               <?php 
-                            } 
-                            else
-                            {
-                                ?> 
-                               <option value="<?php echo $Pelanggan->KdPelanggan; ?>"><?php echo $Pelanggan->KdPelanggan; ?></option>
-                               <?php 
-                            } 
-                        } ?>
-                    </select>
-                    <label for="labelNamaPelanggan"><b>Nama Pelanggan:</b> </label> 
-                    <input type="text" id="labelNamaPelanggan" name="labelNamaPelanggan" value="<?php echo $DataHD->NamaPelanggan; ?>" readonly><br> 
-                    <label for="labelNamaPelanggan"><b>No HP:</b> </label> 
-                    <input type="text" id="labelNoHP" name="labelNoHP" value="<?php echo $DataHD->NoHp; ?>" readonly><br>  
-                    <h3>Items</h3>
-                    <table id="itemsTable">
-                        <thead>
-                            <tr>
-                                <th>Kode Barang</th>
-                                <th>Qty</th>
-                                <th>Harga</th>
-                                <th>Total</th> 
-                            </tr>
-                        </thead>
-                        <tbody id="items"> 
-                                <?php 
-                                foreach ($DataDT as $key => $value) {
-                                    ?>
-                                    <tr class="item"> 
-                                    <td>
-                                        <select disabled id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
-                                            <option value="">Pilih Barang</option>
-                                            <?php foreach ($listBarang as $Barang) { 
-                                                if ($value->KdBarang === $Barang->KdBarang) { 
-                                                   ?> 
-                                                    <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
-                                                   <?php 
-                                                } 
-                                                else
-                                                {
-                                                    ?> 
-                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
-                                                   <?php 
-                                                } 
-                                            } ?>
-                                        </select> 
-                                    </td>
-                                    <td><input disabled type="number" value = "<?php echo $value->Qty; ?>" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
-                                    <td><input disabled type="number"  value = "<?php echo $value->Harga; ?>" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" oninput="calculateTotal(this)"></td>
-                                    <td><input disabled type="number"  value = "<?php echo $value->Total; ?>" id="items[0][Total]"  name="items[0][Total]" placeholder="Total" ></td> 
-                                    <?php
-                                }
-                                ?> 
-                        </tbody> 
-                        <footer> 
-                                <tr> 
-                                    <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
-                                    <th colspan="2"><input  value = "<?php echo $DataHD->GrandTotal;; ?>" type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" disabled></th> 
-                                </tr> 
-                        </footer>
-                    </table> 
-                    <button type="button" class="add-item-btn" onclick="Print('<?php echo $DataHD->KdPenjualan; ?>')">Print Nota</button> 
-                    <button type="button" class="view-item-btn" onclick="View('<?php echo $DataHD->KdPenjualan; ?>')">View Nota</button> 
-                    <button type="button" class="lunas-item-btn" onclick="Lunas('<?php echo $DataHD->KdPenjualan; ?>')">Lunas</button> 
-                    <button type="button" class="exit-item-btn" onclick="Exit()">Exit</button> 
+        <form >
+            <div class="formjudul"><h3><?php echo $title; ?></h3></div>
+            <div class="formisi"> 
+                <div class="left"> 
+                    <div class="form-group"> 
+                        <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
+                        <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $DataHD->KdPenjualan; ?>" readonly><br> 
+                    </div>
+                    <div class="form-group"> 
+                        <label for="tgljt"><b>Tanggal Jatuh Tempo:</b> </label>
+                        <input type="date" id="tgljt" name="tgljt" value="<?php echo $formattedDate; ?>"readonly>
+                    </div> 
+                    <div class="form-group">  
+                        <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label>  
+                        <select disabled id="KdTipePembayaran" name="KdTipePembayaran" >
+                            <option value="">Pilih Tipe Pembayaran</option> 
+                            <?php foreach ($listTipePembayaran as $tipe) {
+                                if ($DataHD->KdTipePembayaran === $tipe->KdTipePembayaran) { 
+                                   ?> 
+                                   <option selected value="<?php echo $tipe->KdTipePembayaran; ?>"><?php echo $tipe->NamaTipePembayaran; ?></option>
+                                   <?php 
+                                } 
+                                else
+                                {
+                                    ?> 
+                                   <option value="<?php echo $tipe->KdTipePembayaran; ?>"><?php echo $tipe->NamaTipePembayaran; ?></option>
+                                   <?php 
+                                } 
+                            } ?>
+                        </select> 
+                    </div> 
+                    <div class="form-group"> 
+                        <label for="KdPelanggan"><b>Kode Pelanggan:</b> </label>  
+                        <select disabled id="KdPelanggan" name="KdPelanggan" onchange="handlePelangganChange(this)">
+                            <option value="">Pilih Pelanggan</option>
+                            <?php foreach ($listPelanggan as $Pelanggan) {
+                                if ($DataHD->KdPelanggan === $Pelanggan->KdPelanggan) { 
+                                   ?> 
+                                   <option selected value="<?php echo $Pelanggan->KdPelanggan; ?>"><?php echo $Pelanggan->KdPelanggan; ?></option>
+                                   <?php 
+                                } 
+                                else
+                                {
+                                    ?> 
+                                   <option value="<?php echo $Pelanggan->KdPelanggan; ?>"><?php echo $Pelanggan->KdPelanggan; ?></option>
+                                   <?php 
+                                } 
+                            } ?>
+                        </select>
+                    </div> 
+                    <div class="form-group">  
+                        <label for="labelNamaPelanggan"><b>Nama Pelanggan:</b> </label> 
+                        <input type="text" id="labelNamaPelanggan" name="labelNamaPelanggan" value="<?php echo $DataHD->NamaPelanggan; ?>" readonly> 
+                    </div> 
+                    <div class="form-group"> 
+                        <label for="labelNoHP"><b>No HP:</b> </label> 
+                        <input type="text" id="labelNoHP" name="labelNoHP" value="<?php echo $DataHD->NoHp; ?>" readonly> 
+                    </div> 
                 </div>
-            </form>
+                <div class="right"> 
+                    <div class="form-group"> 
+                        <label> <h3>Items</h3> </label> 
+                        <table id="itemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Kode Barang</th>
+                                    <th>Qty</th>
+                                    <th>Harga</th>
+                                    <th>Total</th> 
+                                </tr>
+                            </thead>
+                            <tbody id="items"> 
+                                    <?php 
+                                    foreach ($DataDT as $key => $value) {
+                                        ?>
+                                        <tr class="item"> 
+                                        <td>
+                                            <select disabled id="items[0][KdBarang]" name="items[0][KdBarang]" onchange="handleBarangChange(this,0)">
+                                                <option value="">Pilih Barang</option>
+                                                <?php foreach ($listBarang as $Barang) { 
+                                                    if ($value->KdBarang === $Barang->KdBarang) { 
+                                                       ?> 
+                                                        <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
+                                                       <?php 
+                                                    } 
+                                                    else
+                                                    {
+                                                        ?> 
+                                                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
+                                                       <?php 
+                                                    } 
+                                                } ?>
+                                            </select> 
+                                        </td>
+                                        <td><input disabled type="number" value = "<?php echo $value->Qty; ?>" id="items[0][Qty]" name="items[0][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+                                        <td><input disabled type="number"  value = "<?php echo $value->Harga; ?>" id="items[0][Harga]" name="items[0][Harga]" placeholder="Harga" oninput="calculateTotal(this)"></td>
+                                        <td><input disabled type="number"  value = "<?php echo $value->Total; ?>" id="items[0][Total]"  name="items[0][Total]" placeholder="Total" ></td> 
+                                        <?php
+                                    }
+                                    ?> 
+                            </tbody> 
+                            <footer> 
+                                    <tr> 
+                                        <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
+                                        <th colspan="2"><input  value = "<?php echo $DataHD->GrandTotal;; ?>" type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" disabled></th> 
+                                    </tr> 
+                            </footer>
+                        </table> 
+                        </div> 
+                        <div class="buttons">  
+                            <button type="button" onclick="Print('<?php echo $DataHD->KdPenjualan; ?>')">Print Nota</button> 
+                            <button type="button" onclick="View('<?php echo $DataHD->KdPenjualan; ?>')">View Nota</button> 
+                            <button type="button" onclick="Lunas('<?php echo $DataHD->KdPenjualan; ?>')">Lunas</button> 
+                            <button type="button" onclick="Exit()">Exit</button>  
+                        </div>  
+                    </div>
+                </div> 
+            </div> 
+        </form>  
         <?php 
             }
             else  
             {
-        ?> 
-            <form action="<?php echo base_url('Penjualan/Save'); ?>" method="post" class="defaultForm"> 
-                <div class="form-section">
+        ?>  
+        <form action="<?php echo base_url('Penjualan/Save'); ?>" method="post" >
+            <div class="formjudul"><h3><?php echo $title; ?></h3></div>
+            <div class="formisi"> 
+                <div class="left"> 
+                    <div class="form-group"> 
                     <label for="KdPenjualan"><b>Kode Penjualan:</b> </label>
                     <input type="text" id="KdPenjualan" name="KdPenjualan" value="<?php echo $DataHD->KdPenjualan; ?>" readonly><br> 
+                    
+                    </div>
+                    <div class="form-group"> 
                     <label for="tgljt"><b>Tanggal Jatuh Tempo:</b> </label>
                     <input type="date" id="tgljt" name="tgljt" value="<?php echo $formattedDate; ?>"readonly>
+                    </div> 
+                    <div class="form-group"> 
                     <label for="KdTipePembayaran"><b>Tipe Pembayaran:</b> </label>  
                     <select  id="KdTipePembayaran" name="KdTipePembayaran" >
                         <option value="">Pilih Tipe Pembayaran</option> 
@@ -157,6 +186,8 @@
                             } 
                         } ?>
                     </select> 
+                    </div> 
+                    <div class="form-group"> 
                     <label for="KdPelanggan"><b>Kode Pelanggan:</b> </label> 
                     <select  id="KdPelanggan" name="KdPelanggan" onchange="handlePelangganChange(this)">
                         <option value="">Pilih Pelanggan</option>
@@ -174,72 +205,85 @@
                             } 
                         } ?>
                     </select>
+                    </div> 
+                    <div class="form-group"> 
                     <label for="labelNamaPelanggan"><b>Nama Pelanggan:</b> </label> 
-                    <input type="text" id="labelNamaPelanggan" name="labelNamaPelanggan" value="<?php echo $DataHD->NamaPelanggan; ?>" readonly><br> 
+                    <input type="text" id="labelNamaPelanggan" name="labelNamaPelanggan" value="<?php echo $DataHD->NamaPelanggan; ?>" readonly> 
+                    </div> 
+                    <div class="form-group"> 
                     <label for="labelNamaPelanggan"><b>No HP:</b> </label> 
-                    <input type="text" id="labelNoHP" name="labelNoHP" value="<?php echo $DataHD->NoHp; ?>" readonly><br>  
-                    <h3>Items</h3>
-                    <table id="itemsTable">
-                        <thead>
-                            <tr>
-                                <th>Kode Barang</th>
-                                <th>Qty</th>
-                                <th>Harga</th>
-                                <th>Total</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="items"> 
-                                <?php 
-                                foreach ($DataDT as $key => $value) {
-                                    ?>
-                                    <script >
-                                        itemCount++;
-                                    </script>
-                                    <tr class="item"> 
-                                    <td>
-                                        <select id="items[<?php echo $key; ?>][KdBarang]" name="items[<?php echo $key; ?>][KdBarang]" onchange="handleBarangChange(this,0)">
-                                            <option value="">Pilih Barang</option>
-                                            <?php foreach ($listBarang as $Barang) { 
-                                                if ($value->KdBarang === $Barang->KdBarang) { 
-                                                   ?> 
-                                                    <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
-                                                   <?php 
-                                                } 
-                                                else
-                                                {
-                                                    ?> 
-                                                    <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
-                                                   <?php 
-                                                } 
-                                            } ?>
-                                        </select> 
-                                    </td>
-                                    <td><input type="number" value = "<?php echo $value->Qty; ?>" id="items[<?php echo $key; ?>][Qty]" name="items[<?php echo $key; ?>][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
-                                    <td><input type="number"  value = "<?php echo $value->Harga; ?>" id="items[<?php echo $key; ?>][Harga]" name="items[<?php echo $key; ?>][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
-                                    <td><input type="number"  value = "<?php echo $value->Total; ?>" id="items[<?php echo $key; ?>][Total]"  name="items[<?php echo $key; ?>][Total]" placeholder="Total" readonly></td> 
-                                    <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
-                                    </tr> 
-                                    <?php
-                                }
-                                ?> 
-                        </tbody> 
-                        <footer> 
-                                <tr> 
-                                    <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
-                                    <th colspan="2"><input  value = "<?php echo $DataHD->GrandTotal;; ?>" type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
-                                </tr> 
-                        </footer>
-                    </table>
-                    <button type="button" class="add-item-btn" onclick="addItem()">Tambah Item</button>  
-                    <input type="submit" value="Update">
-                    <button type="button" class="exit-item-btn" onclick="Exit()">Exit</button> 
+                    <input type="text" id="labelNoHP" name="labelNoHP" value="<?php echo $DataHD->NoHp; ?>" readonly>  
+                    </div> 
                 </div>
-            </form>
+                <div class="right"> 
+                    <div class="form-group"> 
+                        <label> <h3>Items</h3> </label> 
+                        <table id="itemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Kode Barang</th>
+                                    <th>Qty</th>
+                                    <th>Harga</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="items"> 
+                                    <?php 
+                                    foreach ($DataDT as $key => $value) {
+                                        ?>
+                                        <script >
+                                            itemCount++;
+                                        </script>
+                                        <tr class="item"> 
+                                        <td>
+                                            <select id="items[<?php echo $key; ?>][KdBarang]" name="items[<?php echo $key; ?>][KdBarang]" onchange="handleBarangChange(this,0)">
+                                                <option value="">Pilih Barang</option>
+                                                <?php foreach ($listBarang as $Barang) { 
+                                                    if ($value->KdBarang === $Barang->KdBarang) { 
+                                                       ?> 
+                                                        <option selected value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
+                                                       <?php 
+                                                    } 
+                                                    else
+                                                    {
+                                                        ?> 
+                                                        <option value="<?php echo $Barang->KdBarang; ?>"><?php echo $Barang->NamaBarang . " - " . $Barang->Warna; ?></option>
+                                                       <?php 
+                                                    } 
+                                                } ?>
+                                            </select> 
+                                        </td>
+                                        <td><input type="number" value = "<?php echo $value->Qty; ?>" id="items[<?php echo $key; ?>][Qty]" name="items[<?php echo $key; ?>][Qty]" placeholder="Qty" oninput="calculateTotal(this)"></td>
+                                        <td><input type="number"  value = "<?php echo $value->Harga; ?>" id="items[<?php echo $key; ?>][Harga]" name="items[<?php echo $key; ?>][Harga]" placeholder="Harga" readonly oninput="calculateTotal(this)"></td>
+                                        <td><input type="number"  value = "<?php echo $value->Total; ?>" id="items[<?php echo $key; ?>][Total]"  name="items[<?php echo $key; ?>][Total]" placeholder="Total" readonly></td> 
+                                        <td><button type="button" class="delete-item-btn" onclick="deleteItem(this)">Delete</button></td>
+                                        </tr> 
+                                        <?php
+                                    }
+                                    ?> 
+                            </tbody> 
+                            <footer> 
+                                    <tr> 
+                                        <th colspan="2" style="text-align: right;"><b>Grand Total:</b></th>
+                                        <th colspan="2"><input  value = "<?php echo $DataHD->GrandTotal;; ?>" type="number" id="GrandTotal" name="GrandTotal" style="width: 100%;" readonly></th> 
+                                    </tr> 
+                            </footer>
+                        </table>
+                        </div> 
+                        <div class="buttons">  
+                            <button type="button" onclick="addItem()">Tambah Item</button>  
+                            <button type="submit" >Update</button>  
+                            <button type="button" onclick="Exit()">Exit</button> 
+                        </div>  
+                    </div>
+                </div> 
+            </div> 
+        </form> 
         <?php 
             } 
         ?> 
-    </div> 
+    </div>  
 </body>
 </html>
 
@@ -358,125 +402,40 @@
 
 </script>
 
-    <style>         
-        .defaultForm {
-            display: flex;
-            position: absolute;
-            top: 80px; 
-            left: 20px;
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        } 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-section {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input[type="text"],
-        input[type="submit"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .items {
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
-        .item {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .lunas-item-btn {
-            background-color: gray;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .lunas-item-btn:hover {
-            background-color: orange;
-        }
+<style>  
 
-        .view-item-btn {
-            background-color: gray;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .view-item-btn:hover {
-            background-color: blue;
-        }
+    label {
+        color: black;
+    }
 
-        .add-item-btn {
-            background-color: gray;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .add-item-btn:hover {
-            background-color: green;
-        }
+    .form-inline {
+        display: flex;
+        align-items: center;
+    }
 
-        .exit-item-btn {
-            width: 100%;
-            background-color: grey;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .exit-item-btn:hover {
-            background-color: red;
-        }
- 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        .add-item-btn, .delete-item-btn {
-            margin-top: 10px;
-            cursor: pointer;
-        } 
- 
- 
-    </style>
+    #searchResults {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        display: none;
+    } 
+
+    .error-message {
+            color: red;
+            font-size: 12px;
+    }
+
+    .form-section {
+        margin-bottom: 20px;
+    } 
+
+    .items {
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+    .item {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    } 
+</style>

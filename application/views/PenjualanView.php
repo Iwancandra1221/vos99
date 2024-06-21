@@ -28,7 +28,7 @@
                 <select id="filter">
                     <option value="all">All</option>
                     <option value="lunas">Lunas</option>
-                    <option selected value="belum-lunas">Belum Lunas</option>
+                    <option value="belum-lunas">Belum Lunas</option>
                 </select>  
             <table  id="myTable">
                 <thead>
@@ -72,48 +72,69 @@
 </body>
 </html>  
 <script> 
+    let table;
+    function refreshTable(filter) {
+        // Hapus instance DataTables yang ada
+        table.destroy();
 
+        // Isi ulang tabel dengan data baru berdasarkan filter
+        fillTable(filter);
+
+        // Inisialisasi kembali DataTables setelah tabel diisi ulang
+        $(document).ready(function() {
+            table = new DataTable('#myTable', { 
+                pageLength: 10, 
+                "paging": true, 
+                "lengthChange": false,  
+                "searching": false, 
+                "info": true 
+            }); 
+        });
+    }
+
+    function fillTable(filter) {
+        const $Penjualan = <?php echo json_encode($Penjualan); ?>;  
+        const table = document.getElementById('myTable');
+        const tbody = table.querySelector('tbody'); 
+        tbody.innerHTML = ''; 
+        $Penjualan.forEach(item => { 
+            if (filter === 'all' || (filter === 'lunas' && item.Lunas === 1) || (filter === 'belum-lunas' && item.Lunas === 0)) { 
+                const row = document.createElement('tr');  
+                row.innerHTML = `
+                    <td>${item.KdPenjualan}</td>
+                    <td>${item.NamaTipePembayaran}</td>
+                    <td>${item.NamaPelanggan}</td>
+                    <td>${item.NoHp}</td>
+                    <td>${item.GrandTotal}</td>
+                    <td>
+                        <div class="actions" ${item.Lunas === 1 ? 'style="display:none;"' : ''}>
+                            <button type="button" class="btn lunas-item-btn btn-lunas" data-id="${item.KdPenjualan}">Lunas</button>
+                            <button type="button" class="btn view-item-btn btn-view" data-id="${item.KdPenjualan}">View</button>
+                            <button type="button" class="btn edit-item-btn btn-edit" data-id="${item.KdPenjualan}">Edit</button>
+                            <button type="button" class="btn delete-item-btn btn-delete" data-id="${item.KdPenjualan}">Delete</button>
+                        </div>
+                    </td>
+                `; 
+                tbody.appendChild(row);
+            }
+        });
+    }
+ 
     document.addEventListener('DOMContentLoaded', function() {
-            const filterDropdown = document.getElementById('filter');
-            const rows = document.querySelectorAll('#myTable tbody tr'); 
+            const filterDropdown = document.getElementById('filter'); 
             filterDropdown.addEventListener('change', function() {
                 const filterValue = this.value; 
-                rows.forEach(row => {
-                    const isLunas = row.getAttribute('data-lunas');
-                    if (filterValue === 'all') {
-                        row.classList.remove('hidden');
-                    } else if (filterValue === 'lunas' && isLunas === '1') {
-                        row.classList.remove('hidden');
-                    } else if (filterValue === 'belum-lunas' && isLunas === '0') {
-                        row.classList.remove('hidden');
-                    } else {
-                        row.classList.add('hidden');
-                    }
-                });
+                refreshTable(filterValue);
             });
-        });
+        }); 
 
-   function defaultload() { 
-    const filterValue = 'belum-lunas'; 
-    const rows = document.querySelectorAll('#myTable tbody tr'); 
-    rows.forEach(row => {
-        const isLunas = row.getAttribute('data-lunas');
-        if (filterValue === 'all') {
-            row.classList.remove('hidden');
-        } else if (filterValue === 'lunas' && isLunas === '1') {
-            row.classList.remove('hidden');
-        } else if (filterValue === 'belum-lunas' && isLunas === '0') {
-            row.classList.remove('hidden');
-        } else {
-            row.classList.add('hidden');
-        }
-    });
- }
-  $(document).ready(function() {  
-    defaultload();
-    let table = new DataTable('#myTable', { 
-        pageLength: 5,
-        "lengthChange": false,
+  $(document).ready(function() {   
+    table = new DataTable('#myTable', { 
+        pageLength: 10, 
+        "paging": true, 
+        "lengthChange": false,  
+        "searching": false, 
+        "info": true 
     }); 
 
     $('#myTable tbody').on('click', 'tr', function() { 

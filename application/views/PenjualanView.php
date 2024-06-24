@@ -30,7 +30,7 @@
             justify-content: flex-start; 
         }
 </style>
-    <div class="container2">
+    <div class="container2" >
     <div class="formjudul"><h3><?php echo $title; ?></h3></div>
     <div class="formisi">
         <div class="left2">     

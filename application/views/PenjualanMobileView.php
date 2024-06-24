@@ -57,7 +57,8 @@
                             <td><?php echo '<b>'.$item->GrandTotal.'</b>'; ?></td>
                             <td> 
                                 <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
-                                    <button type="button" class="btn lunas-item-btn btn-print" data-id="<?php echo $item->KdPenjualan; ?>">Print</button> 
+                                    <button type="button" class="btn print-item-btn btn-print" data-id="<?php echo $item->KdPenjualan; ?>">Print</button> 
+                                    <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button> 
                                 </div>
                             </td>
                         </tr> 
@@ -151,6 +152,12 @@
         window.location.href = "PenjualanMobile/CetakNota?Tipe=Print&KdPenjualan=" + encodedKdPenjualan;
     
     });
+    $('.btn-lunas').on('click', function() {
+        var KdPenjualan = $(this).data('id');
+        var encodedKdPenjualan = encodeURIComponent(KdPenjualan);  
+        window.location.href = "PenjualanMobile/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+    
+    });
 
      
 
@@ -166,6 +173,16 @@
         }
         .lunas-item-btn:hover {
             background-color: orange;
+        }
+        .print-item-btn {
+            background-color: gray;
+            color: #fff;
+            border: none; 
+            cursor: pointer;
+            border-radius: 4px; 
+        }
+        .print-item-btn:hover {
+            background-color: blue;
         }
          
     </style>

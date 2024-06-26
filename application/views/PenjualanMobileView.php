@@ -101,14 +101,13 @@
             if (filter === 'all' || (filter === 'lunas' && item.Lunas === 1) || (filter === 'belum-lunas' && item.Lunas === 0)) { 
                 const row = document.createElement('tr');  
                 row.innerHTML = `
-                    <td>${item.KdPenjualan}</td>
-                    <td>${item.NamaTipePembayaran}</td>
-                    <td>${item.NamaPelanggan}</td>
-                    <td>${item.NoHp}</td>
+                    <td><b>${item.KdPenjualan}</b><br>${item.NamaTipePembayaran}</td>
+                    <td><b>${item.NamaPelanggan}</b><br>${item.NoHp}</td> 
                     <td>${item.GrandTotal}</td>
                     <td>
                         <div class="actions" ${item.Lunas === 1 ? 'style="display:none;"' : ''}>
-                            <button type="button" class="btn lunas-item-btn btn-print" data-id="${item.KdPenjualan}">Print Nota</button> 
+                            <button type="button" class="btn print-item-btn btn-print" data-id="${item.KdPenjualan}">Print</button> 
+                            <button type="button" class="btn lunas-item-btn btn-lunas" data-id="${item.KdPenjualan}">Lunas</button> 
                         </div>
                     </td>
                 `; 

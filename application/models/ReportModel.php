@@ -41,4 +41,46 @@ class ReportModel extends CI_Model
         return $query->result();
     }
 
+    public function GetFilteredSalesReport($startDate, $endDate)
+    {
+        $this->db->select('
+            HD.KdPelanggan, 
+            P.NamaPelanggan, 
+            HD.KdPenjualan,  
+            HD.Lunas,
+            HD.LunasDate,
+            HD.CreatedDate AS TglTrans,
+            HD.Tanggal_Tempo, 
+            HD.KdTIpePembayaran, 
+            TP.NamaTipePembayaran,
+            HD.GrandTotal as TotalJual,
+            (SUM(DT.Qty) * B.Harga) AS TotalModal,
+            (HD.GrandTotal - (SUM(DT.Qty) * B.Harga)) as LabaRugi
+        ');
+        $this->db->from('PenjualanHD HD');
+        $this->db->join('PenjualanDT DT', 'HD.KdPenjualan = DT.KdPenjualan');
+        $this->db->join('Barang B', 'DT.KdBarang = B.KdBarang');
+        $this->db->join('Pelanggan P', 'HD.KdPelanggan = P.KdPelanggan');
+        $this->db->join('TipePembayaran TP', 'HD.KdTipePembayaran = TP.KdTipePembayaran');
+        $this->db->where('HD.CreatedDate >=', $startDate);
+        $this->db->where('HD.CreatedDate <=', $endDate);
+        $this->db->group_by('
+            HD.KdPelanggan, 
+            P.NamaPelanggan, 
+            HD.KdPenjualan, 
+            HD.Lunas,
+            HD.LunasDate,
+            HD.CreatedDate,
+            HD.Tanggal_Tempo, 
+            HD.KdTIpePembayaran, 
+            TP.NamaTipePembayaran,
+            B.Harga,
+            HD.GrandTotal
+        ');
+        $this->db->order_by('P.NamaPelanggan, HD.KdPenjualan');
+        
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }

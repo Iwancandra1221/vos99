@@ -54,7 +54,7 @@ class ReportPenjualan extends CI_Controller	 {
 
  		if ($reportType === "Penjualan")
  		{ 
-	        $Data  = $this->ReportModel->GetReportPenjualan($dp1,$dp2);
+	        $Data  = $this->ReportModel->GetFilteredSalesReport($dp1,$dp2);
 
 			if ($this->pdf_flag === 1 || $this->preview_flag === 1)
 			{
@@ -122,11 +122,16 @@ class ReportPenjualan extends CI_Controller	 {
 				</table>';			
 
 				$cust = '';
+				$custname = '';
 				$no = 0;
  
-				$sumtotal= 0; 
+				$sumtotalawal= 0; 
+				$sumtotaljual= 0; 
+				$sumtotallaba= 0; 
 
-				$final_sumtotal= 0;
+				$final_sumtotalawal= 0;
+				$final_sumtotaljual= 0;
+				$final_sumtotallaba= 0;
 				$content = '';
 				foreach ($Data as $key => $c) {
 
@@ -139,17 +144,25 @@ class ReportPenjualan extends CI_Controller	 {
 						</tr> ';
 						$content .= '<tr>
 										<td ></td>  
-										<td ><b>Total '.$cust.'</b></td>   
-										<td ><b>'.number_format($sumtotal,2,",",".").'</b></td> 
+										<td ><b>Total '.$custname.'</b></td>   
+										<td ><b>'.number_format($sumtotalawal,2,",",".").'</b></td> 
+										<td ><b>'.number_format($sumtotaljual,2,",",".").'</b></td>  
+									    <td style="color: '.($sumtotallaba < 0 ? 'red' : 'inherit').';">
+									        '.number_format($sumtotallaba, 2, ",", ".").'
+									    </td>
 										<td colspan="3"></td>   
 									</tr>';
 						$content .= '</table>';
 						$no = 0; 
-						$sumtotal = 0;
+						$sumtotalawal= 0; 
+						$sumtotaljual= 0; 
+						$sumtotallaba= 0; 
+ 
 					}
 
 					if($no==0){
-						$cust = $cust=$c->KdPelanggan;
+						$cust = $c->KdPelanggan;
+						$custname = $c->NamaPelanggan;
 						$content .= '<table style="width:297mm">
 									<tr>
 										<td colspan="6">
@@ -159,27 +172,38 @@ class ReportPenjualan extends CI_Controller	 {
 									<tr>
 										<th style="text-align: left; width: 15%; font-size: 13px;">Kode Penjualan</th> 
 										<th style="text-align: left; width: 25%; font-size: 13px;">Tipe Pembayaran</th> 
-										<th style="text-align: left; width: 15%; font-size: 13px;">Grand Total</th>
-										<th style="text-align: left; width: 15%; font-size: 13px;">Tanggal Transaksi</th>
-										<th style="text-align: left; width: 15%; font-size: 13px;">Tanggal Jatuh Tempo</th>
-										<th style="text-align: left; width: 15%; font-size: 13px;">Status Pembayaran</th>
+										<th style="text-align: left; width: 10%; font-size: 13px;">Total Omzet</th>
+										<th style="text-align: left; width: 10%; font-size: 13px;">Total Jual</th>
+										<th style="text-align: left; width: 10%; font-size: 13px;">Laba Rugi</th>
+										<th style="text-align: left; width: 10%; font-size: 13px;">Tgl Transaksi</th>
+										<th style="text-align: left; width: 10%; font-size: 13px;">Tgl Jatuh Tempo</th>
+										<th style="text-align: left; width: 10%; font-size: 13px;">Status</th>
 									</tr>';
 					}  
- 
-						$sumtotal += $c->GrandTotal; 
- 
-						$final_sumtotal += $c->GrandTotal; 
+  
+						$sumtotalawal += $c->TotalModal; 
+						$sumtotaljual += $c->TotalJual;  
+						$sumtotallaba += $c->LabaRugi; 
+
+						$final_sumtotalawal += $c->TotalModal; 
+						$final_sumtotaljual += $c->TotalJual; 
+						$final_sumtotallaba += $c->LabaRugi;  
 
 						$content .= '<tr>
 									    <td>'.trim($c->KdPenjualan).'</td>
 									    <td>'.trim($c->NamaTipePembayaran).'</td>
-									    <td>'.number_format($c->GrandTotal, 2, ",", ".").'</td>
+									    <td>'.number_format($c->TotalModal, 2, ",", ".").'</td>
+									    <td>'.number_format($c->TotalJual, 2, ",", ".").'</td>
+									    <td style="color: '.($c->LabaRugi < 0 ? 'red' : 'inherit').';">
+									        '.number_format($c->LabaRugi, 2, ",", ".").'
+									    </td>
 									    <td>'.date_format(date_create($c->TglTrans), "d-m-Y").'</td>
 									    <td>'.date_format(date_create($c->Tanggal_Tempo), "d-m-Y").'</td>
 									    <td style="color: '.($c->Lunas == 1 ? 'green' : 'red').';">
 									        '.($c->Lunas == 1 ? 'Lunas' : 'Belum Lunas').'
 									    </td>
 									</tr>';
+
 
 					$no++;
 
@@ -196,8 +220,12 @@ class ReportPenjualan extends CI_Controller	 {
 
 					$content .= '<tr>
 										<td ></td>  
-										<td ><b>Total '.$cust.'</b></td>   
-										<td ><b>'.number_format($sumtotal,2,",",".").'</b></td> 
+										<td ><b>Total '.$custname.'</b></td>   
+										<td ><b>'.number_format($sumtotalawal,2,",",".").'</b></td> 
+										<td ><b>'.number_format($sumtotaljual,2,",",".").'</b></td> 
+									    <td style="color: '.($sumtotallaba < 0 ? 'red' : 'inherit').';">
+									        '.number_format($sumtotallaba, 2, ",", ".").'
+									    </td>
 										<td colspan="3"></td>   
 								</tr>';
 
@@ -209,7 +237,11 @@ class ReportPenjualan extends CI_Controller	 {
 					$content .= '<tr>
 										<td ></td>  
 										<td ><b>GRAND TOTAL</b></td>   
-										<td ><b>'.number_format($final_sumtotal,2,",",".").'</b></td> 
+										<td ><b>'.number_format($final_sumtotalawal,2,",",".").'</b></td> 
+										<td ><b>'.number_format($final_sumtotaljual,2,",",".").'</b></td> 
+									    <td style="color: '.($final_sumtotallaba < 0 ? 'red' : 'inherit').';">
+									        '.number_format($final_sumtotallaba, 2, ",", ".").'
+									    </td>
 										<td colspan="3"></td>   
 									</tr>';
 					$content .= '</table>';

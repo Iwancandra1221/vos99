@@ -4,21 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
 </head> 
+<style> 
+        .container2 { 
+            padding: 70px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+        }
+</style>
 <body>
-	<div class="container"> 
+	<div class="container2"> 
 		<form id ="myForm" action="<?php echo base_url('ReportPenjualan/CetakReport'); ?>" method="post" class="defaultForm"> 
 			<div class="page-title" style="text-align: center;"><b><?php echo(strtoupper($title));?></b></div>  
 			<div class="row">
-				<div class="col-3 col-m-3">Periode PO</div>
-				<div class="col-2 col-m-2 date">
+				<div class="col-3 col-m-2">Periode PO</div>
+				<div class="col-4 col-m-4 date">
 					<input type="date" class="form-control" id="dp1"  name="dp1" autocomplete="off" required>
 				</div>
 				<div class="col-1 col-m-1">SD</div>
-				<div class="col-2 col-m-2 date">
+				<div class="col-4 col-m-4 date">
 					<input type="date" class="form-control" id="dp2" name="dp2" autocomplete="off" required>
 				</div>
-			</div>   
+			</div>  
+
+		    <div class="row" style="padding-top:20px;">
+		        <div class="col-3 col-m-2">Tipe Laporan</div>
+		        <div class="col-9 col-m-10">
+		            <label><input type="radio" name="reportType" value="Penjualan" required> Penjualan Per Pelanggan </label>
+		            <br>
+		            <label><input type="radio" name="reportType" value="Barang" required> Barang Per Periode</label>
+		        </div>
+		    </div> 
 	      	<div class="row" align="center" style="padding-top:50px;" id="div_pdf"> 
 	         	<input type = "submit" class="btn-Preview" name="btnPreview" value="PREVIEW"/>
 	         	<input type = "submit" class="btn-Excel" name="btnExcel" value="EXPORT EXCEL"/>

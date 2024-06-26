@@ -10,11 +10,11 @@ class ReportPenjualan extends CI_Controller	 {
 	function __construct()
 	{
 		parent::__construct();  
+        $this->load->model('ReportModel');
 	}
 
 	public function index()
-	{ 
-		$data['formDest'] = "ReportBRPNRP/ProsesNRP";
+	{  
         $data['title'] = ucfirst('Laporan Penjualan');  
 		$this->load->view('templates/header', $data);
         $this->load->view('LaporanPenjualanView', $data);
@@ -28,6 +28,8 @@ class ReportPenjualan extends CI_Controller	 {
 			   
 		$dp1 = $_POST['dp1']; 
 		$dp2 = $_POST['dp2'];   
+ 
+		$reportType = $_POST['reportType']; 
  
 		if(isset($_POST["btnPreview"])){
 			$this->preview_flag = 1;
@@ -50,145 +52,293 @@ class ReportPenjualan extends CI_Controller	 {
 			$this->pdf_flag = 0;
 		}
 
-		if ($this->pdf_flag === 1 || $this->preview_flag === 1)
-		{
-			$this->CreateHtml($dp1,$dp2);
-		} 
-		else
-		{
-			$this->CreateExcel();
-		}
+ 		if ($reportType === "Penjualan")
+ 		{ 
+	        $Data  = $this->ReportModel->GetReportPenjualan($dp1,$dp2);
+
+			if ($this->pdf_flag === 1 || $this->preview_flag === 1)
+			{
+				$this->CreateHtmlPenjualan($dp1,$dp2,$Data);
+			} 
+			else
+			{
+				$this->CreateExcel();
+			}
+ 		}
+ 		else
+ 		{
+ 
+	        $Data  = $this->ReportModel->GetReportBarang($dp1,$dp2);
+
+			if ($this->pdf_flag === 1 || $this->preview_flag === 1)
+			{
+				$this->CreateHtmlBarang($dp1,$dp2,$Data);
+			} 
+			else
+			{
+				$this->CreateExcel();
+			}
+ 		}
+
 	}
 
-	public function CreateHtml($dp1,$dp2)
+	public function CreateHtmlPenjualan($periode_dari,$periode_sampai,$Data)
 	{
 		date_default_timezone_set('Asia/Jakarta'); 
         $tanggal_print = date('d-m-Y H:i:s');
 
-        // Header HTML
-        $header = '
-        <div style="text-align: center;  "> 
-            <div style="font-size: 24px; text-align: center;"> 
-                <b>'.GlobCompany.'</b>
-            </div> 
-            <div style="font-size: 14px; text-align: center;">  
-                <b>Laporan Penjualan</b> 
-                <br>  
-                Periode '.$dp1.' s/d '.$dp2.'
-            </div><br> 
-        </div>';
-        // Footer HTML
-        $footer = '<br>  
-        <table style="width: 100%;">
-            <tr> 
-                <td style="text-align: right; width: 50%;"> 
-                    <div style="font-size: small; text-align: right;">
-                        Dicetak pada: '.$tanggal_print.'
-                    </div>
-                </td>
-            </tr>
-        </table> '; 
-        // Konten HTML
-        $html = '<div ></div >';
-        // $html .= ' 
-        // <div > 
-        //     <div class="form-section">
-        //         <table style="width: 100%;">
-        //             <tr>
-        //                 <td style="width: 30%;">Tipe Pembayaran:</td>
-        //                 <td><b>'.$DataHD->NamaTipePembayaran.'</b></td>
-        //                 <td>Nama:</td>
-        //                 <td><b>'.$DataHD->NamaPelanggan.'</b></td>
-        //             </tr>
-        //             <tr>
-        //                 <td>No Transaksi:</td>
-        //                 <td><b>'.$DataHD->KdPenjualan.'</b></td> 
-        //                 <td>No HP:</td>
-        //                 <td><b>'.$DataHD->NoHp.'</b></td>
-        //             </tr>
-        //         </table>
-        //         <h3>Detail Barang</h3>
-        //         <table id="itemsTable" style="width: 100%; border-collapse: collapse;" border="1">
-        //             <thead>
-        //                 <tr>
-        //                     <th style="padding: 5px; width: 45%;  text-align: center;">Nama Barang</th> 
-        //                     <th style="padding: 5px; width: 10%;  text-align: center;">Qty</th>
-        //                     <th style="padding: 5px; width: 15%;  text-align: center;">Harga</th>
-        //                     <th style="padding: 5px; width: 15%;  text-align: center;">Total</th> 
-        //                 </tr>
-        //             </thead>
-        //             <tbody id="Detail Barang">';
+        $titleReport = 'LAPORAN PENJUALAN';	  
 
-        // foreach ($DataDT as $key => $value) {
-        //     $html .= '
-        //                 <tr class="item"> 
-        //                 <td style="padding: 5px; text-align: left;">
-        //                     '.$value->NamaBarang.' - '.$value->Warna.'
-        //                 </td>
-        //                 <td style="padding: 5px; text-align: center;">
-        //                     '.$value->Qty.'
-        //                 </td>
-        //                 <td style="padding: 5px; text-align: right;">
-        //                     '.number_format($value->Harga, 2, ',', '.').'
-        //                 </td>
-        //                 <td style="padding: 5px; text-align: right;">
-        //                     '.number_format($value->Total, 2, ',', '.').'
-        //                 </td> 
-        //             </tr>';
-        // }
+			if (count($Data) < 1) { 
+				exit('Tidak ada data');
+			} 
 
-        // $html .= '
-        //             </tbody> 
-        //             <tfoot> 
-        //                 <tr> 
-        //                     <th colspan="1" style="padding: 5px; text-align: right;">
-        //                         <b>Grand Total</b>
-        //                     </th>
-        //                     <th colspan="3" style="padding: 5px; text-align: right;"> 
-        //                         <b>'.number_format($DataHD->GrandTotal, 2, ',', '.').'</b> 
-        //                     </th> 
-        //                 </tr> 
-        //             </tfoot>
-        //         </table>  
-        //     </div>
-        // </div>';
+			$header = '<table border="0" style="width:297mm; font-size:15px;">
+					<tr>
+						<td>
+							<b>
+								'.$titleReport.'
+							</b>
+						</td>
+						<td align="right" style="font-size:12px;">
+							Print Date : '.$tanggal_print.'
+						</td>
+					</tr>
+					<tr>
+						<td >
+							<b>
+								TOKO BERKAH JAYA
+							</b>
+						</td>
+						<td align="right" style="font-size:12px;">
+							PERIODE : '.$periode_dari.' - '.$periode_sampai.'
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr>
+						</td>
+					</tr>  
+				</table>';			
+
+				$cust = '';
+				$no = 0;
+ 
+				$sumtotal= 0; 
+
+				$final_sumtotal= 0;
+				$content = '';
+				foreach ($Data as $key => $c) {
+
+					if($c->KdPelanggan!=$cust && $no!=0){
+
+						$content .='<tr>
+							<td colspan="8">
+								<hr>
+							</td>
+						</tr> ';
+						$content .= '<tr>
+										<td ></td>  
+										<td ><b>Total '.$cust.'</b></td>   
+										<td ><b>'.number_format($sumtotal,2,",",".").'</b></td> 
+										<td colspan="3"></td>   
+									</tr>';
+						$content .= '</table>';
+						$no = 0; 
+						$sumtotal = 0;
+					}
+
+					if($no==0){
+						$cust = $cust=$c->KdPelanggan;
+						$content .= '<table style="width:297mm">
+									<tr>
+										<td colspan="6">
+											<br><b>'.$c->NamaPelanggan.'</b>
+										</td>
+									</tr>
+									<tr>
+										<th style="text-align: left; width: 15%; font-size: 13px;">Kode Penjualan</th> 
+										<th style="text-align: left; width: 25%; font-size: 13px;">Tipe Pembayaran</th> 
+										<th style="text-align: left; width: 15%; font-size: 13px;">Grand Total</th>
+										<th style="text-align: left; width: 15%; font-size: 13px;">Tanggal Transaksi</th>
+										<th style="text-align: left; width: 15%; font-size: 13px;">Tanggal Jatuh Tempo</th>
+										<th style="text-align: left; width: 15%; font-size: 13px;">Status Pembayaran</th>
+									</tr>';
+					}  
+ 
+						$sumtotal += $c->GrandTotal; 
+ 
+						$final_sumtotal += $c->GrandTotal; 
+
+						$content .= '<tr>
+									    <td>'.trim($c->KdPenjualan).'</td>
+									    <td>'.trim($c->NamaTipePembayaran).'</td>
+									    <td>'.number_format($c->GrandTotal, 2, ",", ".").'</td>
+									    <td>'.date_format(date_create($c->TglTrans), "d-m-Y").'</td>
+									    <td>'.date_format(date_create($c->Tanggal_Tempo), "d-m-Y").'</td>
+									    <td style="color: '.($c->Lunas == 1 ? 'green' : 'red').';">
+									        '.($c->Lunas == 1 ? 'Lunas' : 'Belum Lunas').'
+									    </td>
+									</tr>';
+
+					$no++;
+
+				}
+
+				if(count($Data)){
+
+
+					$content .='<tr>
+						<td colspan="8">
+							<hr>
+						</td>
+					</tr> ';
+
+					$content .= '<tr>
+										<td ></td>  
+										<td ><b>Total '.$cust.'</b></td>   
+										<td ><b>'.number_format($sumtotal,2,",",".").'</b></td> 
+										<td colspan="3"></td>   
+								</tr>';
+
+					$content .='<tr>
+						<td colspan="8">
+							<hr>
+						</td>
+					</tr> ';
+					$content .= '<tr>
+										<td ></td>  
+										<td ><b>GRAND TOTAL</b></td>   
+										<td ><b>'.number_format($final_sumtotal,2,",",".").'</b></td> 
+										<td colspan="3"></td>   
+									</tr>';
+					$content .= '</table>';
+				}
+				$footer = "";
+         
 
         if ($this->preview_flag === 1)
 		{
-			echo $header.$html.$footer;
+			echo $header.$content.$footer;
 		} 
         if ($this->pdf_flag === 1)
 		{
-			$this->CreatePDF($header,$html,$footer);
+			$this->CreatePDF($header,$content,$footer);
 		}  
 
 	}
 
+	public function CreateHtmlBarang($periode_dari,$periode_sampai,$Data)
+	{
+		date_default_timezone_set('Asia/Jakarta'); 
+        $tanggal_print = date('d-m-Y H:i:s');
+
+        $titleReport = 'LAPORAN BARANG';	  
+
+			if (count($Data) < 1) { 
+				exit('Tidak ada data');
+			} 
+
+			$header = '<table border="0" style="width:297mm; font-size:15px;">
+					<tr>
+						<td>
+							<b>
+								'.$titleReport.'
+							</b>
+						</td>
+						<td align="right" style="font-size:12px;">
+							Print Date : '.$tanggal_print.'
+						</td>
+					</tr>
+					<tr>
+						<td >
+							<b>
+								TOKO BERKAH JAYA
+							</b>
+						</td>
+						<td align="right" style="font-size:12px;">
+							PERIODE : '.$periode_dari.' - '.$periode_sampai.'
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr>
+						</td>
+					</tr>  
+				</table>';			
+
+				$cust = '';
+				$no = 0;
+ 
+				$GrandTotal= 0; 
+				$content = '<br><table style="width:297mm"> 
+									<tr>
+										<th style="text-align: left; width: 40%; font-size: 13px;">Nama Barang</th> 
+										<th style="text-align: left; width: 20%; font-size: 13px;">Harga</th> 
+										<th style="text-align: left; width: 20%; font-size: 13px;">Qty</th> 
+										<th style="text-align: left; width: 20%; font-size: 13px;">Total</th> 
+									</tr>';
+
+				foreach ($Data as $key => $c) {  
+
+						$GrandTotal += $c->GrandTotal;   
+						$content .= '<tr>
+									    <td>'.trim($c->NamaBarang).'</td> 
+									    <td>'.number_format($c->Harga, 2, ",", ".").'</td>
+									    <td>'.trim($c->Total).'</td> 
+									    <td>'.number_format($c->GrandTotal, 2, ",", ".").'</td>
+									</tr>'; 
+					$no++;
+
+				}
+
+	
+					$content .='<tr>
+						<td colspan="8">
+							<hr>
+						</td>
+					</tr> '; 
+					$content .= '<tr>
+										<td  colspan="2"></td>  
+										<td ><b>GRAND TOTAL</b></td>   
+										<td ><b>'.number_format($GrandTotal,2,",",".").'</b></td>   
+									</tr>';
+					$content .= '</table>';
+				$footer = "";
+         
+
+        if ($this->preview_flag === 1)
+		{
+			echo $header.$content.$footer;
+		} 
+        if ($this->pdf_flag === 1)
+		{
+			$this->CreatePDF($header,$content,$footer);
+		}  
+
+	}
+  
 	public function CreatePDF($header, $html, $footer)
 	{
 	    try {
-	        $mpdf = new \Mpdf\Mpdf([
-	            'format' => 'A4', // Format default tidak berpengaruh karena kita akan menentukan ukuran kertas kustom
-	            'default_font' => 'tahoma',
-	            'margin_left' => 5,
-	            'margin_right' => 5,
-	            'margin_top' => 25,
-	            'margin_bottom' => 45,
-	            'margin_header' => 3,
-	            'margin_footer' => 3,
-	            'orientation' => 'P',
-	            // 'format_custom' => [100, 150] // Ukuran kertas kustom dalam milimeter
-	        ]);
-
-	        // Set header dan footer
+	        
+			$mpdf = new \Mpdf\Mpdf(array(
+				'mode' => '',
+				'format' => 'A4',
+				'default_font_size' => 8,
+				'default_font' => 'arial',
+				'margin_left' => 10,
+				'margin_right' => 10,
+				'margin_top' => 20,
+				'margin_bottom' => 10,
+				'margin_header' => 10,
+				'margin_footer' => 0,
+				'orientation' => 'P'
+			)); 
+ 
 	        $mpdf->SetHTMLHeader($header);
-	        $mpdf->SetHTMLFooter($footer);
-
-	        // Write HTML content
-	        $mpdf->WriteHTML($html);
-
-	        // Define output directory and file name
-
+	        $mpdf->SetHTMLFooter($footer); 
+	        $mpdf->WriteHTML($html); 
 			date_default_timezone_set('Asia/Jakarta'); 
 	        $tanggal_print = date('d-m-Y-H-i-s');
 
@@ -196,18 +346,14 @@ class ReportPenjualan extends CI_Controller	 {
 	        $namaFile = str_replace('/', '-', $tanggal_print);
 	        $folder_path = $output_dir;
 	        $file_path = $folder_path . '/' . $namaFile . '.pdf';
-
-	        // Check and create directory if not exists
+ 
 	        if (!file_exists($folder_path)) {
-	            mkdir($folder_path, 0777, true); // Membuat folder baru dengan izin 0777
-	        }
-
-	        // Save PDF file to the specified path
+	            mkdir($folder_path, 0777, true); 
+	        } 
 	        $mpdf->Output($file_path, \Mpdf\Output\Destination::FILE);  
 			$mpdf->Output($tanggal_print.'.pdf', \Mpdf\Output\Destination::INLINE);
 	        
-	    } catch (\Mpdf\MpdfException $e) {
-	        // Handle the error
+	    } catch (\Mpdf\MpdfException $e) { 
 	        echo 'Error creating PDF: ' . $e->getMessage();
 	    }
 	}

@@ -55,7 +55,7 @@
                     Report
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                    <a class="dropdown-item" href="<?php echo site_url('ReportPenjualan'); ?>">Laporan Penjualan</a> 
+                    <a class="dropdown-item" href="<?php echo site_url('ReportPenjualan'); ?>">Laporan</a> 
                 </div>
             </li> 
             <li class="nav-item">
@@ -75,7 +75,7 @@
     <style>  
 
         body {  
-            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); 
+/*            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

@@ -93,6 +93,51 @@
                 "info": true 
             }); 
         });
+            $('.btn-view').on('click', function() {
+        var id = $(this).data('id');
+        window.location.href = "Penjualan/View?KdPenjualan=" + id;
+    });
+
+
+    $('.btn-lunas').on('click', function() {
+        var id = $(this).data('id');
+        var encodedKdPenjualan = encodeURIComponent(id); 
+        if (confirm('Apakah Anda yakin ingin Melunaskan nota ini?')) {
+            window.location.href = "Penjualan/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+        }
+    
+    });
+
+    // Event listener for the Edit button
+    $('.btn-edit').on('click', function() {
+        var id = $(this).data('id'); 
+        window.location.href = "Penjualan/Edit?KdPenjualan=" + id;
+    });
+
+    // Event listener for the Delete button
+    $('.btn-delete').on('click', function() {
+        var id = $(this).data('id');
+        if (confirm('Apakah Anda yakin ingin Menghapus nota ini?')) { 
+            $.ajax({ 
+                  type: "POST",
+                  url: "<?php echo base_url('Penjualan/Delete'); ?>",
+                  data: { KdPenjualan: id },
+                  success: function(response) {
+                    if (response == "Success") { 
+                        location.reload();
+                        alert("Berhasil Hapus Transaksi");
+                    }
+                    else
+                    { 
+                        alert(response);
+                    }
+                  },
+                  error: function(xhr, status, error) {
+                      console.log(xhr.responseText);
+                  }
+            }); 
+        }
+    }); 
     }
 
     function fillTable(filter) {

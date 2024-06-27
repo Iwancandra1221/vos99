@@ -90,6 +90,22 @@
                 "info": true 
             }); 
         });
+        
+        $('.btn-print').on('click', function() {
+            var KdPenjualan = $(this).data('id');
+            var encodedKdPenjualan = encodeURIComponent(KdPenjualan);  
+            window.location.href = "PenjualanMobile/CetakNota?Tipe=Print&KdPenjualan=" + encodedKdPenjualan;
+        
+        });
+
+        $('.btn-lunas').on('click', function() {
+            var KdPenjualan = $(this).data('id');
+            var encodedKdPenjualan = encodeURIComponent(KdPenjualan);  
+            if (confirm('Apakah Anda yakin ingin Melunaskan nota ini?')) {
+            window.location.href = "PenjualanMobile/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+            }
+        
+        });
     }
 
     function fillTable(filter) {

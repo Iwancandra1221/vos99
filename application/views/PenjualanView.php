@@ -9,17 +9,16 @@
 <body> 
 
     <?php if ($this->session->flashdata('success_message')): ?>
-        <div id="success-message" class="success-message" style="color: green; text-align: center;"><b><?php echo $this->session->flashdata('success_message'); ?></b></div>
-        <script>
-            // Membuat fungsi untuk menghilangkan pesan sukses setelah beberapa detik
-            setTimeout(function() {
-                var messageElement = document.getElementById('success-message');
-                if (messageElement) {
-                    messageElement.style.display = 'none';
-                }
-            }, 5000); // Menghilangkan pesan setelah 5 detik (5000 milidetik)
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+            <?php echo $this->session->flashdata('success_message'); ?> 
+        </div>
+        <script> 
+            setTimeout(function(){
+                $('.alert').alert('close');
+            }, 5000); 
         </script>
-    <?php endif; ?> 
+    <?php endif; ?>
+
 
 <style> 
         .container2 { 
@@ -82,14 +81,9 @@
 </html>  
 <script> 
     let table;
-    function refreshTable(filter) {
-        // Hapus instance DataTables yang ada
-        table.destroy();
-
-        // Isi ulang tabel dengan data baru berdasarkan filter
-        fillTable(filter);
-
-        // Inisialisasi kembali DataTables setelah tabel diisi ulang
+    function refreshTable(filter) { 
+        table.destroy(); 
+        fillTable(filter); 
         $(document).ready(function() {
             table = new DataTable('#myTable', { 
                 pageLength: 10, 
@@ -164,7 +158,9 @@
     $('.btn-lunas').on('click', function() {
         var id = $(this).data('id');
         var encodedKdPenjualan = encodeURIComponent(id); 
-        window.location.href = "Penjualan/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+        if (confirm('Apakah Anda yakin ingin Melunaskan nota ini?')) {
+            window.location.href = "Penjualan/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+        }
     
     });
 
@@ -177,7 +173,7 @@
     // Event listener for the Delete button
     $('.btn-delete').on('click', function() {
         var id = $(this).data('id');
-        if (confirm('Are you sure you want to delete this record?')) { 
+        if (confirm('Apakah Anda yakin ingin Menghapus nota ini?')) { 
             $.ajax({ 
                   type: "POST",
                   url: "<?php echo base_url('Penjualan/Delete'); ?>",

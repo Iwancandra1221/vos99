@@ -57,7 +57,7 @@
                             <td><?php echo '<b>'.$item->GrandTotal.'</b>'; ?></td>
                             <td> 
                                 <div class="actions" <?php if ($item->Lunas == 1) echo 'style="display:none;"'; ?>>
-                                    <button type="button" class="btn print-item-btn btn-print" data-id="<?php echo $item->KdPenjualan; ?>">Print</button> 
+                                    <button style="margin-right: 20px;" type="button" class="btn print-item-btn btn-print" data-id="<?php echo $item->KdPenjualan; ?>">Print</button> 
                                     <button type="button" class="btn lunas-item-btn btn-lunas" data-id="<?php echo $item->KdPenjualan; ?>">Lunas</button> 
                                 </div>
                             </td>
@@ -106,7 +106,7 @@
                     <td>${item.GrandTotal}</td>
                     <td>
                         <div class="actions" ${item.Lunas === 1 ? 'style="display:none;"' : ''}>
-                            <button type="button" class="btn print-item-btn btn-print" data-id="${item.KdPenjualan}">Print</button> 
+                            <button style="margin-right: 20px;"  type="button" class="btn print-item-btn btn-print" data-id="${item.KdPenjualan}">Print</button> 
                             <button type="button" class="btn lunas-item-btn btn-lunas" data-id="${item.KdPenjualan}">Lunas</button> 
                         </div>
                     </td>
@@ -154,7 +154,9 @@
     $('.btn-lunas').on('click', function() {
         var KdPenjualan = $(this).data('id');
         var encodedKdPenjualan = encodeURIComponent(KdPenjualan);  
+        if (confirm('Apakah Anda yakin ingin Melunaskan nota ini?')) {
         window.location.href = "PenjualanMobile/CetakNota?Tipe=Lunas&KdPenjualan=" + encodedKdPenjualan;
+        }
     
     });
 

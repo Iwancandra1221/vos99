@@ -7,14 +7,17 @@ class ReportModel extends CI_Model
 	} 
     public function GetReportPenjualan($dp1,$dp2)
     {    
+        $startDate = date('Y-m-d', strtotime($dp1));  
+        $endDate = date('Y-m-d', strtotime($dp2));
+        $endDatePlusOne = date('Y-m-d', strtotime($endDate . ' +1 day'));
         $this->db->select('HD.KdPelanggan, P.NamaPelanggan, HD.KdPenjualan, HD.GrandTotal, HD.Lunas, HD.LunasDate, HD.CreatedDate as TglTrans, HD.Tanggal_Tempo, HD.KdTipePembayaran, TP.NamaTipePembayaran');
         $this->db->from('PenjualanHD HD');
         $this->db->join('Pelanggan P', 'HD.KdPelanggan = P.KdPelanggan');
         $this->db->join('TipePembayaran TP', 'HD.KdTipePembayaran = TP.KdTipePembayaran');
         
-        if (!empty($dp1) && !empty($dp2)) {
-            $this->db->where('HD.CreatedDate >=', $dp1);
-            $this->db->where('HD.CreatedDate <=', $dp2);
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('HD.CreatedDate >=', $startDate);
+            $this->db->where('HD.CreatedDate <', $endDatePlusOne);
         }
 
         $this->db->order_by('P.NamaPelanggan', 'ASC');
@@ -25,17 +28,26 @@ class ReportModel extends CI_Model
 
     public function GetReportBarang($dp1, $dp2)
     {
-        $this->db->select('DT.KdBarang, B.NamaBarang, DT.Harga, SUM(DT.Qty) as Total, (SUM(DT.Qty) * DT.Harga) as GrandTotal');
+        $startDate = date('Y-m-d', strtotime($dp1));  
+        $endDate = date('Y-m-d', strtotime($dp2));
+        $endDatePlusOne = date('Y-m-d', strtotime($endDate . ' +1 day'));
+        $this->db->select('DT.KdBarang, B.NamaBarang, Ti.NamaTipe,Mr.NamaMerk, Wr.NamaWarna,
+            DT.Harga as Harga , B.Harga as HargaAsli , 
+            SUM(DT.Qty) as Total, SUM(DT.Qty * DT.Harga) as GrandTotal, SUM(DT.Qty * B.Harga) as GrandTotalAsli ');
         $this->db->from('PenjualanHD HD');
         $this->db->join('PenjualanDT DT', 'HD.KdPenjualan = DT.KdPenjualan');
         $this->db->join('Barang B', 'DT.KdBarang = B.KdBarang');
+        $this->db->join('Tipe Ti', 'B.Tipe = Ti.KdTipe');
+        $this->db->join('Merk Mr', 'B.Merk = Mr.KdMerk');
+        $this->db->join('Warna Wr', 'B.Warna = Wr.KdWarna');
         
-        if (!empty($dp1) && !empty($dp2)) {
-            $this->db->where('HD.CreatedDate >=', $dp1);
-            $this->db->where('HD.CreatedDate <=', $dp2);
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('HD.CreatedDate >=', $startDate);
+            $this->db->where('HD.CreatedDate <', $endDatePlusOne);
         }
 
-        $this->db->group_by('DT.KdBarang, B.NamaBarang, DT.Harga');
+        $this->db->group_by('DT.KdBarang, B.NamaBarang, Ti.NamaTipe,Mr.NamaMerk, Wr.NamaWarna,
+            DT.Harga, B.Harga');
         $this->db->order_by('B.NamaBarang', 'ASC');
         $query = $this->db->get();
         return $query->result();
@@ -43,6 +55,10 @@ class ReportModel extends CI_Model
 
     public function GetFilteredSalesReport($startDate, $endDate)
     {
+        $startDate = date('Y-m-d', strtotime($startDate));  
+        $endDate = date('Y-m-d', strtotime($endDate));
+        $endDatePlusOne = date('Y-m-d', strtotime($endDate . ' +1 day'));
+
         $this->db->select('
             HD.KdPelanggan, 
             P.NamaPelanggan, 
@@ -54,8 +70,8 @@ class ReportModel extends CI_Model
             HD.KdTIpePembayaran, 
             TP.NamaTipePembayaran,
             HD.GrandTotal as TotalJual,
-            (SUM(DT.Qty) * B.Harga) AS TotalModal,
-            (HD.GrandTotal - (SUM(DT.Qty) * B.Harga)) as LabaRugi
+            SUM(DT.Qty * B.Harga) AS TotalModal,
+            (HD.GrandTotal - SUM(DT.Qty * B.Harga)) AS LabaRugi
         ');
         $this->db->from('PenjualanHD HD');
         $this->db->join('PenjualanDT DT', 'HD.KdPenjualan = DT.KdPenjualan');
@@ -63,7 +79,7 @@ class ReportModel extends CI_Model
         $this->db->join('Pelanggan P', 'HD.KdPelanggan = P.KdPelanggan');
         $this->db->join('TipePembayaran TP', 'HD.KdTipePembayaran = TP.KdTipePembayaran');
         $this->db->where('HD.CreatedDate >=', $startDate);
-        $this->db->where('HD.CreatedDate <=', $endDate);
+        $this->db->where('HD.CreatedDate <', $endDatePlusOne);
         $this->db->group_by('
             HD.KdPelanggan, 
             P.NamaPelanggan, 
@@ -74,7 +90,6 @@ class ReportModel extends CI_Model
             HD.Tanggal_Tempo, 
             HD.KdTIpePembayaran, 
             TP.NamaTipePembayaran,
-            B.Harga,
             HD.GrandTotal
         ');
         $this->db->order_by('P.NamaPelanggan, HD.KdPenjualan');

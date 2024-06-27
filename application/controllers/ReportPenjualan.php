@@ -178,7 +178,12 @@ class ReportPenjualan extends CI_Controller	 {
 										<th style="text-align: left; width: 10%; font-size: 13px;">Tgl Transaksi</th>
 										<th style="text-align: left; width: 10%; font-size: 13px;">Tgl Jatuh Tempo</th>
 										<th style="text-align: left; width: 10%; font-size: 13px;">Status</th>
-									</tr>';
+									</tr>
+									<tr>
+										<td colspan="8">
+											<hr>
+										</td>
+									</tr>  ';
 					}  
   
 						$sumtotalawal += $c->TotalModal; 
@@ -230,19 +235,36 @@ class ReportPenjualan extends CI_Controller	 {
 								</tr>';
 
 					$content .='<tr>
-						<td colspan="8">
-							<hr>
+						<td colspan="8"> 
 						</td>
 					</tr> ';
 					$content .= '<tr>
-										<td ></td>  
-										<td ><b>GRAND TOTAL</b></td>   
-										<td ><b>'.number_format($final_sumtotalawal,2,",",".").'</b></td> 
-										<td ><b>'.number_format($final_sumtotaljual,2,",",".").'</b></td> 
+										<td  colspan="5"></td>  
+										<td colspan="2">Grand Total Omzet</b></td>    
+									    <td style="color: '.($final_sumtotalawal < 0 ? 'red' : 'inherit').';">
+									        '.number_format($final_sumtotalawal, 2, ",", ".").'
+									    </td> 
+									</tr>';
+					$content .= '<tr>
+										<td  colspan="5"></td>  
+										<td colspan="2">Grand Total Jual</b></td>    
+									    <td style="color: '.($final_sumtotaljual < 0 ? 'red' : 'inherit').';">
+									        ('.number_format($final_sumtotaljual, 2, ",", ".").')
+									    </td>   
+									</tr>';
+					$content .='<tr>
+						<td  colspan="5"></td>  
+						<td colspan="3">
+							<hr>
+						</td> 
+					</tr> ';
+
+					$content .= '<tr>
+										<td  colspan="5"></td>   
+										<td colspan="2"><b>GRAND TOTAL Final</b></td>   
 									    <td style="color: '.($final_sumtotallaba < 0 ? 'red' : 'inherit').';">
 									        '.number_format($final_sumtotallaba, 2, ",", ".").'
-									    </td>
-										<td colspan="3"></td>   
+									    </td>   
 									</tr>';
 					$content .= '</table>';
 				}
@@ -298,43 +320,73 @@ class ReportPenjualan extends CI_Controller	 {
 						</td>
 					</tr>  
 				</table>';			
-
-				$cust = '';
+ 
 				$no = 0;
  
 				$GrandTotal= 0; 
+				$GrandTotalAsli= 0; 
 				$content = '<br><table style="width:297mm"> 
 									<tr>
-										<th style="text-align: left; width: 40%; font-size: 13px;">Nama Barang</th> 
-										<th style="text-align: left; width: 20%; font-size: 13px;">Harga</th> 
-										<th style="text-align: left; width: 20%; font-size: 13px;">Qty</th> 
-										<th style="text-align: left; width: 20%; font-size: 13px;">Total</th> 
-									</tr>';
+										<th style="text-align: left; width: 30%; font-size: 13px;">Nama Barang</th> 
+										<th style="text-align: left; width: 10%; font-size: 13px;">Qty</th> 
+										<th style="text-align: left; width: 15%; font-size: 13px;">Harga Omzet</th> 
+										<th style="text-align: left; width: 15%; font-size: 13px;">Total Omzet</th> 
+										<th style="text-align: left; width: 15%; font-size: 13px;">Harga Jual</th> 
+										<th style="text-align: left; width: 15%; font-size: 13px;">Total Jual</th> 
+									</tr> 
+									<tr>
+										<td colspan="6">
+											<hr>
+										</td>
+									</tr>  
+									';
 
 				foreach ($Data as $key => $c) {  
 
-						$GrandTotal += $c->GrandTotal;   
+						$GrandTotal += $c->GrandTotal;  
+						$GrandTotalAsli += $c->GrandTotalAsli;  
 						$content .= '<tr>
-									    <td>'.trim($c->NamaBarang).'</td> 
-									    <td>'.number_format($c->Harga, 2, ",", ".").'</td>
+									    <td>'.trim($c->NamaBarang).' '.trim($c->NamaWarna).'</td> 
 									    <td>'.trim($c->Total).'</td> 
+									    <td>'.number_format($c->HargaAsli, 2, ",", ".").'</td>
+									    <td>'.number_format($c->GrandTotalAsli, 2, ",", ".").'</td>
+									    <td>'.number_format($c->Harga, 2, ",", ".").'</td>
 									    <td>'.number_format($c->GrandTotal, 2, ",", ".").'</td>
 									</tr>'; 
 					$no++;
 
 				}
 
-	
+			
+				$GrandTotalFinal = $GrandTotal- $GrandTotalAsli;
 					$content .='<tr>
 						<td colspan="8">
 							<hr>
 						</td>
 					</tr> '; 
-					$content .= '<tr>
-										<td  colspan="2"></td>  
-										<td ><b>GRAND TOTAL</b></td>   
+					$content .= '	
+									<tr>
+										<td colspan="3"></td>    
+										<td colspan="2"><b>Grand Total Jual</b></td>   
 										<td ><b>'.number_format($GrandTotal,2,",",".").'</b></td>   
-									</tr>';
+									</tr>
+									<tr>
+										<td colspan="3"></td>    
+										<td colspan="2"><b>Grand Total Modal</b></td>      
+										<td ><b>('.number_format($GrandTotalAsli,2,",",".").')</b></td>   
+									</tr>
+									<tr>
+										<td colspan="3"></td>  
+										<td colspan="3">
+											<hr>
+										</td>
+									</tr>  
+									<tr>
+										<td colspan="3"></td>    
+										<td colspan="2"><b>GRAND TOTAL FINAL</b></td>         
+										<td ><b>'.number_format($GrandTotalFinal,2,",",".").'</b></td>   
+									</tr>
+								';
 					$content .= '</table>';
 				$footer = "";
          

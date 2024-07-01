@@ -37,9 +37,9 @@ class ReportModel extends CI_Model
         $this->db->from('PenjualanHD HD');
         $this->db->join('PenjualanDT DT', 'HD.KdPenjualan = DT.KdPenjualan');
         $this->db->join('Barang B', 'DT.KdBarang = B.KdBarang');
-        $this->db->join('Tipe Ti', 'B.Tipe = Ti.KdTipe');
-        $this->db->join('Merk Mr', 'B.Merk = Mr.KdMerk');
-        $this->db->join('Warna Wr', 'B.Warna = Wr.KdWarna');
+        $this->db->join('Tipe Ti', 'B.Tipe = Ti.KdTipe', 'left');
+        $this->db->join('Merk Mr', 'B.Merk = Mr.KdMerk', 'left');
+        $this->db->join('Warna Wr', 'B.Warna = Wr.KdWarna', 'left');
         
         if (!empty($startDate) && !empty($endDate)) {
             $this->db->where('HD.CreatedDate >=', $startDate);

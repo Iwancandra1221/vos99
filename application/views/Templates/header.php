@@ -75,7 +75,7 @@
     <style>  
 
         body {  
-/*            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); */
+            background-image: url('<?php echo base_url('images/background.jpg'); ?>'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

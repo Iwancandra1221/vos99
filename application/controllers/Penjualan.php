@@ -307,7 +307,22 @@ class Penjualan extends CI_Controller {
                         <td><b>'.$DataHD->KdPenjualan.'</b></td> 
                         <td>No HP:</td>
                         <td><b>'.$DataHD->NoHp.'</b></td>
-                    </tr>
+                    </tr> 
+                    <tr>
+                        <td>Tanggal Nota:</td>
+                        <td><b>'.date("d M Y", strtotime($DataHD->CreatedDate)).'</b></td> ';
+        if ($DataHD->Lunas === 0)
+        {
+            $html .= '  <td>Tanggal Lunas:</td>
+                        <td> - </td>';  
+        }
+        else
+        {
+            $html .= '  <td>Tanggal Lunas:</td>
+                        <td><b>'.date("d M Y").'<b></td>'; 
+        }
+
+        $html .= ' </tr>
                 </table>
                 <h3>Detail Barang</h3>
                 <table id="itemsTable" style="width: 100%; border-collapse: collapse;" border="1">

@@ -56,7 +56,7 @@ class PenjualanModel extends CI_Model
     }
 
     public function get_list_data() {
-        $this->db->select('HD.Lunas,HD.KdPenjualan, HD.KdPelanggan, TYP.NamaTipePembayaran, PLG.NamaPelanggan, PLG.NoHp, HD.GrandTotal');
+        $this->db->select('HD.Lunas,HD.KdPenjualan, HD.KdPelanggan, TYP.NamaTipePembayaran, PLG.NamaPelanggan, PLG.NoHp, HD.GrandTotal, HD.CreatedDate as TglTrans');
         $this->db->from('PenjualanHD HD');
         $this->db->join('Pelanggan PLG', 'HD.KdPelanggan = PLG.KdPelanggan', 'left');
         $this->db->join('TipePembayaran TYP', 'HD.KdTipePembayaran = TYP.KdTipePembayaran', 'left');

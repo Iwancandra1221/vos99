@@ -42,6 +42,7 @@
                 <thead>
                     <tr>
                         <th>Kode Penjualan</th> 
+                        <th>Tanggal Nota</th> 
                         <th>Tipe Pembayaran</th>
                         <th>Nama Pelanggan</th>
                         <th>No HP</th>
@@ -54,6 +55,7 @@
                     <?php if ($item->Lunas == 0) { ?>
                         <tr data-lunas="<?php echo $item->Lunas; ?>">
                             <td><?php echo $item->KdPenjualan; ?></td>
+                            <td><?php echo date("d M Y", strtotime($item->TglTrans)); ?></td>
                             <td><?php echo $item->NamaTipePembayaran; ?></td>
                             <td><?php echo $item->NamaPelanggan; ?></td>
                             <td><?php echo $item->NoHp; ?></td>

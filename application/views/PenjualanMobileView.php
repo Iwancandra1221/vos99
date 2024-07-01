@@ -52,7 +52,7 @@
                 <?php foreach ($Penjualan as $item): ?> 
                     <?php if ($item->Lunas == 0) { ?>
                         <tr data-lunas="<?php echo $item->Lunas; ?>">
-                            <td><?php echo '<b>'.$item->KdPenjualan .'</b><br>'. $item->NamaTipePembayaran; ?></td> 
+                            <td><?php echo '<b>'.$item->KdPenjualan .'</b><br>'. $item->NamaTipePembayaran.'<br>'. date("d M Y", strtotime($item->TglTrans)); ?></td> 
                             <td><?php echo '<b>'.$item->NamaPelanggan .'</b><br>'. $item->NoHp; ?></td> 
                             <td><?php echo '<b>'.$item->GrandTotal.'</b>'; ?></td>
                             <td> 

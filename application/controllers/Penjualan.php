@@ -309,7 +309,7 @@ class Penjualan extends CI_Controller {
                         <td><b>'.$DataHD->NoHp.'</b></td>
                     </tr> 
                     <tr>
-                        <td>Tanggal Nota:</td>
+                        <td>Tanggal Transaksi:</td>
                         <td><b>'.date("d M Y", strtotime($DataHD->CreatedDate)).'</b></td> ';
         if ($DataHD->Lunas === 0)
         {

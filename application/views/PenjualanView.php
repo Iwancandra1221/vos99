@@ -42,7 +42,7 @@
                 <thead>
                     <tr>
                         <th>Kode Penjualan</th> 
-                        <th>Tanggal Nota</th> 
+                        <th>Tanggal Transaksi</th> 
                         <th>Tipe Pembayaran</th>
                         <th>Nama Pelanggan</th>
                         <th>No HP</th>
